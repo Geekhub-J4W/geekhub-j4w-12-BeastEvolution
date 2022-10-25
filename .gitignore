@@ -2,9 +2,11 @@
 *.class
 /build
 /out
+build/
+classes/
 
 # IntelliJ IDEA
-.idea
+/.idea/
 .iml
 
 # Log file
@@ -13,46 +15,8 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# User-specific stuff:
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea/runConfigurations.xml
-.idea/misc.xml
-.idea/jsLibraryMappings.xml
+# Gradle
+.gradle
 
-# Sensitive or high-churn files:
-.idea/dataSources.ids
-.idea/dataSources.xml
-.idea/dataSources.local.xml
-.idea/sqlDataSources.xml
-.idea/dynamic.xml
-.idea/uiDesigner.xml
+/libs/
 
-# Gradle:
-.idea/gradle.xml
-.idea/libraries
-
-# Mongo Explorer plugin:
-.idea/mongoSettings.xml
-
-## File-based project format:
-*.iws
-
-## Plugin-specific files:
-
-# IntelliJ
-/out/
-
-
-# Crashlytics plugin
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-
-
-
-# *.iml
-modules.xml
