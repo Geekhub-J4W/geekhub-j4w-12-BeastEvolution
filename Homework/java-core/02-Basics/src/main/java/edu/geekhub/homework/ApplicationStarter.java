@@ -1,6 +1,7 @@
 package edu.geekhub.homework;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ApplicationStarter {
     public static void main(String[] args) {
@@ -9,14 +10,15 @@ public class ApplicationStarter {
 
     private static int getNumberFromUser() {
         Scanner scanner = new Scanner(System.in);
+        Pattern integerLiteralInTheEndOfLine = Pattern.compile("\\d+$");
 
         System.out.print("Please enter a number: ");
-        while (!scanner.hasNextInt()) {
+        while (!scanner.hasNext(integerLiteralInTheEndOfLine)) {
             System.out.println("You did not enter a number.");
             System.out.print("Please repeat the input: ");
             scanner.nextLine();
         }
-        return scanner.nextInt();
+        return Integer.parseInt(scanner.next(integerLiteralInTheEndOfLine));
     }
 
     private static double calculate(int n) {
