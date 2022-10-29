@@ -1,8 +1,22 @@
 package edu.geekhub.homework;
 
+import java.util.Scanner;
+
 public class ApplicationStarter {
     public static void main(String[] args) {
-        double calculated = calculate(12);
+        double calculated = calculate(getNumberFromUser());
+    }
+
+    private static int getNumberFromUser() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Please enter a number: ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("You did not enter a number.");
+            System.out.print("Please repeat the input: ");
+            scanner.nextLine();
+        }
+        return scanner.nextInt();
     }
 
     private static double calculate(int n) {
