@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class ApplicationStarter {
     public static void main(String[] args) {
         double calculated = calculate(getNumberFromUser());
+        System.out.println(calculated);
     }
 
     private static int getNumberFromUser() {
