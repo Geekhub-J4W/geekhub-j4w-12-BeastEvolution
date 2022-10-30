@@ -50,7 +50,7 @@ public class ApplicationStarter {
     }
 
     private static double findAreaOfSquare(double side) {
-        return side * side;
+        return Math.pow(side, 2);
     }
 
     private static double findAreaOfCircle(double radius) {
