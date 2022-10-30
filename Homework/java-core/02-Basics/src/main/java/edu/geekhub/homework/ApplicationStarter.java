@@ -5,21 +5,38 @@ import java.util.regex.Pattern;
 
 public class ApplicationStarter {
     public static void main(String[] args) {
-        double calculated = calculate(getNumberFromUser());
+        double calculated = calculate(getIntegerFromUser());
         System.out.println(calculated);
     }
 
-    private static int getNumberFromUser() {
+    private static int getIntegerFromUser() {
+        String inputNumber = getNumberFromUser();
+        Scanner scanner = new Scanner(inputNumber);
+
+        while (!scanner.hasNextInt()) {
+            System.out.println("You entered a number outside the range of possible values.");
+            inputNumber = getNumberFromUser();
+            scanner = new Scanner(inputNumber);
+            scanner.close();
+        }
+        scanner.close();
+
+        return Integer.parseInt(inputNumber);
+    }
+
+    private static String getNumberFromUser() {
         Scanner scanner = new Scanner(System.in);
-        Pattern integerLiteralInTheEndOfLine = Pattern.compile("\\d+$");
+        Pattern integerLiteralInTheEndOfLine = Pattern.compile("-?\\d+$");
 
         System.out.print("Please enter a number: ");
         while (!scanner.hasNext(integerLiteralInTheEndOfLine)) {
             System.out.println("You did not enter a number.");
-            System.out.print("Please repeat the input: ");
+            System.out.print("Please enter a number: ");
             scanner.nextLine();
         }
-        return Integer.parseInt(scanner.next(integerLiteralInTheEndOfLine));
+        scanner.close();
+
+        return scanner.next(integerLiteralInTheEndOfLine);
     }
 
     private static double calculate(int n) {
