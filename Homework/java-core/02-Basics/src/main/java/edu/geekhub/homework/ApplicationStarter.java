@@ -25,12 +25,12 @@ public class ApplicationStarter {
 
     private static String getNumberFromUser() {
         Scanner scanner = new Scanner(System.in);
-        Pattern integerLiteralInTheEndOfLine = Pattern.compile("-?\\d+$");
+        Pattern integerLiteralInTheEndOfLine = Pattern.compile("\\d+$");
 
-        System.out.print("Please enter a number: ");
+        System.out.print("Please enter positive number: ");
         while (!scanner.hasNext(integerLiteralInTheEndOfLine)) {
-            System.out.println("You did not enter a number.");
-            System.out.print("Please enter a number: ");
+            System.out.println("You did not enter positive number.");
+            System.out.print("Please enter positive number: ");
             scanner.nextLine();
         }
 
