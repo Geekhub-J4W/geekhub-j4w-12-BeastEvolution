@@ -19,7 +19,6 @@ public class ApplicationStarter {
             scanner = new Scanner(inputNumber);
             scanner.close();
         }
-        scanner.close();
 
         return Integer.parseInt(inputNumber);
     }
@@ -34,7 +33,6 @@ public class ApplicationStarter {
             System.out.print("Please enter a number: ");
             scanner.nextLine();
         }
-        scanner.close();
 
         return scanner.next(integerLiteralInTheEndOfLine);
     }
