@@ -17,7 +17,6 @@ public class ApplicationStarter {
             System.out.println("You entered a number outside the range of possible values.");
             inputNumber = getNumberFromUser();
             scanner = new Scanner(inputNumber);
-            scanner.close();
         }
 
         return Integer.parseInt(inputNumber);
