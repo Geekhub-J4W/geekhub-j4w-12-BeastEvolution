@@ -89,10 +89,10 @@ public abstract class ShapeImp implements Shape {
     }
 
     @Override
-    public void compare(ShapeImp anotherFigure) {
-        compareShapeArea(anotherFigure);
+    public void compare(Shape anotherFigure) {
+        compareShapeArea((ShapeImp) anotherFigure);
         System.out.println();
-        compareShapePerimeter(anotherFigure);
+        compareShapePerimeter((ShapeImp) anotherFigure);
     }
 
     private void compareShapeArea(ShapeImp anotherFigure) {
