@@ -1,9 +1,13 @@
 package edu.geekhub.homework.user.input;
 
+import edu.geekhub.homework.geometrical.figures.ShapeEnum;
+
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class TakerInputFromUser {
+
+    private static final String TRY_AGAIN = "Try again: ";
 
     private TakerInputFromUser() {}
 
@@ -57,5 +61,43 @@ public class TakerInputFromUser {
         Scanner scanner = new Scanner(userInput);
 
         return scanner.hasNextInt();
+    }
+
+    public static int getShapeEnumOrdinalFromUser() {
+        String userInput = getInputFormUser("");
+        while (!validateShapeEnumOrdinalFromUser(userInput)) {
+            System.out.println("You select wrong type.");
+            userInput = getInputFormUser(TRY_AGAIN);
+        }
+
+        return Integer.parseInt(userInput);
+    }
+
+    private static boolean validateShapeEnumOrdinalFromUser(String userInput) {
+        if (!checkIsUserInputIsIntegerNumber(userInput)) {
+            return false;
+        }
+        if (!checkIsInputInt(userInput)) {
+            return false;
+        }
+
+        if (!checkIsUserInputInRangeOfShapeEnumOrdinals(Integer.parseInt(userInput))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean checkIsUserInputIsIntegerNumber(String userInput) {
+        Scanner scanner = new Scanner(userInput);
+        Pattern integerLiteralInTheEndOfLine = Pattern.compile("-?\\d+$");
+
+        return scanner.hasNext(integerLiteralInTheEndOfLine);
+    }
+
+    private static boolean checkIsUserInputInRangeOfShapeEnumOrdinals(int userInput) {
+
+        return (userInput >= ShapeEnum.getOrdinalOfFirstEnumerationConstant()
+            && userInput <= ShapeEnum.getOrdinalOfLastEnumerationConstant());
     }
 }
