@@ -13,4 +13,4 @@ public enum ShapeEnum {
     public static int getOrdinalOfLastEnumerationConstant() {
         return ShapeEnum.values().length - 1;
     }
-    }
+}
