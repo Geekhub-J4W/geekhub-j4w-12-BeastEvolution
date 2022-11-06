@@ -52,4 +52,10 @@ public class TakerInputFromUser {
 
         return scanner.hasNextDouble();
     }
+
+    public static boolean checkIsInputInt(String userInput) {
+        Scanner scanner = new Scanner(userInput);
+
+        return scanner.hasNextInt();
+    }
 }
