@@ -3,6 +3,7 @@ package edu.geekhub.homework.geometrical.figures;
 public interface Shape {
 
     static final String NAME = "Shape";
+
     default double calculateArea() {
         return 0.0;
     }
