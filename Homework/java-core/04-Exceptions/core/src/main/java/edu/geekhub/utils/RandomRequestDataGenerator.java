@@ -39,7 +39,7 @@ public class RandomRequestDataGenerator implements RequestDataGenerator {
         return null;
     }
 
-    private User generateUserData() {
+    public User generateUserData() {
         return User.toBuilder()
                 .withId(getRandomId())
                 .withEmail(getRandomEmail())

@@ -36,4 +36,15 @@ public final class MemoryStorage implements Repository {
 
         return users.toArray(User[]::new);
     }
+
+    public void Add(User user) {
+
+        validator.validate(user);
+
+        users.add(user);
+    }
+
+    public User[] getAll() {
+        return users.toArray(User[]::new);
+    }
 }

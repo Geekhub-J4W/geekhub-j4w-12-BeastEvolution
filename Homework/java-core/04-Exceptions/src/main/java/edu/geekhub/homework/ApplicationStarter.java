@@ -13,13 +13,13 @@ public class ApplicationStarter {
 
     private static final RequestDataGenerator generator = new RandomRequestDataGenerator();
 
-    public static void main(String[] args) {
-        while(true) {
-            Request request = generator.generate();
-
-            Response response = controller.process(request);
-
-            System.out.println(response);
-        }
-    }
+//    public static void main(String[] args) {
+//        while(true) {
+//            Request request = generator.generate();
+//
+//            Response response = controller.process(request);
+//
+//            System.out.println(response);
+//        }
+//    }
 }

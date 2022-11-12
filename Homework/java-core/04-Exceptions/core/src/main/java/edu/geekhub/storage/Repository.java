@@ -8,4 +8,8 @@ public sealed interface Repository permits MemoryStorage {
     void tryToAdd(User user) throws ConnectionInterruptedException;
 
     User[] tryToGetAll() throws ConnectionInterruptedException;
+
+    void Add(User user);
+
+    User[] getAll();
 }
