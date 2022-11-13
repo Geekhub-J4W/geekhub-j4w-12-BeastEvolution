@@ -3,7 +3,7 @@ package edu.geekhub.homework.validation.user;
 import edu.geekhub.exceptions.ConnectionInterruptedException;
 import edu.geekhub.homework.user.operatins.*;
 import edu.geekhub.homework.validation.exception.ValidationException;
-import edu.geekhub.homework.validation.user.exception.*;
+import edu.geekhub.homework.validation.user.exceptions.*;
 import edu.geekhub.models.User;
 import edu.geekhub.storage.Repository;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package edu.geekhub.homework.validation.user.exception;
+package edu.geekhub.homework.validation.user.exceptions;
 
 import edu.geekhub.homework.validation.exception.ValidationException;
 

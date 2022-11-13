@@ -3,7 +3,7 @@ package edu.geekhub.homework;
 import edu.geekhub.exceptions.ConnectionInterruptedException;
 import edu.geekhub.homework.exceptions.RepositorySavingException;
 import edu.geekhub.homework.validation.user.UserValidator;
-import edu.geekhub.homework.validation.user.exception.UserValidationException;
+import edu.geekhub.homework.validation.user.exceptions.UserValidationException;
 import edu.geekhub.models.User;
 import edu.geekhub.storage.MemoryStorage;
 import edu.geekhub.storage.Repository;
