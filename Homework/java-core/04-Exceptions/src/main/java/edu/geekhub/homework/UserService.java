@@ -19,6 +19,7 @@ public class UserService {
             userValidator.validateUser(user);
             repository.tryToAdd(user);
         } catch (ConnectionInterruptedException e) {
+            System.out.println(e.getMessage());
             throw new RepositorySavingException(e.getMessage(), e);
         } catch (UserValidationException e) {
             e.printExceptionInfo();
