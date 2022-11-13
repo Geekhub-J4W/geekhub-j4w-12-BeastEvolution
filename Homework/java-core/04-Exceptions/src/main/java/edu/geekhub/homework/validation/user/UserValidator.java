@@ -2,7 +2,7 @@ package edu.geekhub.homework.validation.user;
 
 import edu.geekhub.exceptions.ConnectionInterruptedException;
 import edu.geekhub.homework.user.operatins.*;
-import edu.geekhub.homework.validation.exception.ValidationException;
+import edu.geekhub.homework.validation.exceptions.ValidationException;
 import edu.geekhub.homework.validation.user.exceptions.*;
 import edu.geekhub.models.User;
 import edu.geekhub.storage.Repository;

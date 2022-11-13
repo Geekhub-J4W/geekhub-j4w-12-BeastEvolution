@@ -1,6 +1,6 @@
 package edu.geekhub.homework.validation.user.exceptions;
 
-import edu.geekhub.homework.validation.exception.ValidationException;
+import edu.geekhub.homework.validation.exceptions.ValidationException;
 
 public class UserAgeValidationException extends ValidationException {
     public UserAgeValidationException(String message) {

@@ -1,7 +1,7 @@
 package edu.geekhub.homework.validation.user.exceptions;
 
 import edu.geekhub.homework.collections.ValidationExceptionArrayList;
-import edu.geekhub.homework.validation.exception.ValidationException;
+import edu.geekhub.homework.validation.exceptions.ValidationException;
 
 public class UserValidationException extends ValidationException {
 

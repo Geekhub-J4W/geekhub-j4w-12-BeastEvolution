@@ -1,4 +1,4 @@
-package edu.geekhub.homework.validation.exception;
+package edu.geekhub.homework.validation.exceptions;
 
 public class RequestValidationException extends ValidationException {
     public RequestValidationException(String message) {

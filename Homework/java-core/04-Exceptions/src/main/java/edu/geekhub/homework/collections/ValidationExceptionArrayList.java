@@ -1,6 +1,6 @@
 package edu.geekhub.homework.collections;
 
-import edu.geekhub.homework.validation.exception.ValidationException;
+import edu.geekhub.homework.validation.exceptions.ValidationException;
 import java.util.Arrays;
 
 public class ValidationExceptionArrayList {

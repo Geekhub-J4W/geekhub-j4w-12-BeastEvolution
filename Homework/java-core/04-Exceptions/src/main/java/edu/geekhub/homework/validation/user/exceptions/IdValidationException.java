@@ -1,6 +1,6 @@
 package edu.geekhub.homework.validation.user.exceptions;
 
-import edu.geekhub.homework.validation.exception.ValidationException;
+import edu.geekhub.homework.validation.exceptions.ValidationException;
 
 public class IdValidationException extends ValidationException {
     public IdValidationException(String message) {

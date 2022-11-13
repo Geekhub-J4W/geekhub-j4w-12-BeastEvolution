@@ -1,6 +1,6 @@
 package edu.geekhub.homework.validation;
 
-import edu.geekhub.homework.validation.exception.RequestValidationException;
+import edu.geekhub.homework.validation.exceptions.RequestValidationException;
 import edu.geekhub.models.User;
 import edu.geekhub.models.request.Request;
 import java.util.Objects;

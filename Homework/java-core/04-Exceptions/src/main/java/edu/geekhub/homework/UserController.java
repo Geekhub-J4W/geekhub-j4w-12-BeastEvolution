@@ -3,7 +3,7 @@ package edu.geekhub.homework;
 import edu.geekhub.controller.Controller;
 import edu.geekhub.homework.exceptions.RepositorySavingException;
 import edu.geekhub.homework.validation.RequestValidator;
-import edu.geekhub.homework.validation.exception.ValidationException;
+import edu.geekhub.homework.validation.exceptions.ValidationException;
 import edu.geekhub.models.User;
 import edu.geekhub.models.request.Request;
 import edu.geekhub.models.request.Response;
