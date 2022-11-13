@@ -24,7 +24,7 @@ public class UserValidator {
         this.repository = repository;
     }
 
-    public void validateUser(User user) {
+    public void validateUser(User user) throws ConnectionInterruptedException {
         if (Objects.isNull(user)) {
             throw  new UserValidationException("User equal \"null\"", new NullPointerException());
         }
@@ -73,7 +73,7 @@ public class UserValidator {
         }
     }
 
-    private void validateId() {
+    private void validateId() throws ConnectionInterruptedException {
         if (Objects.isNull(user.getId())) {
             throw  new IdValidationException("User ID equal \"null\"", new NullPointerException());
         }
@@ -83,19 +83,11 @@ public class UserValidator {
 
     }
 
-    private boolean checkIsIdNotUnique() {
-        return Ids.contains(Users.getUserIds(getRepositoryData()), user.getId());
+    private boolean checkIsIdNotUnique() throws ConnectionInterruptedException {
+        return Ids.contains(Users.getUserIds(repository.tryToGetAll()), user.getId());
     }
 
-    private User[] getRepositoryData() {
-        try {
-            return repository.tryToGetAll();
-        } catch (ConnectionInterruptedException e) {
-            return getRepositoryData();
-        }
-    }
-
-    private void validateEmail() {
+    private void validateEmail() throws ConnectionInterruptedException {
         if (Objects.isNull(user.getEmail())) {
             throw new EmailValidationException("User email equal \"null\"",
                 new NullPointerException());
@@ -117,11 +109,11 @@ public class UserValidator {
         return !(matcher.matches());
     }
 
-    private boolean checkIsEmailNotUnique() {
-        return Emails.contains(Users.getUserEmails(getRepositoryData()), user.getEmail());
+    private boolean checkIsEmailNotUnique() throws ConnectionInterruptedException {
+        return Emails.contains(Users.getUserEmails(repository.tryToGetAll()), user.getEmail());
     }
 
-    private void validateUserName() {
+    private void validateUserName() throws ConnectionInterruptedException {
         if (Objects.isNull(user.getUserName())) {
             throw new UserNameValidationException("User name equal \"null\"",
                 new NullPointerException());
@@ -144,8 +136,8 @@ public class UserValidator {
         return !(matcher.matches());
     }
 
-    private boolean checkIsUserNameNotUnique() {
-        return UserNames.contains(Users.getUserNames(getRepositoryData()), user.getUserName());
+    private boolean checkIsUserNameNotUnique() throws ConnectionInterruptedException {
+        return UserNames.contains(Users.getUserNames(repository.tryToGetAll()), user.getUserName());
     }
 
     private void validateFullName() {
