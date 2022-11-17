@@ -5,8 +5,8 @@
 | 1   | Introduction                                | 18-10-2022 | Offline | [Click](https://drive.google.com/file/d/1KFfOEVUEYFkPCzaeA6gyViOuU7Jq4326/view?usp=sharing)   |
 | 2   | Basics                                      | 25-10-2022 | Online  | [Click](https://drive.google.com/drive/folders/1tJpRDe-uoFgmBejoQtaLQALLW3SsYHqC?usp=sharing) |
 | 3   | Object-oriented Programming                 | 01-11-2022 | Offline | [Click](https://drive.google.com/file/d/1es0xlFXv5oinrFcE7jHNMo_8YRn3T00x/view?usp=sharing)   |
-| 4   | Error Propagation and Handling              | 08-11-2022 | Offline | [Click](https://drive.google.com/file/d/1MbRoyMv27hnzcKvevZmqb8GkXmMftfhK/view?usp=sharing)   |
-| 5   | Unit Testing                                | 15-11-2022 | Offline |                                                                                               |
+| 4   | Error Propagation and Handling              | 08-11-2022 | Offline | [Click](https://drive.google.com/file/d/1yt-PBURv4unNvfC1i9zwISssgYRnlnL5/view?usp=sharing)   |
+| 5   | Unit Testing                                | 15-11-2022 | Online  | [Click](https://drive.google.com/file/d/1xqZ1if09bjxJA1T9Atc5I6--ELNMAv3U/view?usp=sharing)   |
 | 6   | Practice                                    | 22-11-2022 | Offline |                                                                                               |
 | 7   | Generics. Collections Framework             | 29-11-2022 | Online  |                                                                                               |
 | 8   | Functional Programming,Optional, Stream API | 06-12-2022 | Offline |                                                                                               |
