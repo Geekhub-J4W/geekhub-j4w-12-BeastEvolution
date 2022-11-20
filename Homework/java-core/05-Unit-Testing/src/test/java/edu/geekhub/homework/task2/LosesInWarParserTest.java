@@ -1,5 +1,6 @@
 package edu.geekhub.homework.task2;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,10 +34,15 @@ class LosesInWarParserTest {
 
     private LosesInWarParser losesInWarParser;
 
+    @BeforeEach
+    void create_parser () {
+        losesInWarParser = new LosesInWarParser();
+    }
+
     @Test
     void failed_parse_null_input() {
         assertThrows(
-            TODO_TYPE("Put most suitable exception"),
+            NullPointerException.class,
             () -> losesInWarParser.parseLosesStatistic(null)
         );
     }
@@ -44,7 +50,7 @@ class LosesInWarParserTest {
     @Test
     void failed_parse_empty_input() {
         assertThrows(
-            TODO_TYPE("Put most suitable exception"),
+            IllegalArgumentException.class,
             () -> losesInWarParser.parseLosesStatistic("")
         );
     }
