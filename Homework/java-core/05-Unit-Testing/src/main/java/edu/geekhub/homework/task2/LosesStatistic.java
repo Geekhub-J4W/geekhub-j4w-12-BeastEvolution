@@ -1,6 +1,6 @@
 package edu.geekhub.homework.task2;
 
-import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
+import java.util.Objects;
 
 public class LosesStatistic {
 
@@ -77,7 +77,7 @@ public class LosesStatistic {
      * @return an "empty object" instance
      */
     public static LosesStatistic empty() {
-        return TODO_TYPE("Return an Empty Object");
+        return new LosesStatistic(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public static LosesStatisticBuilder newStatistic() {
@@ -168,7 +168,82 @@ public class LosesStatistic {
         }
 
         public LosesStatistic build() {
-            return TODO_TYPE();
+            return new LosesStatistic(tanks,
+                armouredFightingVehicles,
+                cannons,
+                multipleRocketLaunchers,
+                antiAirDefenseDevices,
+                planes,
+                helicopters,
+                drones,
+                cruiseMissiles,
+                shipsOrBoats,
+                carsAndTankers,
+                specialEquipment,
+                personnel
+                );
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        LosesStatistic that = (LosesStatistic) o;
+        return tanks == that.tanks
+            && armouredFightingVehicles == that.armouredFightingVehicles
+            && cannons == that.cannons
+            && multipleRocketLaunchers == that.multipleRocketLaunchers
+            && antiAirDefenseDevices == that.antiAirDefenseDevices
+            && planes == that.planes
+            && helicopters == that.helicopters
+            && drones == that.drones
+            && cruiseMissiles == that.cruiseMissiles
+            && shipsOrBoats == that.shipsOrBoats
+            && carsAndTankers == that.carsAndTankers
+            && specialEquipment == that.specialEquipment
+            && personnel == that.personnel;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tanks,
+            armouredFightingVehicles,
+            cannons,
+            multipleRocketLaunchers,
+            antiAirDefenseDevices,
+            planes,
+            helicopters,
+            drones,
+            cruiseMissiles,
+            shipsOrBoats,
+            carsAndTankers,
+            specialEquipment,
+            personnel
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "LosesStatistic{" +
+            "tanks=" + tanks +
+            ", armouredFightingVehicles=" + armouredFightingVehicles +
+            ", cannons=" + cannons +
+            ", multipleRocketLaunchers=" + multipleRocketLaunchers +
+            ", antiAirDefenseDevices=" + antiAirDefenseDevices +
+            ", planes=" + planes +
+            ", helicopters=" + helicopters +
+            ", drones=" + drones +
+            ", cruiseMissiles=" + cruiseMissiles +
+            ", shipsOrBoats=" + shipsOrBoats +
+            ", carsAndTankers=" + carsAndTankers +
+            ", specialEquipment=" + specialEquipment +
+            ", personnel=" + personnel +
+            '}';
+    }
+
 }
