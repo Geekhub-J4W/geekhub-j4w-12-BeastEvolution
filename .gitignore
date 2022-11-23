@@ -2,8 +2,6 @@
 *.class
 /build
 /out
-build/
-classes/
 
 # IntelliJ IDEA
 /.idea/
