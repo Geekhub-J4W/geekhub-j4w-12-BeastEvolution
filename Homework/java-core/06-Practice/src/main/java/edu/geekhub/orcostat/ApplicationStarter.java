@@ -3,8 +3,6 @@ package edu.geekhub.orcostat;
 import edu.geekhub.orcostat.exeptions.IllegalOptionException;
 import edu.geekhub.orcostat.menu.Menu;
 import edu.geekhub.orcostat.menu.date.DayStatisticCollection;
-import edu.geekhub.orcostat.menu.options.MenuLevel;
-import edu.geekhub.orcostat.menu.options.MenuNode;
 import edu.geekhub.orcostat.model.Orc;
 import edu.geekhub.orcostat.model.Tank;
 import edu.geekhub.orcostat.model.TrivialCollection;
@@ -33,12 +31,6 @@ public class ApplicationStarter {
             }
         }
 
-    }
-    private static void printMenu(MenuLevel menuLevel) {
-        for (MenuNode menuNode :
-            menuLevel.getMenuOptions()) {
-            System.out.println(menuNode.getName());
-        }
     }
 
     private static int getUserChoice() {
@@ -86,6 +78,10 @@ public class ApplicationStarter {
             }
             case "5": {
                 orcoStatPrinter.printStatistic();
+                break;
+            }
+            case "6": {
+                System.exit(0);
                 break;
             }
             default: {

@@ -75,6 +75,7 @@ public class Menu {
         buildSecondBrunch();
         buildFourthBrunch();
         buildFifthBrunch();
+        buildSixthBrunch();
     }
 
     private void buildFirstBrunch() {
@@ -119,6 +120,13 @@ public class Menu {
     private void buildFifthBrunch() {
         treeRoot.addChild(
             new ActionMenuNode("5",5, "5. Show statistic")
+        );
+
+    }
+
+    private void buildSixthBrunch() {
+        treeRoot.addChild(
+            new ActionMenuNode("6",6, "6. Exit")
         );
 
     }
