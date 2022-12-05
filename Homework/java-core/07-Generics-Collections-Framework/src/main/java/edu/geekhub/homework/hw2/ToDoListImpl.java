@@ -25,7 +25,7 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public E getTaskByIndex(int index) {
-        return null;
+        return tasksStorage.get(index);
     }
 
     @Override
