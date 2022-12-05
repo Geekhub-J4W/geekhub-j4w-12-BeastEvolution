@@ -265,4 +265,45 @@ class ToDoListImplTest {
         assertEquals(null, taskToDoList.getTaskByIndex(0));
         assertTrue(actualResult);
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag("deleteTaskByIndex")
+    void delete_task_by_index() {
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+
+        Task taskToDelete = new Task("Task", "Text", 0);
+        taskToDoList.addTaskToTheEnd(taskToDelete);
+
+        ToDoListImpl<Task> expectedTaskToDoList = new ToDoListImpl<>();
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+
+
+        boolean resultOfDelete = taskToDoList.deleteTaskByIndex(taskToDelete);
+
+        assertEquals(expectedTaskToDoList, taskToDoList);
+        assertTrue(resultOfDelete);
+    }
+
+    @Test
+    @Tag("incorrect work")
+    @Tag("deleteTaskByIndex")
+    void file_delete_task_by_index_which_not_on_list() {
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+
+        Task taskToDelete = new Task("Task", "Text", 0);
+
+        ToDoListImpl<Task> expectedTaskToDoList = new ToDoListImpl<>();
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+
+
+        boolean resultOfDelete = taskToDoList.deleteTaskByIndex(taskToDelete);
+
+        assertEquals(expectedTaskToDoList, taskToDoList);
+        assertFalse(resultOfDelete);
+    }
 }
