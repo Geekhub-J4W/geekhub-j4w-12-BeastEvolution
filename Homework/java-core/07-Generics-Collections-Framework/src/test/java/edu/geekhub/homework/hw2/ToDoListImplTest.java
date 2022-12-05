@@ -306,4 +306,59 @@ class ToDoListImplTest {
         assertEquals(expectedTaskToDoList, taskToDoList);
         assertFalse(resultOfDelete);
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag("getSortedByAlphabetTasks")
+    void get_sorted_tasks_by_alphabet_different_value() {
+        taskToDoList.addTaskToTheEnd(new Task("B", "Text", 0));
+        taskToDoList.addTaskToTheEnd(new Task("A", "Text", 0));
+        taskToDoList.addTaskToTheEnd(new Task("C", "Text", 0));
+
+        List<Task> expectedSortedPriorityTasks = new ArrayList<>();
+        expectedSortedPriorityTasks.add(new Task("A", "Text", 0));
+        expectedSortedPriorityTasks.add(new Task("B", "Text", 0));
+        expectedSortedPriorityTasks.add(new Task("C", "Text", 0));
+
+
+        List<Task> actualSortedPriorityTasks = taskToDoList.getSortedByAlphabetTasks();
+
+        assertEquals(expectedSortedPriorityTasks, actualSortedPriorityTasks);
+    }
+
+    @Test
+    @Tag("correct work")
+    @Tag("getSortedByAlphabetTasks")
+    void get_sorted_tasks_by_alphabet_upper_and_lower_case() {
+        taskToDoList.addTaskToTheEnd(new Task("a", "Text", 0));
+        taskToDoList.addTaskToTheEnd(new Task("A", "Text", 0));
+
+        List<Task> expectedSortedPriorityTasks = new ArrayList<>();
+        expectedSortedPriorityTasks.add(new Task("A", "Text", 0));
+        expectedSortedPriorityTasks.add(new Task("a", "Text", 0));
+
+
+
+        List<Task> actualSortedPriorityTasks = taskToDoList.getSortedByAlphabetTasks();
+
+        assertEquals(expectedSortedPriorityTasks, actualSortedPriorityTasks);
+    }
+
+    @Test
+    @Tag("correct work")
+    @Tag("getSortedByAlphabetTasks")
+    void get_sorted_tasks_by_alphabet_different_length() {
+        taskToDoList.addTaskToTheEnd(new Task("AA", "Text", 0));
+        taskToDoList.addTaskToTheEnd(new Task("A", "Text", 0));
+
+        List<Task> expectedSortedPriorityTasks = new ArrayList<>();
+        expectedSortedPriorityTasks.add(new Task("A", "Text", 0));
+        expectedSortedPriorityTasks.add(new Task("AA", "Text", 0));
+
+
+
+        List<Task> actualSortedPriorityTasks = taskToDoList.getSortedByAlphabetTasks();
+
+        assertEquals(expectedSortedPriorityTasks, actualSortedPriorityTasks);
+    }
 }
