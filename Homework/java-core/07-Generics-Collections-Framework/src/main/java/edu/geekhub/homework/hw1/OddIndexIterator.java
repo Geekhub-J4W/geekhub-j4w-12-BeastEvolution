@@ -2,8 +2,10 @@ package edu.geekhub.homework.hw1;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class OddIndexIterator<E> implements Iterator<E> {
+    public static final int SUMMAND_TO_GO_TO_NEXT_ODD_INDEX = 2;
     private List<E> data;
     int position = 1;
 
@@ -18,9 +20,12 @@ public class OddIndexIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-        //write your code here
-        E nextValue = null;
-        position = 0;
+        boolean isNotHasNext = !hasNext();
+        if (isNotHasNext) {
+            throw new NoSuchElementException();
+        }
+        E nextValue = data.get(position);
+        position += SUMMAND_TO_GO_TO_NEXT_ODD_INDEX;
         return nextValue;
     }
 }
