@@ -181,4 +181,27 @@ class ToDoListImplTest {
         assertEquals(expectedFirstTopPriorityTask, actualFirstTopPriorityTask);
     }
 
+    @Test
+    @Tag("correct work")
+    @Tag("getTaskByIndex")
+    void get_task_by_index() {
+        taskToDoList.addTaskToTheEnd(new Task("Task1", "Text1", -3));
+
+        Task expectedTask = new Task("Task2", "Text2", 7);
+        taskToDoList.addTaskToTheEnd(expectedTask);
+
+        Task actualTask = taskToDoList.getTaskByIndex(1);
+
+        assertEquals(expectedTask, actualTask);
+    }
+
+    @Test
+    @Tag("error")
+    @Tag("getTaskByIndex")
+    void false_get_task_incorrect_index() {
+        taskToDoList.addTaskToTheEnd(new Task("Task1", "Text1", -3));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> taskToDoList.getTaskByIndex(-1));
+    }
+
 }
