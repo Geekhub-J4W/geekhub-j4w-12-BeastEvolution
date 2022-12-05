@@ -1,10 +1,10 @@
 package edu.geekhub.homework.hw2;
 
 import edu.geekhub.homework.hw2.entity.Task;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class ToDoListImpl<E extends Task> implements ToDoList<E> {
     private List<E> tasksStorage = new ArrayList<>();
@@ -62,5 +62,18 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ToDoListImpl<?> toDoList = (ToDoListImpl<?>) o;
+        return Objects.equals(tasksStorage, toDoList.tasksStorage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tasksStorage);
     }
 }
