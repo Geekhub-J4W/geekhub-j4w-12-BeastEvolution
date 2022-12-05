@@ -37,7 +37,7 @@ class ToDoListImplTest {
     void add_null_to_end_of_list() {
         boolean resultOFAdding = taskToDoList.addTaskToTheEnd(null);
 
-        assertEquals(null, taskToDoList.getAllTasks().get(0));
+        assertNull(taskToDoList.getAllTasks().get(0));
         assertTrue(resultOFAdding);
     }
 
@@ -51,7 +51,7 @@ class ToDoListImplTest {
         taskToDoList1.addTaskToTheEnd(new Task("Task", "Text", 1));
         taskToDoList2.addTaskToTheEnd(new Task("Task", "Text", 1));
 
-        assertTrue(taskToDoList1.equals(taskToDoList2));
+        assertEquals(taskToDoList1, taskToDoList2);
     }
 
     @Test
@@ -262,7 +262,7 @@ class ToDoListImplTest {
     void add_null_by_index() {
         boolean actualResult = taskToDoList.addTaskToTheStart(null);
 
-        assertEquals(null, taskToDoList.getTaskByIndex(0));
+        assertNull(taskToDoList.getTaskByIndex(0));
         assertTrue(actualResult);
     }
 
