@@ -46,7 +46,7 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
     public List<E> getSortedByAlphabetTasks() {
         List<E> alphabetTasks = new ArrayList<>(tasksStorage);
 
-        alphabetTasks.sort(new Comparator<E>() {
+        alphabetTasks.sort(new Comparator<>() {
             @Override
             public int compare(E o1, E o2) {
                 return o1.getName().compareTo(o2.getName());
