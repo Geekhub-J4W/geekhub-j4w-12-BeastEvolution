@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ToDoListImpl<E extends Task> implements ToDoList<E> {
+    public static final int START_INDEX_OF_LIST = 0;
     private List<E> tasksStorage = new ArrayList<>();
 
     @Override
@@ -58,7 +59,9 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public boolean addTaskToTheStart(E task) {
-        return false;
+        tasksStorage.add(START_INDEX_OF_LIST, task);
+
+        return true;
     }
 
     @Override
