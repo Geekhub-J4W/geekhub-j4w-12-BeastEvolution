@@ -31,8 +31,7 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
         priorityTasks.sort(new Comparator<E>() {
             @Override
             public int compare(E o1, E o2) {
-                //write your comparator logic here
-                return 0;
+                return o1.getPriority() - o2.getPriority();
             }
         });
         return priorityTasks;
