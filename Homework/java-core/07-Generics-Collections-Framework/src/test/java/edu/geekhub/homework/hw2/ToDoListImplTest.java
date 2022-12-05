@@ -204,4 +204,26 @@ class ToDoListImplTest {
         assertThrows(IndexOutOfBoundsException.class, () -> taskToDoList.getTaskByIndex(-1));
     }
 
+    @Test
+    @Tag("correct work")
+    @Tag("addTaskToTheStart")
+    void add_task_by_index() {
+        taskToDoList.addTaskToTheStart(new Task("Task1", "Text1", -3));
+        Task exceptedTask = new Task("Task2", "Text2", 1);
+
+        boolean actualResult = taskToDoList.addTaskToTheStart(exceptedTask);
+
+        assertEquals(exceptedTask, taskToDoList.getTaskByIndex(0));
+        assertTrue(actualResult);
+    }
+
+    @Test
+    @Tag("null")
+    @Tag("addTaskToTheStart")
+    void add_null_by_index() {
+        boolean actualResult = taskToDoList.addTaskToTheStart(null);
+
+        assertEquals(null, taskToDoList.getTaskByIndex(0));
+        assertTrue(actualResult);
+    }
 }
