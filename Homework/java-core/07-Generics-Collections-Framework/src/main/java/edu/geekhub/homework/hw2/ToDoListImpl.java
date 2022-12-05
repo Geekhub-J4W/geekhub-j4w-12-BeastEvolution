@@ -38,12 +38,7 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
     public List<E> getSortedPriorityTasks() {
         List<E> priorityTasks = new ArrayList<>(tasksStorage);
 
-        priorityTasks.sort(new Comparator<E>() {
-            @Override
-            public int compare(E o1, E o2) {
-                return o1.getPriority() - o2.getPriority();
-            }
-        });
+        priorityTasks.sort(new taskPriorityComparator());
         return priorityTasks;
     }
 
