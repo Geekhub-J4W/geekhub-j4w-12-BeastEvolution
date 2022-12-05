@@ -163,4 +163,22 @@ class ToDoListImplTest {
         assertEquals(expectedSortedPriorityTasks, actualSortedPriorityTasks);
     }
 
+    @Test
+    @Tag("correct work")
+    @Tag("getSortedPriorityTasks")
+    void get_top_priority_task() {
+        taskToDoList.addTaskToTheEnd(new Task("Task1", "Text1", -3));
+
+        Task expectedFirstTopPriorityTask = new Task("Task2", "Text2", 7);
+        taskToDoList.addTaskToTheEnd(expectedFirstTopPriorityTask);
+
+        taskToDoList.addTaskToTheEnd(new Task("Task3", "Text3", 7));
+        taskToDoList.addTaskToTheEnd(new Task("Task4", "Text4", 0));
+
+
+        Task actualFirstTopPriorityTask = taskToDoList.getTopPriorityTask();
+
+        assertEquals(expectedFirstTopPriorityTask, actualFirstTopPriorityTask);
+    }
+
 }
