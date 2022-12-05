@@ -13,8 +13,7 @@ public class OddIndexIterator<E> implements Iterator<E> {
 
     @Override
     public boolean hasNext() {
-        // write your code here
-        return true;
+        return position < data.size();
     }
 
     @Override
