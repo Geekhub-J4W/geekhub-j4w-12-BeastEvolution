@@ -45,7 +45,7 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public boolean addTaskToTheEnd(E task) {
-        return false;
+        return tasksStorage.add(task);
     }
 
     @Override
