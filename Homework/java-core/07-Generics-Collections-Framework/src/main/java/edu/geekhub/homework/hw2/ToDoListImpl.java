@@ -11,7 +11,16 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public E getTopPriorityTask() {
-        return null;
+        List<E> reversPriorityTasks = tasksStorage;
+        reversPriorityTasks.sort(new taskPriorityComparator().reversed());
+        return reversPriorityTasks.get(0);
+    }
+
+    private class taskPriorityComparator implements Comparator<E> {
+        @Override
+        public int compare(E o1, E o2) {
+            return o1.getPriority() - o2.getPriority();
+        }
     }
 
     @Override
