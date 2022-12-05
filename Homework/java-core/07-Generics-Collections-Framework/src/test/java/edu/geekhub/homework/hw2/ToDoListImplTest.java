@@ -38,5 +38,30 @@ class ToDoListImplTest {
         assertTrue(resultOFAdding);
     }
 
+    @Test
+    @Tag("correct work")
+    @Tag("equals")
+    void comparison_two_equivalent_list() {
+        ToDoListImpl<Task> taskToDoList1 = new ToDoListImpl<>();
+        ToDoListImpl<Task> taskToDoList2 = new ToDoListImpl<>();
+
+        taskToDoList1.addTaskToTheEnd(new Task("Task", "Text", 1));
+        taskToDoList2.addTaskToTheEnd(new Task("Task", "Text", 1));
+
+        assertTrue(taskToDoList1.equals(taskToDoList2));
+    }
+
+    @Test
+    @Tag("correct work")
+    @Tag("hashCode")
+    void comparison_hash_code_of_two_equivalent_list() {
+        ToDoListImpl<Task> taskToDoList1 = new ToDoListImpl<>();
+        ToDoListImpl<Task> taskToDoList2 = new ToDoListImpl<>();
+
+        taskToDoList1.addTaskToTheEnd(new Task("Task", "Text", 1));
+        taskToDoList2.addTaskToTheEnd(new Task("Task", "Text", 1));
+
+        assertEquals(taskToDoList1.hashCode(), taskToDoList2.hashCode());
+    }
 
 }
