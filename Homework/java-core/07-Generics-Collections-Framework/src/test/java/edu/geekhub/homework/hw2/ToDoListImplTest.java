@@ -70,7 +70,7 @@ class ToDoListImplTest {
     @Test
     @Tag("correct work")
     @Tag("getAllTasks")
-    void return_all_tasks() {
+    void get_all_tasks() {
         taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 1));
 
         List<Task> tasksStorage = new ArrayList<>();
@@ -82,7 +82,7 @@ class ToDoListImplTest {
     @Test
     @Tag("null")
     @Tag("getAllTasks")
-    void return_list_with_null_elements() {
+    void get_list_with_null_elements() {
         taskToDoList.addTaskToTheEnd(null);
 
         List<Task> tasksStorage = new ArrayList<>();
