@@ -11,6 +11,7 @@ class OddIndexIteratorTest {
     OddIndexIterator<Object> objectOddIndexIterator;
 
     @Tag("normal work")
+    @Tag("hasNext()")
     @Test
     void false_when_no_more_elements() {
         objectOddIndexIterator = new OddIndexIterator<>(new ArrayList<>());
@@ -22,6 +23,7 @@ class OddIndexIteratorTest {
 
 
     @Tag("normal work")
+    @Tag("hasNext()")
     @Test
     void false_when_left_even_element() {
         List<Object> objects = new ArrayList<>();
@@ -34,6 +36,7 @@ class OddIndexIteratorTest {
     }
 
     @Tag("normal work")
+    @Tag("hasNext()")
     @Test
     void true_when_have_odd_elements() {
         List<Object> objects = new ArrayList<>();
