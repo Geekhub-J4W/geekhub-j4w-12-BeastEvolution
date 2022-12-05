@@ -29,7 +29,7 @@ class ToDoListImplTest {
     }
 
     @Test
-    @Tag("correct work")
+    @Tag("null")
     @Tag("addTaskToTheEnd")
     void add_null_to_end_of_list() {
         boolean resultOFAdding = taskToDoList.addTaskToTheEnd(null);
