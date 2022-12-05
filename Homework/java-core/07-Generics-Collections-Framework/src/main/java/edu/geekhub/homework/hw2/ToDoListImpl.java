@@ -49,7 +49,15 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public List<E> getSortedByAlphabetTasks() {
-        return null;
+        List<E> alphabetTasks = new ArrayList<>(tasksStorage);
+
+        alphabetTasks.sort(new Comparator<E>() {
+            @Override
+            public int compare(E o1, E o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        return alphabetTasks;
     }
 
     @Override
