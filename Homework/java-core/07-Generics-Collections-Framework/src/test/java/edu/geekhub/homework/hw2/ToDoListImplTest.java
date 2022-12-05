@@ -165,7 +165,7 @@ class ToDoListImplTest {
 
     @Test
     @Tag("correct work")
-    @Tag("getSortedPriorityTasks")
+    @Tag("getTopPriorityTask")
     void get_top_priority_task() {
         taskToDoList.addTaskToTheEnd(new Task("Task1", "Text1", -3));
 
