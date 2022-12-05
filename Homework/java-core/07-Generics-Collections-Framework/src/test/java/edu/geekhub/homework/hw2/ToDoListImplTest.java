@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ToDoListImplTest {
@@ -62,6 +65,30 @@ class ToDoListImplTest {
         taskToDoList2.addTaskToTheEnd(new Task("Task", "Text", 1));
 
         assertEquals(taskToDoList1.hashCode(), taskToDoList2.hashCode());
+    }
+
+    @Test
+    @Tag("correct work")
+    @Tag("getAllTasks")
+    void return_all_tasks() {
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 1));
+
+        List<Task> tasksStorage = new ArrayList<>();
+        tasksStorage.add(new Task("Task", "Text", 1));
+
+        assertEquals(taskToDoList.getAllTasks(), tasksStorage);
+    }
+
+    @Test
+    @Tag("null")
+    @Tag("getAllTasks")
+    void return_list_with_null_elements() {
+        taskToDoList.addTaskToTheEnd(null);
+
+        List<Task> tasksStorage = new ArrayList<>();
+        tasksStorage.add(null);
+
+        assertEquals(taskToDoList.getAllTasks(), tasksStorage);
     }
 
 }
