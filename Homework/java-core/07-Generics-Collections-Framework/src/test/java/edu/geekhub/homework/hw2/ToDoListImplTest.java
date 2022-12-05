@@ -159,7 +159,7 @@ class ToDoListImplTest {
         expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", 0));
 
 
-        List<Task> actualSortedPriorityTasks = taskToDoList.getSortedPriorityTasks();
+        taskToDoList.getSortedPriorityTasks();
 
         assertEquals(expectedTaskToDoList, taskToDoList);
     }
