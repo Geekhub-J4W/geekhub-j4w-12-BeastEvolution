@@ -91,4 +91,42 @@ class ToDoListImplTest {
         assertEquals(taskToDoList.getAllTasks(), tasksStorage);
     }
 
+    @Test
+    @Tag("correct work")
+    @Tag("getSortedPriorityTasks")
+    void get_sorted_tasks_by_priority() {
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 0));
+
+        List<Task> expectedSortedPriorityTasks = new ArrayList<>();
+        expectedSortedPriorityTasks.add(new Task("Task", "Text", -7));
+        expectedSortedPriorityTasks.add(new Task("Task", "Text", 0));
+        expectedSortedPriorityTasks.add(new Task("Task", "Text", 3));
+
+
+        List<Task> actualSortedPriorityTasks = taskToDoList.getSortedPriorityTasks();
+
+        assertEquals(expectedSortedPriorityTasks, actualSortedPriorityTasks);
+    }
+
+    @Test
+    @Tag("correct work")
+    @Tag("getSortedPriorityTasks")
+    void get_sorted_tasks_without_changing_positions_of_equivalent_tasks() {
+        taskToDoList.addTaskToTheEnd(new Task("Task1", "Text1", 3));
+        taskToDoList.addTaskToTheEnd(new Task("Task2", "Text2", 3));
+        taskToDoList.addTaskToTheEnd(new Task("Task3", "Text3", 3));
+
+        List<Task> expectedSortedPriorityTasks = new ArrayList<>();
+        expectedSortedPriorityTasks.add(new Task("Task1", "Text1", 3));
+        expectedSortedPriorityTasks.add(new Task("Task2", "Text2", 3));
+        expectedSortedPriorityTasks.add(new Task("Task3", "Text3", 3));
+
+
+        List<Task> actualSortedPriorityTasks = taskToDoList.getSortedPriorityTasks();
+
+        assertEquals(expectedSortedPriorityTasks, actualSortedPriorityTasks);
+    }
+
 }
