@@ -202,6 +202,25 @@ class ToDoListImplTest {
     }
 
     @Test
+    @Tag("after executing")
+    @Tag("getTopPriorityTask")
+    void task_list_same_when_get_top_priority_tasks() {
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+        taskToDoList.addTaskToTheEnd(new Task("Task", "Text", 0));
+
+        ToDoListImpl<Task> expectedTaskToDoList = new ToDoListImpl<>();
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", -7));
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", 3));
+        expectedTaskToDoList.addTaskToTheEnd(new Task("Task", "Text", 0));
+
+
+        taskToDoList.getTopPriorityTask();
+
+        assertEquals(expectedTaskToDoList, taskToDoList);
+    }
+
+    @Test
     @Tag("correct work")
     @Tag("getTaskByIndex")
     void get_task_by_index() {
