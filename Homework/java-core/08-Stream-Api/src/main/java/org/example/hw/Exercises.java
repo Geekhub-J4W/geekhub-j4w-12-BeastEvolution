@@ -18,34 +18,42 @@ public class Exercises {
 
     public City mostPopulatedCity() {
         // Find the most populated city
+        return null;
     }
 
     public City minPopulatedCity() {
         // Find the min populated city
+        return null;
     }
 
     public String mostPopulatedCountry() {
         // Find the most populated city
+        return null;
     }
 
     public String minPopulatedCountry() {
         // Find the most populated city
+        return null;
     }
 
     public Long totalPopulation() {
         // Find the most populated city
+        return null;
     }
 
     public Map<String,Integer> populationOfEachCountry() {
         // Find the most populated city
+        return null;
     }
 
     public Integer populationOfSpecificCountry(String countryCode) {
         // Find the most populated city
+        return null;
     }
 
     public City specificCy(String city) {
         // Find the most populated city
+        return null;
     }
 
 
