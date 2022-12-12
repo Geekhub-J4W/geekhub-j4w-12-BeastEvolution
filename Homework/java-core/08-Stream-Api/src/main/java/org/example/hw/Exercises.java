@@ -14,7 +14,6 @@ public class Exercises {
     }
 
     public Map<String, Long> getCountryCitiesCount() {
-        // Find the number of cities of each country (use grouping)
         var cities = citiesRepo.getAllCities();
         return cities.values().stream()
                 .collect(Collectors.groupingBy(City::getCountryCode,
