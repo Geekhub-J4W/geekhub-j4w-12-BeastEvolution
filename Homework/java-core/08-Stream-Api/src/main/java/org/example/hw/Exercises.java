@@ -1,10 +1,9 @@
 package org.example.hw;
 
-import org.example.hw.exceptions.NotFoundException;
-
 import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.example.hw.exceptions.NotFoundException;
 
 public class Exercises {
     public static final String NO_CITIES_FOUND = "No cities found";
@@ -74,7 +73,7 @@ public class Exercises {
             .reduce(Long::sum).orElseThrow(() -> new NotFoundException(NO_CITIES_FOUND));
     }
 
-    public Map<String,Integer> populationOfEachCountry() {
+    public Map<String, Integer> populationOfEachCountry() {
         return citiesRepo.getAllCities()
             .values()
             .stream()
