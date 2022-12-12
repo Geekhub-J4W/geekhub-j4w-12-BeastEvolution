@@ -60,4 +60,25 @@ class ExercisesTest {
         assertEquals("No cities found", thrown.getMessage());
     }
 
+    @Test
+    @Tag("correct work")
+    @Tag(("mostPopulatedCountry"))
+    void get_most_populated_country() {
+        String expectedCountry = "ZWE";
+
+        String actualCountry = exercises.mostPopulatedCountry();
+
+        assertEquals(expectedCountry, actualCountry);
+    }
+
+    @Test
+    @Tag("error")
+    @Tag(("mostPopulatedCountry"))
+    void fail_find_most_populated_country() {
+        exercises = new Exercises(new CitiesMock());
+
+        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::mostPopulatedCountry);
+
+        assertEquals("No cities found", thrown.getMessage());
+    }
 }
