@@ -92,8 +92,12 @@ public class Exercises {
     }
 
     public City specificCity(String city) {
-        // Find the most populated city
-        return null;
+        return citiesRepo.getAllCities()
+            .values()
+            .stream()
+            .filter(existentCity -> city.equals(existentCity.getName()))
+            .findAny()
+            .orElseThrow(() -> new NotFoundException("Not found " + city + " in this structure"));
     }
 
 
