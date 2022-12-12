@@ -4,7 +4,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Exercises {
-    private static final CitiesImp citiesRepo = new CitiesImp();
+    private final Cities citiesRepo;
+
+    public Exercises(Cities citiesRepo) {
+        this.citiesRepo = citiesRepo;
+    }
 
     public Map<String, Long> getCountryCitiesCount() {
         // Find the number of cities of each country (use grouping)
