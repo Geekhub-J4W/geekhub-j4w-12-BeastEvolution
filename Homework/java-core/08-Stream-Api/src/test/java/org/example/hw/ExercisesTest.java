@@ -136,7 +136,6 @@ class ExercisesTest {
         String actualPopulationOfEachCountry =
             exercises.populationOfEachCountry()
                 .toString();
-        System.out.println(actualPopulationOfEachCountry);
 
         assertEquals(expectedPopulationOfEachCountry, actualPopulationOfEachCountry);
     }
