@@ -83,8 +83,12 @@ public class Exercises {
     }
 
     public Integer populationOfSpecificCountry(String countryCode) {
-        // Find the most populated city
-        return null;
+        return citiesRepo.getAllCities()
+            .values()
+            .stream()
+            .filter(city -> city.getCountryCode().equals(countryCode))
+            .mapToInt(City::getPopulation)
+            .sum();
     }
 
     public City specificCy(String city) {
