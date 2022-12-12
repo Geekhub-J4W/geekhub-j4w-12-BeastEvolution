@@ -1,5 +1,8 @@
 package org.example.hw;
 
+import org.example.hw.exceptions.NotFoundException;
+
+import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -21,8 +24,11 @@ public class Exercises {
     }
 
     public City mostPopulatedCity() {
-        // Find the most populated city
-        return null;
+        return citiesRepo.getAllCities()
+            .values()
+            .stream()
+            .max(Comparator.comparingInt(City::getPopulation))
+            .orElseThrow(() -> new NotFoundException("No cities found"));
     }
 
     public City minPopulatedCity() {
