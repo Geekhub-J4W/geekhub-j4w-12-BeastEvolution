@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Exercises {
+    public static final String NO_CITIES_FOUND = "No cities found";
     private final Cities citiesRepo;
 
     public Exercises(Cities citiesRepo) {
@@ -27,7 +28,7 @@ public class Exercises {
             .values()
             .stream()
             .max(Comparator.comparingInt(City::getPopulation))
-            .orElseThrow(() -> new NotFoundException("No cities found"));
+            .orElseThrow(() -> new NotFoundException(NO_CITIES_FOUND));
     }
 
     public City minPopulatedCity() {
@@ -35,7 +36,7 @@ public class Exercises {
             .values()
             .stream()
             .min(Comparator.comparingInt(City::getPopulation))
-            .orElseThrow(() -> new NotFoundException("No cities found"));
+            .orElseThrow(() -> new NotFoundException(NO_CITIES_FOUND));
     }
 
     public String mostPopulatedCountry() {
@@ -48,7 +49,7 @@ public class Exercises {
             .entrySet()
             .stream()
             .max(Map.Entry.comparingByKey())
-            .orElseThrow(() -> new NotFoundException("No cities found"))
+            .orElseThrow(() -> new NotFoundException(NO_CITIES_FOUND))
             .getKey();
     }
 
@@ -61,7 +62,7 @@ public class Exercises {
             .entrySet()
             .stream()
             .min(Map.Entry.comparingByKey())
-            .orElseThrow(() -> new NotFoundException("No cities found"))
+            .orElseThrow(() -> new NotFoundException(NO_CITIES_FOUND))
             .getKey();
     }
 
@@ -70,7 +71,7 @@ public class Exercises {
             .values()
             .stream()
             .mapToLong(City::getPopulation)
-            .reduce(Long::sum).orElseThrow(() -> new NotFoundException("No cities found"));
+            .reduce(Long::sum).orElseThrow(() -> new NotFoundException(NO_CITIES_FOUND));
     }
 
     public Map<String,Integer> populationOfEachCountry() {
