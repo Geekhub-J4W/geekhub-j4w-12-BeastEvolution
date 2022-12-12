@@ -33,7 +33,9 @@ class ExercisesTest {
     void fail_find_most_populated_city() {
         exercises = new Exercises(new CitiesMock());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::mostPopulatedCity);
+        NotFoundException thrown = assertThrows(
+            NotFoundException.class,
+            exercises::mostPopulatedCity);
 
         assertEquals("No cities found", thrown.getMessage());
     }
@@ -55,7 +57,10 @@ class ExercisesTest {
     void fail_find_min_populated_city() {
         exercises = new Exercises(new CitiesMock());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::minPopulatedCity);
+        NotFoundException thrown = assertThrows(
+            NotFoundException.class,
+            exercises::minPopulatedCity
+        );
 
         assertEquals("No cities found", thrown.getMessage());
     }
@@ -77,7 +82,10 @@ class ExercisesTest {
     void fail_find_most_populated_country() {
         exercises = new Exercises(new CitiesMock());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::mostPopulatedCountry);
+        NotFoundException thrown = assertThrows(
+            NotFoundException.class,
+            exercises::mostPopulatedCountry
+        );
 
         assertEquals("No cities found", thrown.getMessage());
     }
@@ -99,7 +107,10 @@ class ExercisesTest {
     void fail_find_min_populated_country() {
         exercises = new Exercises(new CitiesMock());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::minPopulatedCountry);
+        NotFoundException thrown = assertThrows(
+            NotFoundException.class,
+            exercises::minPopulatedCountry
+        );
 
         assertEquals("No cities found", thrown.getMessage());
     }
@@ -122,7 +133,10 @@ class ExercisesTest {
     void fail_find_total_population() {
         exercises = new Exercises(new CitiesMock());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::totalPopulation);
+        NotFoundException thrown = assertThrows(
+            NotFoundException.class,
+            exercises::totalPopulation
+        );
 
         assertEquals("No cities found", thrown.getMessage());
     }
