@@ -168,4 +168,34 @@ class ExercisesTest {
 
         assertEquals(expectedPopulationOfCountry, actualPopulationOfCountry);
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("specificCity"))
+    void get_specific_city() {
+        String expectedCity = "City [id=12, name=Breda, population=160398, countryCode=NLD]";
+        String city = "Breda";
+
+        String actualCity =
+            exercises.specificCity(city)
+                .toString();
+
+        assertEquals(expectedCity, actualCity);
+    }
+
+    @Test
+    @Tag("error")
+    @Tag(("specificCity"))
+    void fail_find_specific_city() {
+        exercises = new Exercises(new CitiesMock());
+        String city = "Breda";
+
+        NotFoundException thrown =
+            assertThrows(
+                NotFoundException.class,
+                () -> exercises.specificCity(city)
+            );
+
+        assertEquals("Not found " + city + " in this structure", thrown.getMessage());
+    }
 }
