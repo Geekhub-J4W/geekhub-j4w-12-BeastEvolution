@@ -103,4 +103,27 @@ class ExercisesTest {
 
         assertEquals("No cities found", thrown.getMessage());
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("totalPopulation"))
+    void get_total_population() {
+        Long expectedTotalPopulation = 1429559884L;
+
+        Long actualTotalPopulation = exercises.totalPopulation();
+
+
+        assertEquals(expectedTotalPopulation, actualTotalPopulation);
+    }
+
+    @Test
+    @Tag("error")
+    @Tag(("totalPopulation"))
+    void fail_find_total_population() {
+        exercises = new Exercises(new CitiesMock());
+
+        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::totalPopulation);
+
+        assertEquals("No cities found", thrown.getMessage());
+    }
 }
