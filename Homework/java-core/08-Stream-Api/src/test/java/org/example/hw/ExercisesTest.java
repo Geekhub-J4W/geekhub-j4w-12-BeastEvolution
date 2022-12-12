@@ -198,4 +198,17 @@ class ExercisesTest {
 
         assertEquals("Not found " + city + " in this structure", thrown.getMessage());
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("getCountryCitiesCount"))
+    void get_country_cities_count() {
+        String expectedCountryCitiesCount = "{NZL=9, FJI=1, PNG=1, GLP=2, STP=1, WLF=1, MHL=1, CUB=14, SDN=12, GMB=2, MYS=18, MYT=1, TWN=42, POL=44, SUR=1, OMN=5, ARE=5, KEN=8, ARG=57, GNB=1, UZB=17, ARM=3, TGO=1, SEN=9, BTN=1, IRL=2, IRN=67, FLK=1, QAT=1, BDI=1, NLD=28, SVK=3, IRQ=15, SVN=2, GNQ=1, THA=12, ABW=1, ASM=2, SWE=15, ISL=1, MKD=1, BEL=9, LIE=2, KWT=3, ISR=14, BEN=4, DZA=18, RUS=189, ATG=1, SWZ=1, ITA=58, TZA=10, PAK=59, PAN=2, CXR=1, BFA=3, UKR=57, SGP=1, KGZ=2, CHE=5, DJI=1, REU=1, PRI=9, CHL=29, PRK=13, CHN=363, MLI=1, HRV=4, BWA=2, KHM=3, IDN=85, PRT=5, VNM=22, TJK=2, MLT=2, PRY=5, CYM=1, SHN=1, CYP=2, SYC=1, RWA=1, BGD=24, AUS=14, AUT=6, PSE=6, LKA=7, ZWE=6, GAB=1, YUG=8, BGR=10, SYR=11, CZE=10, NOR=5, CIV=5, MMR=16, TKL=1, KIR=2, TKM=4, GRD=1, GRC=8, PCN=1, HTI=4, YEM=6, GRL=1, AFG=4, MNG=1, NPL=5, BHS=1, BHR=1, MNP=1, GBR=81, SJM=1, DMA=1, HUN=9, BIH=3, AGO=5, WSM=1, FRA=40, TMP=1, MOZ=12, NAM=1, PER=22, DNK=5, GTM=4, FRO=1, VAT=1, SLB=1, SLE=1, NRU=2, GUF=1, AIA=2, SLV=7, GUM=2, FSM=2, DOM=6, CMR=7, GUY=1, AZE=4, MAC=1, GEO=5, TON=1, NCL=1, SMR=2, ERI=1, KNA=1, MAR=22, VCT=1, BLR=16, MRT=2, BLZ=2, PHL=136, COD=18, COG=2, ESH=1, PYF=2, URY=1, COK=1, COM=1, COL=38, USA=274, ESP=59, EST=2, BMU=2, MSR=1, ZMB=7, KOR=70, SOM=3, VUT=1, ECU=15, ALB=1, MCO=2, ETH=7, NER=3, LAO=2, VEN=41, GHA=5, CPV=1, MDA=4, MTQ=1, SPM=1, MDG=5, NFK=1, LBN=2, LBR=1, MDV=1, BOL=8, GIB=1, LBY=4, HKG=2, NGA=64, LSO=1, CAF=1, MUS=3, LCA=1, JOR=5, GIN=1, VGB=1, ROM=29, CAN=49, TCA=1, TCD=2, AND=1, CRI=1, IND=341, MEX=173, KAZ=21, SAU=24, ANT=1, JPN=248, LTU=5, TTO=2, PLW=1, MWI=2, NIC=4, FIN=7, CCK=2, TUN=8, UGA=1, LUX=1, TUR=62, BRA=250, BRB=1, TUV=1, DEU=93, LVA=3, EGY=37, JAM=3, NIU=1, VIR=1, ZAF=44, HND=3, BRN=1}";
+
+        String actualCountryCitiesCount =
+            exercises.getCountryCitiesCount()
+                .toString();
+
+        assertEquals(expectedCountryCitiesCount, actualCountryCitiesCount);
+    }
 }
