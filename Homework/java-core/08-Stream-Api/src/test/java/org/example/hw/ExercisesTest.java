@@ -139,4 +139,33 @@ class ExercisesTest {
 
         assertEquals(expectedPopulationOfEachCountry, actualPopulationOfEachCountry);
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("populationOfSpecificCountry"))
+    void get_population_of_Nld() {
+        String expectedPopulationOfNld = "5180049";
+        String country = "NLD";
+
+        String actualPopulationOfNld =
+            exercises.populationOfSpecificCountry(country)
+                .toString();
+
+
+        assertEquals(expectedPopulationOfNld, actualPopulationOfNld);
+    }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("populationOfSpecificCountry"))
+    void get_population_of_incorrect_country() {
+        String expectedPopulationOfCountry = "0";
+        String country = "A";
+
+        String actualPopulationOfCountry =
+            exercises.populationOfSpecificCountry(country)
+                .toString();
+
+        assertEquals(expectedPopulationOfCountry, actualPopulationOfCountry);
+    }
 }
