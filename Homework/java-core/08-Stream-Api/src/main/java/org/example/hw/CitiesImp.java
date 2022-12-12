@@ -3,7 +3,7 @@ package org.example.hw;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CitiesImp {
+public class CitiesImp implements Cities {
     private final Map<Integer, City> cities = new HashMap<>();
 
     {
