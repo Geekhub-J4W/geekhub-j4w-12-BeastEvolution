@@ -54,8 +54,16 @@ public class Exercises {
     }
 
     public String minPopulatedCountry() {
-        // Find the most populated city
-        return null;
+        return citiesRepo.getAllCities()
+            .values()
+            .stream()
+            .collect(Collectors.groupingBy(City::getCountryCode,
+                Collectors.summingLong(City::getPopulation)))
+            .entrySet()
+            .stream()
+            .min(Map.Entry.comparingByKey())
+            .orElseThrow(() -> new NotFoundException("No cities found"))
+            .getKey();
     }
 
     public Long totalPopulation() {
