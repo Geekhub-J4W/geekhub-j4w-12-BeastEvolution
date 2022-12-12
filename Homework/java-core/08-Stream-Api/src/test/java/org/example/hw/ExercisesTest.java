@@ -37,4 +37,27 @@ class ExercisesTest {
 
         assertEquals("No cities found", thrown.getMessage());
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("minPopulatedCity"))
+    void get_min_populated_city() {
+        City expectedCity = new City(2912, "Adamstown", "PCN", 42);
+
+        City actualCity = exercises.minPopulatedCity();
+
+        assertEquals(expectedCity, actualCity);
+    }
+
+    @Test
+    @Tag("error")
+    @Tag(("minPopulatedCity"))
+    void fail_find_min_populated_city() {
+        exercises = new Exercises(new CitiesMock());
+
+        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::minPopulatedCity);
+
+        assertEquals("No cities found", thrown.getMessage());
+    }
+
 }
