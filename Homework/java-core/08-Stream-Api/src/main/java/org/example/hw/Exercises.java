@@ -91,7 +91,7 @@ public class Exercises {
             .sum();
     }
 
-    public City specificCy(String city) {
+    public City specificCity(String city) {
         // Find the most populated city
         return null;
     }
