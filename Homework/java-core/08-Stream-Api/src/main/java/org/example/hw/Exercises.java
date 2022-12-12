@@ -67,8 +67,11 @@ public class Exercises {
     }
 
     public Long totalPopulation() {
-        // Find the most populated city
-        return null;
+        return citiesRepo.getAllCities()
+            .values()
+            .stream()
+            .mapToLong(City::getPopulation)
+            .reduce(Long::sum).orElseThrow(() -> new NotFoundException("No cities found"));
     }
 
     public Map<String,Integer> populationOfEachCountry() {
