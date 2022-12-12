@@ -81,4 +81,26 @@ class ExercisesTest {
 
         assertEquals("No cities found", thrown.getMessage());
     }
+
+    @Test
+    @Tag("correct work")
+    @Tag(("minPopulatedCountry"))
+    void get_min_populated_country() {
+        String expectedCountry = "ABW";
+
+        String actualCountry = exercises.minPopulatedCountry();
+
+        assertEquals(expectedCountry, actualCountry);
+    }
+
+    @Test
+    @Tag("error")
+    @Tag(("minPopulatedCountry"))
+    void fail_find_min_populated_country() {
+        exercises = new Exercises(new CitiesMock());
+
+        NotFoundException thrown = assertThrows(NotFoundException.class, exercises::minPopulatedCountry);
+
+        assertEquals("No cities found", thrown.getMessage());
+    }
 }
