@@ -108,24 +108,29 @@ public class JsonConverter {
     }
 
     private String getElementKey(String element) {
-        try {
-            String elementKey = element.split(":")[KEY_INDEX];
-            elementKey = deleteQuotationMarks(elementKey);
+        String elementKey = getElementContent(element)[KEY_INDEX];
+        elementKey = deleteQuotationMarks(elementKey);
 
-            return elementKey;
-        } catch (IndexOutOfBoundsException e) {
+        return elementKey;
+    }
+
+    private String[] getElementContent(String element) {
+        String[] elementContent = element.split(":");
+
+        boolean isNotHaveKeyAndValue = elementContent.length != 2;
+        if (isNotHaveKeyAndValue) {
             throw new IllegalArgumentException("All items of statistic must have key:value");
         }
+
+        return elementContent;
     }
 
     private Integer getElementValue(String element) {
         try {
-            String elementValue = element.split(":")[VALUE_INDEX];
+            String elementValue = getElementContent(element)[VALUE_INDEX];
             elementValue = deleteQuotationMarks(elementValue);
 
             return Integer.parseInt(elementValue);
-        } catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("All items of statistic must have key:value");
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("All statistic items value must be integer");
         }
