@@ -20,7 +20,13 @@ public class JsonConverter {
     private static final int KEY_INDEX = 0;
 
     public List<LosesStatistic> convertToEntities(String losesStatisticsJson) {
-        return TODO_TYPE("Implement method");
+        losesStatisticsJson = deleteSquareBracket(losesStatisticsJson);
+        List<String> statistics = divideArrayElements(losesStatisticsJson);
+
+        return statistics
+            .stream()
+            .map(this::convertToEntity)
+            .toList();
     }
 
     public LosesStatistic convertToEntity(String losesStatisticJson) {
@@ -51,6 +57,26 @@ public class JsonConverter {
 
     public String convertToJson(LosesStatistic losesStatistic) {
         return TODO_TYPE("Implement method");
+    }
+
+    private String deleteSquareBracket(String input) {
+        if (input.startsWith("[") && input.endsWith("]")) {
+            return input.substring(BEGINING_INDEX + 1, input.length() - 1);
+        }
+
+        throw new IllegalArgumentException("Statistics array must be in square brackets");
+    }
+
+    private List<String> divideArrayElements(String input) {
+        List<String> result = new ArrayList<>(LosesStatistic.numbersOfStatisticItems);
+
+        Matcher matcher = Pattern.compile("\\{.+?\\}").matcher(input);
+
+        while (matcher.find()) {
+            result.add(matcher.group());
+        }
+
+        return result;
     }
 
     private String deleteCurlyBracket(String input) {
