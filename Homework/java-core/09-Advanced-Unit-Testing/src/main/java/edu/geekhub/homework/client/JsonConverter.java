@@ -7,8 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
-
 /**
  * This class is responsible for conversion of {@link String} objects into a
  * {@link LosesStatistic} objects and otherwise
@@ -20,6 +18,10 @@ public class JsonConverter {
     private static final int KEY_INDEX = 0;
 
     public List<LosesStatistic> convertToEntities(String losesStatisticsJson) {
+        if (Objects.isNull(losesStatisticsJson)) {
+            throw new IllegalArgumentException("Can't convert string with null value");
+        }
+
         losesStatisticsJson = deleteSquareBracket(losesStatisticsJson);
         List<String> statistics = divideArrayElements(losesStatisticsJson);
 
