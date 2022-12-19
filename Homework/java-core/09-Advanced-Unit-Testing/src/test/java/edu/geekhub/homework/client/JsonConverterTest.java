@@ -61,7 +61,7 @@ class JsonConverterTest {
     @Tag("error")
     @Tag("convertToEntity")
     @Test
-    void fail_convert_statistic_to_entity_json_object_is_null() throws Exception {
+    void fail_convert_statistic_to_entity_json_object_is_null() {
 
         assertThatThrownBy(
             () -> jsonConverter.convertToEntity(null)
@@ -213,7 +213,7 @@ class JsonConverterTest {
     @Tag("error")
     @Tag("convertToEntities")
     @Test
-    void fail_convert_statistics_to_entities_json_object_is_null() throws Exception {
+    void fail_convert_statistics_to_entities_json_object_is_null() {
 
         assertThatThrownBy(
             () -> jsonConverter.convertToEntities(null)
