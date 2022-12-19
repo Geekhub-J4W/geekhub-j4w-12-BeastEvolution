@@ -184,7 +184,7 @@ class JsonConverterTest {
     @Tag("convertToEntities")
     @Test
     void convert_statistics_to_entities() throws Exception {
-        List<LosesStatistic> expectedLosesStatistics = Arrays.asList(new LosesStatistic(
+        List<LosesStatistic> expectedLosesStatistics = List.of(new LosesStatistic(
             5,
             4,
             9,
