@@ -123,4 +123,35 @@ class LosesStatisticTest {
 
         assertThat(actualStatisticItems).isEqualTo(expectedStatisticItems);
     }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("id")
+    void get_id() {
+        LosesStatistic losesStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        int expectedId = 14;
+
+
+        int actualSId = losesStatistic.id();
+
+        assertThat(actualSId).isEqualTo(expectedId);
+    }
+
+
 }
