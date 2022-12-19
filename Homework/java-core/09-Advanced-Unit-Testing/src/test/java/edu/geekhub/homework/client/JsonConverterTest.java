@@ -64,9 +64,10 @@ class JsonConverterTest {
     void fail_convert_statistic_to_entity_json_object_without_curly_bracket() throws Exception {
         when(losesStatisticHttpClient.getById(anyInt()))
             .thenReturn("\"tanks\":\"2\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
 
         assertThatThrownBy(
-            () -> jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1))
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Statistic object must be in square brackets");
@@ -78,9 +79,10 @@ class JsonConverterTest {
     void fail_convert_statistic_to_entity_json_object_without_key_of_element() throws Exception {
         when(losesStatisticHttpClient.getById(anyInt()))
             .thenReturn("{\"2\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"}");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
 
         assertThatThrownBy(
-            () -> jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1))
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("All items of statistic must have key:value");
@@ -93,9 +95,10 @@ class JsonConverterTest {
     void fail_convert_statistic_to_entity_json_object_without_value_of_element() throws Exception {
         when(losesStatisticHttpClient.getById(anyInt()))
             .thenReturn("{\"tanks\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"}");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
 
         assertThatThrownBy(
-            () -> jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1))
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("All items of statistic must have key:value");
@@ -107,9 +110,10 @@ class JsonConverterTest {
     void fail_convert_statistic_to_entity_json_object_with_incorrect_value_of_element() throws Exception {
         when(losesStatisticHttpClient.getById(anyInt()))
             .thenReturn("{\"tanks\":\"a\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"}");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
 
         assertThatThrownBy(
-            () -> jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1))
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("All statistic items value must be integer");
@@ -121,9 +125,10 @@ class JsonConverterTest {
     void fail_convert_statistic_to_entity_json_string_without_quotation_marks() throws Exception {
         when(losesStatisticHttpClient.getById(anyInt()))
             .thenReturn("{tanks:\"2\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"}");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
 
         assertThatThrownBy(
-            () -> jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1))
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("All Json string must delimited with double quotation marks");
@@ -135,9 +140,10 @@ class JsonConverterTest {
     void fail_convert_statistic_to_entity_json_incorrect_key_of_item() throws Exception {
         when(losesStatisticHttpClient.getById(anyInt()))
             .thenReturn("{\"a\":\"2\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"}");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
 
         assertThatThrownBy(
-            () -> jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1))
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Input Json element keys don't math statistic items names");
