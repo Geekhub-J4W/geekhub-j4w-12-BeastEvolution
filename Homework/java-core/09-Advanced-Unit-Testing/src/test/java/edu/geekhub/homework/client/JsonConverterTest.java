@@ -213,6 +213,18 @@ class JsonConverterTest {
     @Tag("error")
     @Tag("convertToEntities")
     @Test
+    void fail_convert_statistics_to_entities_json_object_is_null() throws Exception {
+
+        assertThatThrownBy(
+            () -> jsonConverter.convertToEntities(null)
+        )
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Can't convert string with null value");
+    }
+
+    @Tag("error")
+    @Tag("convertToEntities")
+    @Test
     void fail_convert_statistics_to_entities_json_incorrect_key_of_item() throws Exception {
         when(losesStatisticHttpClient.getAll())
             .thenReturn("{\"tanks\":\"5\",\"armouredFightingVehicles\":\"4\",\"cannons\":\"9\",\"multipleRocketLaunchers\":\"5\",\"antiAirDefenseDevices\":\"3\",\"planes\":\"5\",\"helicopters\":\"3\",\"drones\":\"3\",\"cruiseMissiles\":\"3\",\"shipsOrBoats\":\"6\",\"carsAndTankers\":\"3\",\"specialEquipment\":\"1\",\"personnel\":\"1\",\"id\":\"12\"}]");
