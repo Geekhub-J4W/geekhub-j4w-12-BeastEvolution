@@ -1,7 +1,7 @@
 package edu.geekhub.homework.client;
 
 import edu.geekhub.homework.domain.LosesStatistic;
-
+import edu.geekhub.homework.domain.StatisticItem;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +30,10 @@ public class JsonConverter {
     }
 
     public LosesStatistic convertToEntity(String losesStatisticJson) {
+        if (Objects.isNull(losesStatisticJson)) {
+            throw new IllegalArgumentException("Can't convert string with null value");
+        }
+
         losesStatisticJson = deleteCurlyBracket(losesStatisticJson);
 
         List<String> statisticItems = divideObjectElements(losesStatisticJson);
