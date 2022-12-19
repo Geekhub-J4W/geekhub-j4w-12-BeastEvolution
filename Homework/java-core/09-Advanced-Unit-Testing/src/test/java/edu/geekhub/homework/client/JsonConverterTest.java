@@ -236,4 +236,42 @@ class JsonConverterTest {
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Statistics array must be in square brackets");
     }
+
+    @Tag("Correct work")
+    @Tag("convertToJson")
+    @Test
+    void fail_convert_statistics_to_json_format() throws Exception {
+        LosesStatistic losesStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        String jsonStatistic = jsonConverter.convertToJson(losesStatistic);
+
+        assertThat(jsonStatistic).
+            isEqualTo("{\"tanks\":\"1\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"3\",\"multipleRocketLaunchers\":\"4\",\"antiAirDefenseDevices\":\"5\",\"planes\":\"6\",\"helicopters\":\"7\",\"drones\":\"8\",\"cruiseMissiles\":\"9\",\"shipsOrBoats\":\"10\",\"carsAndTankers\":\"11\",\"specialEquipment\":\"12\",\"personnel\":\"13\",\"id\":\"14\"}");
+    }
+
+    @Tag("Null")
+    @Tag("convertToJson")
+    @Test
+    void fail_convert_statistics_to_json_format_object_is_null() throws Exception {
+        assertThatThrownBy(
+            () -> jsonConverter.convertToJson(null)
+        )
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Can't convert object with null value");
+    }
 }
