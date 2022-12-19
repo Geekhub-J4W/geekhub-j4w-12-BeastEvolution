@@ -240,7 +240,7 @@ class JsonConverterTest {
     @Tag("Correct work")
     @Tag("convertToJson")
     @Test
-    void fail_convert_statistics_to_json_format() throws Exception {
+    void convert_statistics_to_json_format() throws Exception {
         LosesStatistic losesStatistic = new LosesStatistic(
             1,
             2,
