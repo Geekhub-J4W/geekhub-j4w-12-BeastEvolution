@@ -1,7 +1,13 @@
 package edu.geekhub.homework.domain;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 class LosesStatisticTest {
@@ -30,7 +36,7 @@ class LosesStatisticTest {
 
         actualStringRepresentation = losesStatistic.toString();
 
-            Assertions.assertThat(actualStringRepresentation).isEqualTo(expectedStringRepresentation);
+            assertThat(actualStringRepresentation).isEqualTo(expectedStringRepresentation);
     }
 
     @Test
@@ -73,5 +79,48 @@ class LosesStatisticTest {
             3,
             -8
         )).isInstanceOf(IllegalArgumentException.class).hasMessage("ID can't be negative");
+    }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("getStatisticItems")
+    void get_statistic_items() {
+        LosesStatistic losesStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        List<StatisticItem> expectedStatisticItems = new ArrayList<>();
+        expectedStatisticItems.add(new StatisticItem("tanks", 1));
+        expectedStatisticItems.add(new StatisticItem("armouredFightingVehicles", 2));
+        expectedStatisticItems.add(new StatisticItem("cannons", 3));
+        expectedStatisticItems.add(new StatisticItem("multipleRocketLaunchers", 4));
+        expectedStatisticItems.add(new StatisticItem("antiAirDefenseDevices", 5));
+        expectedStatisticItems.add(new StatisticItem("planes", 6));
+        expectedStatisticItems.add(new StatisticItem("helicopters", 7));
+        expectedStatisticItems.add(new StatisticItem("drones", 8));
+        expectedStatisticItems.add(new StatisticItem("cruiseMissiles", 9));
+        expectedStatisticItems.add(new StatisticItem("shipsOrBoats", 10));
+        expectedStatisticItems.add(new StatisticItem("carsAndTankers", 11));
+        expectedStatisticItems.add(new StatisticItem("specialEquipment", 12));
+        expectedStatisticItems.add(new StatisticItem("personnel", 13));
+        expectedStatisticItems.add(new StatisticItem("id", 14));
+
+
+        List<StatisticItem> actualStatisticItems = losesStatistic.getStatisticItems();
+
+        assertThat(actualStatisticItems).isEqualTo(expectedStatisticItems);
     }
 }
