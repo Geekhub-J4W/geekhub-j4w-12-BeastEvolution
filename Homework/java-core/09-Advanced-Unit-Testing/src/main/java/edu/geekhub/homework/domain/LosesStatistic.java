@@ -1,8 +1,8 @@
 package edu.geekhub.homework.domain;
 
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * This class should contain data received through {@link LosesStatisticHttpClient}
@@ -73,5 +73,26 @@ public record LosesStatistic(int tanks,
 
     public int id() {
         return id;
+    }
+
+    public List<StatisticItem> getStatisticItems() {
+        List<StatisticItem> items = new ArrayList<>();
+
+        items.add(new StatisticItem("tanks", tanks));
+        items.add(new StatisticItem("armouredFightingVehicles", armouredFightingVehicles));
+        items.add(new StatisticItem("cannons", cannons));
+        items.add(new StatisticItem("multipleRocketLaunchers", multipleRocketLaunchers));
+        items.add(new StatisticItem("antiAirDefenseDevices", antiAirDefenseDevices));
+        items.add(new StatisticItem("planes", planes));
+        items.add(new StatisticItem("helicopters", helicopters));
+        items.add(new StatisticItem("drones", drones));
+        items.add(new StatisticItem("cruiseMissiles", cruiseMissiles));
+        items.add(new StatisticItem("shipsOrBoats", shipsOrBoats));
+        items.add(new StatisticItem("carsAndTankers", carsAndTankers));
+        items.add(new StatisticItem("specialEquipment", specialEquipment));
+        items.add(new StatisticItem("personnel", personnel));
+        items.add(new StatisticItem("id", id));
+
+        return items;
     }
 }
