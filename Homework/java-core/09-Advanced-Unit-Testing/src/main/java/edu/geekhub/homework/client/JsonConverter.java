@@ -62,7 +62,22 @@ public class JsonConverter {
     }
 
     public String convertToJson(LosesStatistic losesStatistic) {
-        return TODO_TYPE("Implement method");
+        if (Objects.isNull(losesStatistic)) {
+            throw new IllegalArgumentException("Can't convert object with null value");
+        }
+
+        List<StatisticItem> items = losesStatistic.getStatisticItems();
+
+        String jsonStatistic = items.stream()
+            .map(item -> addKey(item.key(), item.value().toString()))
+            .reduce(this::separateWithCommas)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Statistic must contain items")
+            );
+
+        jsonStatistic = addCurlyBracket(jsonStatistic);
+
+        return jsonStatistic;
     }
 
     private String deleteSquareBracket(String input) {
@@ -161,5 +176,36 @@ public class JsonConverter {
                 "Input Json element keys don't math statistic items names"
             );
         }
+    }
+
+    private String addKey(String key, String value) {
+        key = addQuotationMarks(key);
+        value = addQuotationMarks(value);
+
+        return new StringBuilder(key)
+            .append(":")
+            .append(value)
+            .toString();
+    }
+
+    private String addQuotationMarks(String string) {
+        return new StringBuilder(string)
+            .insert(BEGINING_INDEX, "\"")
+            .append("\"")
+            .toString();
+    }
+
+    private String separateWithCommas(String firstItem, String secondItem) {
+        return new StringBuilder(firstItem)
+            .append(",")
+            .append(secondItem)
+            .toString();
+    }
+
+    private String addCurlyBracket(String jsonStatistic) {
+        return new StringBuilder(jsonStatistic)
+            .insert(BEGINING_INDEX, "{")
+            .append("}")
+            .toString();
     }
 }
