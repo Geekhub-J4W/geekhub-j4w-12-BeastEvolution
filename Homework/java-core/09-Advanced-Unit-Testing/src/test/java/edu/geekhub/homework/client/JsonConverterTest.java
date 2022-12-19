@@ -1,17 +1,19 @@
 package edu.geekhub.homework.client;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 import edu.geekhub.homework.domain.LosesStatistic;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.Arrays;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class JsonConverterTest {
@@ -36,7 +38,7 @@ class JsonConverterTest {
         LosesStatistic actualLosesStatistic =
             jsonConverter.convertToEntity(losesStatisticHttpClient.getById(1));
 
-        Assertions.assertThat(actualLosesStatistic).isEqualTo(
+        assertThat(actualLosesStatistic).isEqualTo(
             new LosesStatistic(
                 2,
                 2,
@@ -139,5 +141,50 @@ class JsonConverterTest {
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Input Json element keys don't math statistic items names");
+    }
+
+    @Tag("Correct work")
+    @Tag("convertToEntities")
+    @Test
+    void convert_statistics_to_entities() throws Exception {
+        List<LosesStatistic> expectedLosesStatistics = Arrays.asList(new LosesStatistic(
+            5,
+            4,
+            9,
+            5,
+            3,
+            5,
+            3,
+            3,
+            3,
+            6,
+            3,
+            1,
+            1,
+            12
+        ));
+
+        when(losesStatisticHttpClient.getAll())
+            .thenReturn("[{\"tanks\":\"5\",\"armouredFightingVehicles\":\"4\",\"cannons\":\"9\",\"multipleRocketLaunchers\":\"5\",\"antiAirDefenseDevices\":\"3\",\"planes\":\"5\",\"helicopters\":\"3\",\"drones\":\"3\",\"cruiseMissiles\":\"3\",\"shipsOrBoats\":\"6\",\"carsAndTankers\":\"3\",\"specialEquipment\":\"1\",\"personnel\":\"1\",\"id\":\"12\"}]");
+        List<LosesStatistic> actualLosesStatistics =
+            jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
+
+        assertThat(actualLosesStatistics)
+            .isEqualTo(expectedLosesStatistics);
+    }
+
+    @Tag("error")
+    @Tag("convertToEntities")
+    @Test
+    void fail_convert_statistics_to_entities_json_incorrect_key_of_item() throws Exception {
+        when(losesStatisticHttpClient.getAll())
+            .thenReturn("{\"tanks\":\"5\",\"armouredFightingVehicles\":\"4\",\"cannons\":\"9\",\"multipleRocketLaunchers\":\"5\",\"antiAirDefenseDevices\":\"3\",\"planes\":\"5\",\"helicopters\":\"3\",\"drones\":\"3\",\"cruiseMissiles\":\"3\",\"shipsOrBoats\":\"6\",\"carsAndTankers\":\"3\",\"specialEquipment\":\"1\",\"personnel\":\"1\",\"id\":\"12\"}]");
+        String losesStatisticsJson = losesStatisticHttpClient.getAll();
+
+        assertThatThrownBy(
+            () -> jsonConverter.convertToEntities(losesStatisticsJson)
+        )
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Statistics array must be in square brackets");
     }
 }
