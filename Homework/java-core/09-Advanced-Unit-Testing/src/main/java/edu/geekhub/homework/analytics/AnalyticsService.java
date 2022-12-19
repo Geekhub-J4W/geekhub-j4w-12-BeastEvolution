@@ -11,11 +11,6 @@ import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
  * Service shows interesting analytics information
  */
 public class AnalyticsService {
-
-    public AnalyticsService() {
-        TODO("Implement class");
-    }
-
     public LosesStatistic findStatisticWithMaxLosesAmounts(List<LosesStatistic> losesStatistics) {
         return TODO_TYPE("Implement method");
     }
