@@ -149,6 +149,25 @@ class JsonConverterTest {
             .hasMessage("Input Json element keys don't math statistic items names");
     }
 
+    @Tag("error")
+    @Tag("convertToEntity")
+    @Test
+    void fail_convert_statistic_to_entity_json_incorrect_number_of_items() throws Exception {
+        when(losesStatisticHttpClient.getById(anyInt()))
+            .thenReturn("{\"armouredFightingVehicles\":\"2\",\"cannons\":\"1\",\"multipleRocketLaunchers\":\"1\",\"antiAirDefenseDevices\":\"9\",\"planes\":\"5\",\"helicopters\":\"9\",\"drones\":\"3\",\"cruiseMissiles\":\"5\",\"shipsOrBoats\":\"2\",\"carsAndTankers\":\"6\",\"specialEquipment\":\"3\",\"personnel\":\"3\",\"id\":\"8\"}");
+        String losesStatisticJson = losesStatisticHttpClient.getById(1);
+
+        assertThatThrownBy(
+            () -> jsonConverter.convertToEntity(losesStatisticJson)
+        )
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage(
+                "Statistics must have "
+                + LosesStatistic.numbersOfStatisticItems
+                +  " items"
+            );
+    }
+
     @Tag("Correct work")
     @Tag("convertToEntities")
     @Test
