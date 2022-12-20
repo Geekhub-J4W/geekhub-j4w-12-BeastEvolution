@@ -43,7 +43,11 @@ public class AnalyticsService {
     }
 
     public int totalCountOfLosesForStatistic(LosesStatistic losesStatistic) {
-        return TODO_TYPE("Implement method");
+        return losesStatistic
+            .getStatisticItems()
+            .stream()
+            .mapToInt(StatisticItem::value)
+            .sum();
     }
 
     public int totalCountOfLosesForAllStatistics(List<LosesStatistic> losesStatistics) {
