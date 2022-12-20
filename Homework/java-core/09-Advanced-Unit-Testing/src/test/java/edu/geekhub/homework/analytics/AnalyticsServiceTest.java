@@ -161,4 +161,40 @@ class AnalyticsServiceTest {
             () -> analyticsService.findStatisticWithMinLosesAmounts(null)
         ).isInstanceOf(NullPointerException.class);
     }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("totalCountOfLosesForStatistic")
+    void total_count_of_loses_for_statistic() {
+        LosesStatistic losesStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+        int expectedTotalCount = 105;
+
+        int actualTotalCount = analyticsService.totalCountOfLosesForStatistic(losesStatistic);
+
+        assertThat(actualTotalCount).isEqualTo(expectedTotalCount);
+    }
+
+    @Test
+    @Tag("Null")
+    @Tag("totalCountOfLosesForStatistic")
+    void fail_total_count_of_loses_for_statistic_statistic_is_null() {
+        Assertions.assertThatThrownBy(
+            () -> analyticsService.totalCountOfLosesForStatistic(null)
+        ).isInstanceOf(NullPointerException.class);
+    }
 }
