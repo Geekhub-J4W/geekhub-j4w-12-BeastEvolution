@@ -89,4 +89,76 @@ class AnalyticsServiceTest {
             () -> analyticsService.findStatisticWithMaxLosesAmounts(null)
         ).isInstanceOf(NullPointerException.class);
     }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("findStatisticWithMinLosesAmounts")
+    void find_statistic_with_min_loses_amount() {
+        LosesStatistic minStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        LosesStatistic maxStatistic = new LosesStatistic(
+            100,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        List<LosesStatistic> losesStatistics = List.of(
+            minStatistic,
+            maxStatistic
+        );
+
+
+        LosesStatistic actualStatistic =
+            analyticsService.findStatisticWithMinLosesAmounts(losesStatistics);
+
+
+        assertThat(actualStatistic).isEqualTo(minStatistic);
+    }
+
+    @Test
+    @Tag("Empty")
+    @Tag("findStatisticWithMinLosesAmounts")
+    void fail_find_statistic_with_min_loses_amount_list_is_empty() {
+        List<LosesStatistic> losesStatistics = new ArrayList<>();
+
+        Assertions.assertThatThrownBy(
+                () -> analyticsService.findStatisticWithMinLosesAmounts(losesStatistics)
+            ).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("List of Statistic is empty");
+    }
+
+    @Test
+    @Tag("Null")
+    @Tag("findStatisticWithMinLosesAmounts")
+    void fail_find_statistic_with_min_loses_amount_list_is_null() {
+        Assertions.assertThatThrownBy(
+            () -> analyticsService.findStatisticWithMinLosesAmounts(null)
+        ).isInstanceOf(NullPointerException.class);
+    }
 }
