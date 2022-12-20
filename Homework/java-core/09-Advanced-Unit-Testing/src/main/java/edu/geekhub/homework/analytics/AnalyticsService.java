@@ -35,7 +35,11 @@ public class AnalyticsService {
     }
 
     public LosesStatistic findStatisticWithMinLosesAmounts(List<LosesStatistic> losesStatistics) {
-        return TODO_TYPE("Implement method");
+        return losesStatistics.stream()
+            .min(new LosesStatisticAmountsComparator())
+            .orElseThrow(() -> new IllegalArgumentException(
+                "List of Statistic is empty"
+            ));
     }
 
     public int totalCountOfLosesForStatistic(LosesStatistic losesStatistic) {
