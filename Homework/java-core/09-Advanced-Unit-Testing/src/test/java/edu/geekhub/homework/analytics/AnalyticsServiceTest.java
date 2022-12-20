@@ -80,5 +80,14 @@ class AnalyticsServiceTest {
         ).hasMessage("List of Statistic is empty");
     }
 
+    @Test
+    @Tag("Null")
+    @Tag("findStatisticWithMaxLosesAmounts")
+    void fail_find_statistic_with_max_loses_amount_list_is_null() {
+        List<LosesStatistic> losesStatistics = null;
 
+        Assertions.assertThatThrownBy(
+            () -> analyticsService.findStatisticWithMaxLosesAmounts(losesStatistics)
+        ).isInstanceOf(NullPointerException.class);
+    }
 }
