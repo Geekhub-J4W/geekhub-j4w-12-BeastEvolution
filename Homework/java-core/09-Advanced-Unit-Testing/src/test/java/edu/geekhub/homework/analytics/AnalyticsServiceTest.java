@@ -85,10 +85,8 @@ class AnalyticsServiceTest {
     @Tag("Null")
     @Tag("findStatisticWithMaxLosesAmounts")
     void fail_find_statistic_with_max_loses_amount_list_is_null() {
-        List<LosesStatistic> losesStatistics = null;
-
         Assertions.assertThatThrownBy(
-            () -> analyticsService.findStatisticWithMaxLosesAmounts(losesStatistics)
+            () -> analyticsService.findStatisticWithMaxLosesAmounts(null)
         ).isInstanceOf(NullPointerException.class);
     }
 }
