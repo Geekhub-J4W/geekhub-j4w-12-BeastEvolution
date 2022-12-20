@@ -77,7 +77,8 @@ class AnalyticsServiceTest {
 
         Assertions.assertThatThrownBy(
             () -> analyticsService.findStatisticWithMaxLosesAmounts(losesStatistics)
-        ).hasMessage("List of Statistic is empty");
+        ).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("List of Statistic is empty");
     }
 
     @Test
