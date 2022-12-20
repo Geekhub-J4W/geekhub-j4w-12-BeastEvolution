@@ -1,7 +1,5 @@
 package edu.geekhub.homework.analytics;
 
-import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
-
 import edu.geekhub.homework.domain.LosesStatistic;
 import edu.geekhub.homework.domain.StatisticItem;
 import java.util.Comparator;
@@ -51,7 +49,14 @@ public class AnalyticsService {
     }
 
     public int totalCountOfLosesForAllStatistics(List<LosesStatistic> losesStatistics) {
-        return TODO_TYPE("Implement method");
+        return losesStatistics.stream()
+            .map(LosesStatistic::getStatisticItems)
+            .mapToInt(statisticItem ->
+                 statisticItem.stream()
+                    .mapToInt(StatisticItem::value)
+                    .sum()
+            )
+            .sum();
     }
 
 }
