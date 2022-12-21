@@ -239,7 +239,7 @@ class JsonConverterTest {
     @Tag("Correct work")
     @Tag("convertToJson")
     @Test
-    void convert_statistics_to_json_format() throws Exception {
+    void convert_statistics_to_json_format() {
         LosesStatistic losesStatistic = new LosesStatistic(
             1,
             2,
@@ -266,7 +266,7 @@ class JsonConverterTest {
     @Tag("Null")
     @Tag("convertToJson")
     @Test
-    void fail_convert_statistics_to_json_format_object_is_null() throws Exception {
+    void fail_convert_statistics_to_json_format_object_is_null() {
         assertThatThrownBy(
             () -> jsonConverter.convertToJson(null)
         )
