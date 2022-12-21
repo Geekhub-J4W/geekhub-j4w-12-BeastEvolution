@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -260,8 +259,8 @@ class JsonConverterTest {
 
         String jsonStatistic = jsonConverter.convertToJson(losesStatistic);
 
-        assertThat(jsonStatistic).
-            isEqualTo("{\"tanks\":\"1\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"3\",\"multipleRocketLaunchers\":\"4\",\"antiAirDefenseDevices\":\"5\",\"planes\":\"6\",\"helicopters\":\"7\",\"drones\":\"8\",\"cruiseMissiles\":\"9\",\"shipsOrBoats\":\"10\",\"carsAndTankers\":\"11\",\"specialEquipment\":\"12\",\"personnel\":\"13\",\"id\":\"14\"}");
+        assertThat(jsonStatistic)
+            .isEqualTo("{\"tanks\":\"1\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"3\",\"multipleRocketLaunchers\":\"4\",\"antiAirDefenseDevices\":\"5\",\"planes\":\"6\",\"helicopters\":\"7\",\"drones\":\"8\",\"cruiseMissiles\":\"9\",\"shipsOrBoats\":\"10\",\"carsAndTankers\":\"11\",\"specialEquipment\":\"12\",\"personnel\":\"13\"}");
     }
 
     @Tag("Null")
