@@ -182,7 +182,7 @@ class AnalyticsServiceTest {
             13,
             14
         );
-        int expectedTotalCount = 105;
+        int expectedTotalCount = 91;
 
         int actualTotalCount = analyticsService.totalCountOfLosesForStatistic(losesStatistic);
 
@@ -237,7 +237,7 @@ class AnalyticsServiceTest {
             )
         );
 
-        int expectedTotalCount = 406;
+        int expectedTotalCount = 364;
 
 
         int actualTotalCount = analyticsService.totalCountOfLosesForAllStatistics(losesStatistics);
