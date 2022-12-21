@@ -1,7 +1,6 @@
 package edu.geekhub.homework.domain;
 
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
-
 import java.util.*;
 
 /**
@@ -91,7 +90,6 @@ public record LosesStatistic(int tanks,
         items.add(new StatisticItem("carsAndTankers", carsAndTankers));
         items.add(new StatisticItem("specialEquipment", specialEquipment));
         items.add(new StatisticItem("personnel", personnel));
-        items.add(new StatisticItem("id", id));
 
         return items;
     }
