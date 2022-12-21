@@ -116,7 +116,6 @@ class LosesStatisticTest {
         expectedStatisticItems.add(new StatisticItem("carsAndTankers", 11));
         expectedStatisticItems.add(new StatisticItem("specialEquipment", 12));
         expectedStatisticItems.add(new StatisticItem("personnel", 13));
-        expectedStatisticItems.add(new StatisticItem("id", 14));
 
 
         List<StatisticItem> actualStatisticItems = losesStatistic.getStatisticItems();
