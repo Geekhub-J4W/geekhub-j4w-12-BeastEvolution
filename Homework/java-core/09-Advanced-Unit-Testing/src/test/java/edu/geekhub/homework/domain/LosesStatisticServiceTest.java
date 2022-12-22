@@ -53,5 +53,47 @@ class LosesStatisticServiceTest {
             .hasMessage("JsonConverter is null");
     }
 
+    @Test
+    @Tag("Correct work")
+    @Tag("getAll")
+    void get_all_statistics() throws IOException, InterruptedException {
+        when(losesStatisticHttpClient.getAll())
+            .thenReturn("[{\"tanks\":\"1\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"3\",\"multipleRocketLaunchers\":\"4\",\"antiAirDefenseDevices\":\"5\",\"planes\":\"6\",\"helicopters\":\"7\",\"drones\":\"8\",\"cruiseMissiles\":\"9\",\"shipsOrBoats\":\"10\",\"carsAndTankers\":\"11\",\"specialEquipment\":\"12\",\"personnel\":\"13\",\"id\":\"14\"}]");
+
+        List<LosesStatistic> expectedStatistics = List.of(
+            new LosesStatistic(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14)
+        );
+
+
+        List<LosesStatistic> actualStatistics =  losesStatisticService.getAll();
+
+        assertThat(actualStatistics).isEqualTo(expectedStatistics);
+    }
+
+    @Test
+    @Tag("Error")
+    @Tag("getAll")
+    void fail_get_all_statistics_server_error() throws IOException, InterruptedException {
+        when(losesStatisticHttpClient.getAll())
+            .thenThrow(IOException.class);
+
+        assertThatThrownBy(() -> losesStatisticService.getAll())
+            .isInstanceOf(ServerRequestException.class)
+            .hasMessage("Can't get data form server");
+    }
 
 }
