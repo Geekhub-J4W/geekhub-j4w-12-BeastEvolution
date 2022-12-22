@@ -149,7 +149,7 @@ class LosesStatisticServiceTest {
 
         assertThatThrownBy(() -> losesStatisticService.getById(1))
             .isInstanceOf(ServerRequestException.class)
-            .hasMessage("Can't get data form server");
+            .hasMessage("Can't get statistic. Failed to send request to server");
     }
 
     @Test
