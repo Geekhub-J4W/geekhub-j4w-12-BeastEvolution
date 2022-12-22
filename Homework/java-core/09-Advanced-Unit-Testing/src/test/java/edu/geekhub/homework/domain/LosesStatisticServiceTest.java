@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -92,6 +93,60 @@ class LosesStatisticServiceTest {
             .thenThrow(IOException.class);
 
         assertThatThrownBy(() -> losesStatisticService.getAll())
+            .isInstanceOf(ServerRequestException.class)
+            .hasMessage("Can't get data form server");
+    }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("getAll")
+    void get_statistics_by_id() throws IOException, InterruptedException {
+        when(losesStatisticHttpClient.getById(14))
+            .thenReturn("{\"tanks\":\"1\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"3\",\"multipleRocketLaunchers\":\"4\",\"antiAirDefenseDevices\":\"5\",\"planes\":\"6\",\"helicopters\":\"7\",\"drones\":\"8\",\"cruiseMissiles\":\"9\",\"shipsOrBoats\":\"10\",\"carsAndTankers\":\"11\",\"specialEquipment\":\"12\",\"personnel\":\"13\",\"id\":\"14\"}");
+
+        LosesStatistic expectedStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+
+        LosesStatistic actualStatistic =  losesStatisticService.getById(14);
+
+
+        assertThat(actualStatistic).isEqualTo(expectedStatistic);
+    }
+    @Test
+    @Tag("Error")
+    @Tag("getById")
+    void fail_get_statistics_by_id_incorrect_id() throws IOException, InterruptedException {
+        when(losesStatisticHttpClient.getById(1))
+            .thenReturn("Something went wrong while parsing response JSON");
+
+        assertThatThrownBy(() -> losesStatisticService.getById(1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("No loses statistic with this ID");
+    }
+
+    @Test
+    @Tag("Error")
+    @Tag("getById")
+    void fail_get_statistics_by_id_server_error() throws IOException, InterruptedException {
+        when(losesStatisticHttpClient.getById(anyInt()))
+            .thenThrow(IOException.class);
+
+        assertThatThrownBy(() -> losesStatisticService.getById(1))
             .isInstanceOf(ServerRequestException.class)
             .hasMessage("Can't get data form server");
     }
