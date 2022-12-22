@@ -151,4 +151,23 @@ class LosesStatisticServiceTest {
             .hasMessage("Can't get data form server");
     }
 
+    @Test
+    @Tag("Correct work")
+    @Tag("deleteAll")
+    void delete_all_statistics() throws IOException, InterruptedException {
+        losesStatisticService.deleteAll();
+        verify(losesStatisticHttpClient).deleteAll();
+    }
+
+    @Test
+    @Tag("Error")
+    @Tag("deleteAll")
+    void fail_delete_all_statistics_server_error() throws IOException, InterruptedException {
+        when(losesStatisticHttpClient.deleteAll())
+            .thenThrow(IOException.class);
+
+        assertThatThrownBy(() ->losesStatisticService.deleteAll())
+            .isInstanceOf(ServerRequestException.class)
+            .hasMessage("Can't delete all statistics. Failed to send request to server");
+    }
 }
