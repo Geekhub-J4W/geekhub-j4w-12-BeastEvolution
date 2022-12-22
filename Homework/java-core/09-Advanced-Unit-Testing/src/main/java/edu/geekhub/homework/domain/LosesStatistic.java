@@ -22,23 +22,22 @@ public record LosesStatistic(int tanks,
                              int personnel,
                              int id
                              ) {
-    public static final Set<String> statisticItemsNames = new HashSet<String>() {
-        {
-            add("tanks");
-            add("armouredFightingVehicles");
-            add("cannons");
-            add("multipleRocketLaunchers");
-            add("antiAirDefenseDevices");
-            add("planes");
-            add("helicopters");
-            add("drones");
-            add("cruiseMissiles");
-            add("shipsOrBoats");
-            add("carsAndTankers");
-            add("specialEquipment");
-            add("personnel");
-            add("id");
-        }};
+    public static final Set<String> statisticItemsNames = Set.of(
+        "tanks",
+        "armouredFightingVehicles",
+        "cannons",
+        "multipleRocketLaunchers",
+        "antiAirDefenseDevices",
+        "planes",
+        "helicopters",
+        "drones",
+        "cruiseMissiles",
+        "shipsOrBoats",
+        "carsAndTankers",
+        "specialEquipment",
+        "personnel",
+        "id"
+    );
 
     public static final int numbersOfStatisticItems = statisticItemsNames.size();
     private static final String errorMassage = "Loses can't be negative";
