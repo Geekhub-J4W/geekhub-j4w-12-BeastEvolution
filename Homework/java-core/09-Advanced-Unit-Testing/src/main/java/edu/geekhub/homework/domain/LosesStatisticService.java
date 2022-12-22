@@ -36,7 +36,11 @@ public class LosesStatisticService {
     }
 
     public List<LosesStatistic> getAll() {
-        return TODO_TYPE("Implement method");
+        try {
+            return jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
+        } catch (IOException | InterruptedException e) {
+            throw new ServerRequestException("Can't get data form server");
+        }
     }
 
     public LosesStatistic getById(Integer id) {
