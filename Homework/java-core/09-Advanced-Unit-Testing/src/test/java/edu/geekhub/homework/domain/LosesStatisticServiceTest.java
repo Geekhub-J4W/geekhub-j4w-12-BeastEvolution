@@ -99,7 +99,7 @@ class LosesStatisticServiceTest {
 
     @Test
     @Tag("Correct work")
-    @Tag("getAll")
+    @Tag("getById")
     void get_statistics_by_id() throws IOException, InterruptedException {
         when(losesStatisticHttpClient.getById(14))
             .thenReturn("{\"tanks\":\"1\",\"armouredFightingVehicles\":\"2\",\"cannons\":\"3\",\"multipleRocketLaunchers\":\"4\",\"antiAirDefenseDevices\":\"5\",\"planes\":\"6\",\"helicopters\":\"7\",\"drones\":\"8\",\"cruiseMissiles\":\"9\",\"shipsOrBoats\":\"10\",\"carsAndTankers\":\"11\",\"specialEquipment\":\"12\",\"personnel\":\"13\",\"id\":\"14\"}");
