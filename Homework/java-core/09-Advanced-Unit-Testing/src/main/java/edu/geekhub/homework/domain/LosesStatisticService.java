@@ -1,6 +1,12 @@
 package edu.geekhub.homework.domain;
 
+import edu.geekhub.homework.client.JsonConverter;
+import edu.geekhub.homework.client.LosesStatisticHttpClient;
+import edu.geekhub.homework.domain.exceptions.ServerRequestException;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static edu.geekhub.homework.util.NotImplementedException.TODO;
 import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
@@ -14,8 +20,19 @@ import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
  */
 public class LosesStatisticService {
 
-    public LosesStatisticService() {
-        TODO("Implement service");
+    private final LosesStatisticHttpClient losesStatisticHttpClient;
+    private final JsonConverter jsonConverter;
+
+    public LosesStatisticService(LosesStatisticHttpClient losesStatisticHttpClient, JsonConverter jsonConverter) {
+        if(Objects.isNull(losesStatisticHttpClient)) {
+            throw new IllegalArgumentException("LosesStatisticHttpClient is null");
+        }
+
+        if(Objects.isNull(jsonConverter)) {
+            throw new IllegalArgumentException("JsonConverter is null");
+        }
+        this.losesStatisticHttpClient = losesStatisticHttpClient;
+        this.jsonConverter = jsonConverter;
     }
 
     public List<LosesStatistic> getAll() {
