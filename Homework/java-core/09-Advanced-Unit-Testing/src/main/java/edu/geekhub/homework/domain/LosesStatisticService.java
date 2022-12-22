@@ -7,10 +7,6 @@ import edu.geekhub.homework.domain.exceptions.ServerRequestException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-
-import static edu.geekhub.homework.util.NotImplementedException.TODO;
-import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
-
 /**
  * Service should fetch loses statistic data as a {@link String} object, then convert it into a
  * {@link LosesStatistic} by using {@link } class and return a result if possible.
