@@ -164,8 +164,9 @@ class LosesStatisticServiceTest {
     @Tag("Error")
     @Tag("deleteAll")
     void fail_delete_all_statistics_server_error() throws IOException, InterruptedException {
-        when(losesStatisticHttpClient.deleteAll())
-            .thenThrow(IOException.class);
+        doThrow(IOException.class)
+            .when(losesStatisticHttpClient)
+            .deleteAll();
 
         assertThatThrownBy(() ->losesStatisticService.deleteAll())
             .isInstanceOf(ServerRequestException.class)
