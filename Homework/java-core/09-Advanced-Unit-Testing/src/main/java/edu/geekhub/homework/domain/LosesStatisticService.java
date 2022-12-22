@@ -78,6 +78,13 @@ public class LosesStatisticService {
     }
 
     public void create(LosesStatistic losesStatistic) {
-        TODO("Implement method");
+        try {
+            losesStatisticHttpClient
+                .create(jsonConverter.convertToJson(losesStatistic));
+        } catch (IOException | InterruptedException e) {
+            throw new ServerRequestException(
+                "Can't create statistic. Failed to send request to server"
+            );
+        }
     }
 }
