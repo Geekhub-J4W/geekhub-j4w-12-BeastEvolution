@@ -194,4 +194,62 @@ class LosesStatisticServiceTest {
             .isInstanceOf(ServerRequestException.class)
             .hasMessage("Can't delete statistic. Failed to send request to server");
     }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("create")
+    void create_json_statistic() throws IOException, InterruptedException {
+        LosesStatistic losesStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        losesStatisticService.create(losesStatistic);
+
+        verify(losesStatisticHttpClient)
+            .create(anyString());
+        verify(jsonConverter).convertToJson(losesStatistic);
+    }
+
+    @Test
+    @Tag("Error")
+    @Tag("deleteById")
+    void fail_create_json_statistic_server_error() throws IOException, InterruptedException {
+        LosesStatistic losesStatistic = new LosesStatistic(
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        );
+
+        doThrow(IOException.class)
+            .when(losesStatisticHttpClient)
+            .create(anyString());
+
+        assertThatThrownBy(() ->losesStatisticService.create(losesStatistic))
+            .isInstanceOf(ServerRequestException.class)
+            .hasMessage("Can't create statistic. Failed to send request to server");
+    }
 }
