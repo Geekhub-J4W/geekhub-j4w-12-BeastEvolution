@@ -60,7 +60,11 @@ public class LosesStatisticService {
     }
 
     public void deleteAll() {
-        TODO("Implement method");
+        try {
+            losesStatisticHttpClient.deleteAll();
+        } catch (IOException | InterruptedException e) {
+            throw new ServerRequestException("Can't delete all statistics. Failed to send request to server");
+        }
     }
 
     public void deleteById(int id) {
