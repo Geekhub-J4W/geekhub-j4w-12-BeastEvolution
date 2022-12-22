@@ -170,4 +170,27 @@ class LosesStatisticServiceTest {
             .isInstanceOf(ServerRequestException.class)
             .hasMessage("Can't delete all statistics. Failed to send request to server");
     }
+
+    @Test
+    @Tag("Correct work")
+    @Tag("deleteById")
+    void delete_statistic_by_id() throws IOException, InterruptedException {
+        losesStatisticService.deleteById(1);
+
+        verify(losesStatisticHttpClient)
+            .deleteById(1);
+    }
+
+    @Test
+    @Tag("Error")
+    @Tag("deleteById")
+    void fail_delete_statistic_by_id_server_error() throws IOException, InterruptedException {
+        doThrow(IOException.class)
+            .when(losesStatisticHttpClient)
+            .deleteById(anyInt());
+
+        assertThatThrownBy(() ->losesStatisticService.deleteById(1))
+            .isInstanceOf(ServerRequestException.class)
+            .hasMessage("Can't delete statistic. Failed to send request to server");
+    }
 }
