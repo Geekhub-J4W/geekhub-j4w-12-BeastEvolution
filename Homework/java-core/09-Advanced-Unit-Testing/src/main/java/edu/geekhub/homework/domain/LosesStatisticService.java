@@ -55,7 +55,9 @@ public class LosesStatisticService {
             return jsonConverter
                 .convertToEntity(jsonLosesStatistic);
         } catch (IOException | InterruptedException e) {
-            throw new ServerRequestException("Can't get data form server");
+            throw new ServerRequestException(
+                "Can't get statistic. Failed to send request to server"
+            );
         }
     }
 
