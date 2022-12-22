@@ -20,6 +20,7 @@ import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
  */
 public class LosesStatisticService {
 
+    public static final String SERVER_RESPONSE_IF_ID_ILLEGAL = "Something went wrong while parsing response JSON";
     private final LosesStatisticHttpClient losesStatisticHttpClient;
     private final JsonConverter jsonConverter;
 
@@ -44,7 +45,18 @@ public class LosesStatisticService {
     }
 
     public LosesStatistic getById(Integer id) {
-        return TODO_TYPE("Implement method");
+        try {
+            String jsonLosesStatistic = losesStatisticHttpClient.getById(id);
+
+            if(jsonLosesStatistic.equals(SERVER_RESPONSE_IF_ID_ILLEGAL)) {
+                throw new IllegalArgumentException("No loses statistic with this ID");
+            }
+
+            return jsonConverter
+                .convertToEntity(jsonLosesStatistic);
+        } catch (IOException | InterruptedException e) {
+            throw new ServerRequestException("Can't get data form server");
+        }
     }
 
     public void deleteAll() {
