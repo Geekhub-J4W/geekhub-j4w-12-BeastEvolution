@@ -68,7 +68,13 @@ public class LosesStatisticService {
     }
 
     public void deleteById(int id) {
-        TODO("Implement method");
+        try {
+            losesStatisticHttpClient.deleteById(id);
+        } catch (IOException | InterruptedException e) {
+            throw new ServerRequestException(
+                "Can't delete statistic. Failed to send request to server"
+            );
+        }
     }
 
     public void create(LosesStatistic losesStatistic) {
