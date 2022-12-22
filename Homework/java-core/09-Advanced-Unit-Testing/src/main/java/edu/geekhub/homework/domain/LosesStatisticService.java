@@ -3,7 +3,6 @@ package edu.geekhub.homework.domain;
 import edu.geekhub.homework.client.JsonConverter;
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
 import edu.geekhub.homework.domain.exceptions.ServerRequestException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -14,18 +13,21 @@ import java.util.Objects;
  * <br/>
  * IMPORTANT: DO NOT CHANGE METHODS SIGNATURE
  */
-public class LosesStatisticService {
 
-    public static final String SERVER_RESPONSE_IF_ID_ILLEGAL = "Something went wrong while parsing response JSON";
+public class LosesStatisticService {
+    public static final String SERVER_RESPONSE_IF_ID_ILLEGAL =
+        "Something went wrong while parsing response JSON";
     private final LosesStatisticHttpClient losesStatisticHttpClient;
     private final JsonConverter jsonConverter;
 
-    public LosesStatisticService(LosesStatisticHttpClient losesStatisticHttpClient, JsonConverter jsonConverter) {
-        if(Objects.isNull(losesStatisticHttpClient)) {
+    public LosesStatisticService(
+        LosesStatisticHttpClient losesStatisticHttpClient,
+        JsonConverter jsonConverter) {
+        if (Objects.isNull(losesStatisticHttpClient)) {
             throw new IllegalArgumentException("LosesStatisticHttpClient is null");
         }
 
-        if(Objects.isNull(jsonConverter)) {
+        if (Objects.isNull(jsonConverter)) {
             throw new IllegalArgumentException("JsonConverter is null");
         }
         this.losesStatisticHttpClient = losesStatisticHttpClient;
@@ -46,7 +48,7 @@ public class LosesStatisticService {
         try {
             String jsonLosesStatistic = losesStatisticHttpClient.getById(id);
 
-            if(jsonLosesStatistic.equals(SERVER_RESPONSE_IF_ID_ILLEGAL)) {
+            if (jsonLosesStatistic.equals(SERVER_RESPONSE_IF_ID_ILLEGAL)) {
                 throw new IllegalArgumentException("No loses statistic with this ID");
             }
 
@@ -63,7 +65,9 @@ public class LosesStatisticService {
         try {
             losesStatisticHttpClient.deleteAll();
         } catch (IOException | InterruptedException e) {
-            throw new ServerRequestException("Can't delete all statistics. Failed to send request to server");
+            throw new ServerRequestException(
+                "Can't delete all statistics. Failed to send request to server"
+            );
         }
     }
 
