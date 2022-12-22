@@ -40,7 +40,9 @@ public class LosesStatisticService {
         try {
             return jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
         } catch (IOException | InterruptedException e) {
-            throw new ServerRequestException("Can't get data form server");
+            throw new ServerRequestException(
+                "Can't get all statistics. Failed to send request to server"
+            );
         }
     }
 
