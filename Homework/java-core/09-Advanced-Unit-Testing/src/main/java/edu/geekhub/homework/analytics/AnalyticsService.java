@@ -18,7 +18,7 @@ public class AnalyticsService {
             ));
     }
 
-    class LosesStatisticAmountsComparator implements Comparator<LosesStatistic> {
+    static class LosesStatisticAmountsComparator implements Comparator<LosesStatistic> {
         @Override
         public int compare(LosesStatistic o1, LosesStatistic o2) {
             int o1LosesAmounts = o1.getStatisticItems().stream()
