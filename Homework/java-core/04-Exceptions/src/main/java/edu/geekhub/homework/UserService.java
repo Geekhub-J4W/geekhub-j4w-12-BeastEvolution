@@ -11,8 +11,13 @@ import edu.geekhub.storage.Repository;
 // Don't move this class
 public class UserService {
 
-    private final Repository repository = new MemoryStorage();
-    private final UserValidator userValidator = new UserValidator(repository);
+    private final Repository repository;
+    private final UserValidator userValidator;
+
+    public UserService(Repository repository) {
+        this.repository = repository;
+        userValidator = new UserValidator(repository);
+    }
 
     public void saveUserToRepository(User user) {
         try {
