@@ -1,4 +1,4 @@
-package org.example.hw.exceptions;
+package edu.geekhub.homework.exceptions;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException(String message) {

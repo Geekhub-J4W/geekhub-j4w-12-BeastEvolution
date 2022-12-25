@@ -1,6 +1,10 @@
-package org.example.hw;
+package edu.geekhub.homework;
 
-import org.example.hw.exceptions.NotFoundException;
+import edu.geekhub.homework.CitiesImp;
+import edu.geekhub.homework.CitiesMock;
+import edu.geekhub.homework.City;
+import edu.geekhub.homework.Exercises;
+import edu.geekhub.homework.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

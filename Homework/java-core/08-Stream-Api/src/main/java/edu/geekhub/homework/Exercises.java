@@ -1,9 +1,9 @@
-package org.example.hw;
+package edu.geekhub.homework;
 
 import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.example.hw.exceptions.NotFoundException;
+import edu.geekhub.homework.exceptions.NotFoundException;
 
 public class Exercises {
     public static final String NO_CITIES_FOUND = "No cities found";
