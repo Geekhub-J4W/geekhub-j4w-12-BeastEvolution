@@ -3,29 +3,40 @@ package edu.geekhub.homework;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.CharBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.Arrays;
+import java.util.List;
+
+import static java.util.stream.Collectors.*;
 
 public class TxtConvertor {
 
-    public static final String TXT_EXTENSION = ".txt";
-    public static final String LINE_ELEMENTS_SEPARATOR = "|";
+    private static final String TXT_EXTENSION = ".txt";
+    private static final String LINE_ELEMENTS_SEPARATOR = " \\| ";
+
+    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CSVConvertor.convert(new File("./src/main/resources/SymbolsForPathNaming.csv"));
 
 
-    public PlaylistElement convertToMusic(File inputFile) throws IOException {
+    public List<PlaylistElement> convertToMusic(File inputFile) {
         String fileText = convertToString(inputFile);
         String[] lines = getLines(fileText);
 
-        return  null;
+        return Arrays.stream(lines)
+            .map(this::convertToPlaylistElement)
+            .toList();
     }
 
-    public String convertToString(File inputFile) throws IOException {
+    public String convertToString(File inputFile) {
         checkInputFile(inputFile);
 
-        return Files.readString(inputFile.toPath());
+        try {
+            return Files.readString(inputFile.toPath());
+        } catch (IOException e) {
+            throw new IllegalArgumentException("File is to large");
+        }
     }
 
     private void checkInputFile(File path) {
@@ -43,8 +54,10 @@ public class TxtConvertor {
         return playlist.split(System.lineSeparator());
     }
 
-    private PlaylistElement convertToPlaylistElement(String line) {
-        return null;
+    public PlaylistElement convertToPlaylistElement(String line) {
+        Path pathToFile = getPathToFile(line);
+        URL fileUrl = getMusicUrl(line);
+        return new PlaylistElement(pathToFile, fileUrl);
     }
 
     private URL getMusicUrl(String line) {
@@ -59,15 +72,19 @@ public class TxtConvertor {
         }
     }
 
-    private Path getPathToFile(String line) {
+    public Path getPathToFile(String line) {
         String[] lineElements = line.split(LINE_ELEMENTS_SEPARATOR);
+        String[] pathElements = getPathElements(lineElements);
+
+        validatePath(pathElements);
+        makeFileNameCorrect(pathElements);
+
+        return Paths.get(joinPath(pathElements));
+    }
+
+    private String[] getPathElements(String[] lineElements) {
         int urlIndex = lineElements.length - 1;
-        String[] path = Arrays.copyOf(lineElements, urlIndex);
-        int songNameIndex = path.length - 1;
-        String fileName = path[songNameIndex] + ".mp3";
-
-
-        return null;
+        return Arrays.copyOf(lineElements, urlIndex);
     }
 
     public void validatePath(String[] path) {
@@ -82,17 +99,31 @@ public class TxtConvertor {
     }
 
     private void validateCharacter(int character) {
-        boolean isNotFigure = !(character >= 30 && character <= 39);
-        boolean isNotEnglishLetter = !(
-            (character >= 65 && character <= 90)
-                || (character >= 97 && character <= 122));
-        boolean isNotUkrainianLetter = !(character >= 1040 && character <= 1103);
-        boolean isNotSpace = !(character == 32);
-
-        if(isNotEnglishLetter
-        && isNotUkrainianLetter
-        && isNotSpace) {
+        if(isInvalidChar(character)) {
             throw new IllegalArgumentException("Incorrect directory name");
         }
+    }
+
+    private boolean isInvalidChar(int inputCharacter) {
+        for (int allowedCharacter : ALLOWED_PATH_NAME_SYMBOLS) {
+            if(inputCharacter == allowedCharacter) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private String[] makeFileNameCorrect(String[] path) {
+        int songNameIndex = path.length - 1;
+        String fileName = path[songNameIndex] + ".mp3";
+        path[songNameIndex] = fileName;
+
+        return path;
+    }
+
+    private String joinPath(String[] pathElements) {
+        return Arrays.stream(pathElements)
+            .collect(joining(FileSystems.getDefault().getSeparator()));
     }
 }
