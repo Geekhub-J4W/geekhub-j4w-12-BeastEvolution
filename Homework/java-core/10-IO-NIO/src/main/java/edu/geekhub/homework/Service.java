@@ -10,7 +10,7 @@ import java.util.List;
 public class Service {
     private  static final Path HOME_PATH = Paths.get(System.getProperty("user.home"));
     private  static final Path FOLDER_TO_SAVE_PLAYLIST = HOME_PATH.resolve("Music Library");
-    private static final File PLAYLIST_FILE = new File("./src/main/resources/playlist.txt");
+    private static final File PLAYLIST_FILE = new File("./Homework/java-core/10-IO-NIO/src/main/resources/playlist.txt");
     private static final int FILE_MAX_SIZE = 1_048_576 * 10;
     private final TxtConvertor txtConvertor;
 

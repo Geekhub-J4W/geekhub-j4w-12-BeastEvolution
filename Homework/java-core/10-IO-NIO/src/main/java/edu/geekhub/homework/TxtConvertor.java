@@ -17,7 +17,7 @@ public class TxtConvertor {
     private static final String TXT_EXTENSION = ".txt";
     private static final String LINE_ELEMENTS_SEPARATOR = " \\| ";
 
-    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CSVConvertor.convert(new File("./src/main/resources/SymbolsForPathNaming.csv"));
+    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CSVConvertor.convert(new File("./Homework/java-core/10-IO-NIO/src/main/resources/SymbolsForPathNaming.csv"));
 
 
     public List<PlaylistElement> convertToMusic(File inputFile) {
