@@ -1,4 +1,9 @@
-package edu.geekhub.homework;
+package edu.geekhub.homework.playlist;
+
+import edu.geekhub.homework.log.LogRecord;
+import edu.geekhub.homework.playlist.exceptions.SaveException;
+import edu.geekhub.homework.log.LogType;
+import edu.geekhub.homework.log.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -7,19 +12,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Service {
+public class PlaylistService {
     private  static final Path HOME_PATH = Paths.get(System.getProperty("user.home"));
     private  static final Path FOLDER_TO_SAVE_PLAYLIST = HOME_PATH.resolve("Music Library");
-    private static final File PLAYLIST_FILE = new File("./Homework/java-core/10-IO-NIO/src/main/resources/playlist.txt");
+    private static final File PLAYLIST_FILE = new File(PlaylistService.class.getResource("/playlist.txt").getPath());
     private static final int FILE_MAX_SIZE = 1_048_576 * 10;
-    private final TxtConvertor txtConvertor;
+    private static final Logger logger = new Logger();
+    private final PlaylistConvertor playlistConvertor;
 
-    public Service(TxtConvertor txtConvertor) {
-        this.txtConvertor = txtConvertor;
+    public PlaylistService(PlaylistConvertor playlistConvertor) {
+        this.playlistConvertor = playlistConvertor;
     }
 
     public void saveSongsOnDrive() {
-        List<PlaylistElement> playlistElements = txtConvertor.convertToMusic(PLAYLIST_FILE);
+        List<PlaylistElement> playlistElements = playlistConvertor.convertToMusic(PLAYLIST_FILE);
 
         playlistElements.stream()
             .forEach(this::saveSong);
@@ -28,14 +34,21 @@ public class Service {
     private void saveSong(PlaylistElement playlistElement) {
         Path savingPath = FOLDER_TO_SAVE_PLAYLIST.resolve(playlistElement.pathToFile());
         URL songLink = playlistElement.fileUrl();
-        createSavingPath(savingPath);
 
         byte[] songData;
         try {
             songData = downloadFromServer(songLink);
+            createSavingPath(savingPath);
             saveOnDrive(songData, savingPath);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (SaveException e) {
+            logger.log(
+                new LogRecord(
+                    LogType.ERROR,
+                    "Failed to save " + playlistElement.name() + " file."
+                        + System.lineSeparator()
+                        + e.getMessage(),
+                    e
+                ));
         }
     }
 
@@ -59,7 +72,7 @@ public class Service {
             while ((bytesRead = stream.read(chunk)) > 0) {
                 bytesReadInSum += bytesRead;
                 if (bytesReadInSum > FILE_MAX_SIZE) {
-                        throw new IllegalArgumentException("MP3 file can't be bigger then 10MB");
+                        throw new SaveException("MP3 file can't be bigger then 10MB");
                     }
                 outputStream.write(chunk, 0, bytesRead);
             }
