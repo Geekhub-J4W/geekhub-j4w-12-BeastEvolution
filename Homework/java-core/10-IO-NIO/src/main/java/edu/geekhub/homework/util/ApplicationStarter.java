@@ -11,12 +11,11 @@ public class ApplicationStarter {
         Logger logger = new Logger();
         logger.getLogs().stream().forEach(System.out::println);
 
-//        ClassLoader cl = ApplicationStarter.class.getClassLoader();
-//        System.out.println(cl.getResource("./"));
-//        System.out.println(ApplicationStarter.class.getResource("/"));
-
-//        String path = String.format("%s/%s", System.getProperty("user.dir"), ApplicationStarter.class.getPackage().getName().replace(".", "/"));
-//        System.out.println(path);
-//        System.out.println(System.getProperty("user.dir"));
+//        System.out.println("1. ");
+//        Scanner scanner = new Scanner(System.in);
+//        int userResponse = scanner.nextInt();
+//        switch (userResponse) {
+//
+//        }
     }
 }

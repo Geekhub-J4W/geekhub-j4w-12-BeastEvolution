@@ -7,7 +7,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public record LogRecord (LogType type, LocalDateTime creationTime, String massage) implements Serializable {
+public record LogRecord(
+    LogType type,
+    LocalDateTime creationTime,
+    String massage
+) implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

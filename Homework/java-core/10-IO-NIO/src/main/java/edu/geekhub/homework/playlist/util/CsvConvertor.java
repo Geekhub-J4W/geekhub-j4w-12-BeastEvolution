@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class CSVConvertor {
+public class CsvConvertor {
 
-    private CSVConvertor() {
+    private static final int CHARACTER_LENGTH = 1;
+
+    private CsvConvertor() {
     }
 
     private static final String SCV = ".csv";
@@ -52,7 +54,7 @@ public class CSVConvertor {
     private static void checkValues(String[] values) {
         Arrays.stream(values)
             .forEach(value -> {
-                if(value.length() != 1) {
+                if (value.length() != CHARACTER_LENGTH) {
                     throw new IllegalArgumentException("All value must be a char");
                 }
             });

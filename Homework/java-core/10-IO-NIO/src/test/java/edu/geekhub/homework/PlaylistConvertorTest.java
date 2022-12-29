@@ -36,7 +36,7 @@ class PlaylistConvertorTest {
 //        String[] paths = path.split("\\|");
 //        System.out.println(paths[0]);
 //        Arrays.stream(paths).forEach(System.out::println);
-        System.out.println(playlistConvertor.getPathToFile(path));
+//        System.out.println(playlistConvertor.getPathToFile(path));
         System.out.println();
     }
 
@@ -60,7 +60,7 @@ class PlaylistConvertorTest {
 //        System.out.println(paths[0]);
 //        Arrays.stream(paths).forEach(System.out::println);
         File path = new File("./src/main/resources/playlist.txt");
-        System.out.println(playlistConvertor.convertToMusic(path));
+        System.out.println(playlistConvertor.convertToPlaylist(path));
         System.out.println();
     }
 

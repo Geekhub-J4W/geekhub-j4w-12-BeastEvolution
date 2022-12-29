@@ -1,12 +1,13 @@
 package edu.geekhub.homework.playlist;
 
+import static java.util.stream.Collectors.*;
+
 import edu.geekhub.homework.log.LogRecord;
 import edu.geekhub.homework.log.LogType;
 import edu.geekhub.homework.log.Logger;
-import edu.geekhub.homework.playlist.util.CSVConvertor;
-
+import edu.geekhub.homework.playlist.util.CsvConvertor;
+import edu.geekhub.homework.playlist.util.TxtConvertor;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -14,24 +15,24 @@ import java.nio.CharBuffer;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.*;
-
 public class PlaylistConvertor {
-
-    private static final String TXT_EXTENSION = ".txt";
     private static final String LINE_ELEMENTS_SEPARATOR = " \\| ";
 
-    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CSVConvertor.convert(
-        new File(PlaylistConvertor.class.getResource("/SymbolsForPathNaming.csv").getPath())
+    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CsvConvertor.convert(
+        new File(Objects.requireNonNull(
+            PlaylistConvertor.class.getResource("/SymbolsForPathNaming.csv"))
+            .getPath()
+        )
     );
 
     private static final Logger logger = new Logger();
 
 
-    public List<PlaylistElement> convertToMusic(File inputFile) {
-        String fileContent = convertToString(inputFile).get();
+    public List<PlaylistElement> convertToPlaylist(File inputFile) {
+        String fileContent = TxtConvertor.convertToString(inputFile);
         String[] elements = getElement(fileContent);
 
         return Arrays.stream(elements)
@@ -41,52 +42,11 @@ public class PlaylistConvertor {
             .toList();
     }
 
-    public Optional<String> convertToString(File inputFile) {
-        try {
-            checkInputFile(inputFile);
-
-            return Optional.of(Files.readString(inputFile.toPath()));
-        } catch (IOException e) {
-            logger.log(
-                new LogRecord(
-                    LogType.ERROR,
-                    "Failed to read \"playlist.txt\" file data",
-                    e
-                ));
-
-            System.exit(1);
-        }
-
-        return Optional.empty();
-    }
-
-    private void checkInputFile(File path) {
-        boolean isNotFile = !(path.isFile());
-        if (isNotFile) {
-            logger.log(
-                new LogRecord(
-                    LogType.ERROR,
-                    "There is no file for this path \""
-                        + path.toString() + "\"",
-                    Thread.currentThread().getStackTrace()
-                ));
-        }
-        boolean isNotTxtFile = !(path.getName().endsWith(TXT_EXTENSION));
-        if (isNotTxtFile) {
-            logger.log(
-                new LogRecord(
-                    LogType.ERROR,
-                    "File for this \"" + path.toString() + "\" path not a \".txt\" format",
-                    Thread.currentThread().getStackTrace()
-                ));
-        }
-    }
-
     private String[] getElement(String playlist) {
         return playlist.split(System.lineSeparator());
     }
 
-    public Optional<PlaylistElement> convertToPlaylistElement(String line) {
+    private Optional<PlaylistElement> convertToPlaylistElement(String line) {
         try {
             Path pathToFile = getPathToFile(line);
             URL fileUrl = getMusicUrl(line);
@@ -107,12 +67,12 @@ public class PlaylistConvertor {
         }
     }
 
-    public Path getPathToFile(String line) {
+    private Path getPathToFile(String line) {
         String[] lineElements = line.split(LINE_ELEMENTS_SEPARATOR);
         String[] pathElements = getPathElements(lineElements);
 
         validatePath(pathElements);
-        makeFileNameCorrect(pathElements);
+        pathElements = makeFileNameCorrect(pathElements);
 
         return Paths.get(joinPath(pathElements));
     }
@@ -134,14 +94,14 @@ public class PlaylistConvertor {
     }
 
     private void validateCharacter(int character) {
-        if(isInvalidChar(character)) {
+        if (isInvalidChar(character)) {
             throw new IllegalArgumentException("Incorrect path node name");
         }
     }
 
     private boolean isInvalidChar(int inputCharacter) {
         for (int allowedCharacter : ALLOWED_PATH_NAME_SYMBOLS) {
-            if(inputCharacter == allowedCharacter) {
+            if (inputCharacter == allowedCharacter) {
                 return false;
             }
         }
@@ -150,11 +110,12 @@ public class PlaylistConvertor {
     }
 
     private String[] makeFileNameCorrect(String[] path) {
+        String[] correctPath = path.clone();
         int songNameIndex = path.length - 1;
         String fileName = path[songNameIndex] + ".mp3";
-        path[songNameIndex] = fileName;
+        correctPath[songNameIndex] = fileName;
 
-        return path;
+        return correctPath;
     }
 
     private String joinPath(String[] pathElements) {
@@ -167,22 +128,27 @@ public class PlaylistConvertor {
             .reduce((a, b) -> b)
             .orElseThrow(() -> new IllegalArgumentException("String is null"));
 
-        validateURL(url);
+        validateUrl(url);
 
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Playlist element contain incorrect link on mp3 file");
+            throw new IllegalArgumentException(
+                "Playlist element contain incorrect link on mp3 file"
+            );
         }
     }
 
-    private void validateURL(String url) {
+    private void validateUrl(String url) {
         try {
             new URL(url).toURI();
         } catch (MalformedURLException | URISyntaxException e) {
-            throw new IllegalArgumentException("Playlist element contain incorrect link on mp3 file");
+            throw new IllegalArgumentException(
+                "Playlist element contain incorrect link on mp3 file"
+            );
         }
     }
+
     private String getFileName(Path pathToFile) {
         return pathToFile.getFileName().toString();
     }

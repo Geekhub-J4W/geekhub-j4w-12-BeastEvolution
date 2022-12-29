@@ -1,6 +1,6 @@
 package edu.geekhub.homework;
 
-import edu.geekhub.homework.playlist.util.CSVConvertor;
+import edu.geekhub.homework.playlist.util.CsvConvertor;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -12,7 +12,7 @@ class CsvConvertorTest {
     void test() {
         File file = new File("./src/main/resources/SymbolsForPathNaming.csv");
         System.out.println(file.getAbsolutePath());
-        int[] values = CSVConvertor.convert(file);
+        int[] values = CsvConvertor.convert(file);
         Arrays.stream(values)
             .forEach(System.out::println);
     }
