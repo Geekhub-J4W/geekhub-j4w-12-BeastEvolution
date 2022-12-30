@@ -24,7 +24,7 @@ public class LogsAnalyticService {
             .toList();
     }
 
-    public List<LogRecord> filterLogRecords(
+    public List<LogRecord> sortedLogRecords(
         List<LogRecord> logRecords,
         Comparator<LogRecord> comparator
     ) {
