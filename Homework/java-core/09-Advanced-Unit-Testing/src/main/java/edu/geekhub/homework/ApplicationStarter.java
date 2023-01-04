@@ -4,6 +4,7 @@ import edu.geekhub.homework.analytics.AnalyticsService;
 import edu.geekhub.homework.client.JsonConverter;
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
 import edu.geekhub.homework.domain.LosesStatisticService;
+
 import java.util.Random;
 
 

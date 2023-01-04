@@ -1,7 +1,10 @@
 package edu.geekhub.homework.domain;
 
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class should contain data received through {@link LosesStatisticHttpClient}

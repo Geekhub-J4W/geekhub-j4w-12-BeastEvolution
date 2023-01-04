@@ -2,6 +2,7 @@ package edu.geekhub.homework.analytics;
 
 import edu.geekhub.homework.domain.LosesStatistic;
 import edu.geekhub.homework.domain.StatisticItem;
+
 import java.util.Comparator;
 import java.util.List;
 

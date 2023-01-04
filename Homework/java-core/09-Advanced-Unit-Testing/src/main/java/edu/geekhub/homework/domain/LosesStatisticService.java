@@ -3,6 +3,7 @@ package edu.geekhub.homework.domain;
 import edu.geekhub.homework.client.JsonConverter;
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
 import edu.geekhub.homework.domain.exceptions.ServerRequestException;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
