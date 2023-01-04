@@ -1,27 +1,29 @@
-package edu.geekhub.homework.playlist.util;
+package edu.geekhub.homework.playlist;
 
 import edu.geekhub.homework.playlist.exceptions.ReadFromFileException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Objects;
 
-public class TxtConvertor {
+class TxtConvertorImp implements TxtConvertor {
     private static final String TXT_EXTENSION = ".txt";
 
-    private TxtConvertor() {
+    public TxtConvertorImp() {
     }
 
-    public static String convertToString(File inputFile) {
-        try {
-            checkInputFile(inputFile);
+    public String convertToString(File inputFile) {
+        Objects.requireNonNull(inputFile, "Can't convert file equal null");
+        checkInputFile(inputFile);
 
+        try {
             return Files.readString(inputFile.toPath());
         } catch (IOException e) {
             throw new ReadFromFileException("Failed to read \"playlist.txt\" file data", e);
         }
     }
 
-    private static void checkInputFile(File path) {
+    private void checkInputFile(File path) {
         boolean isNotFile = !(path.isFile());
         if (isNotFile) {
             throw new IllegalArgumentException(

@@ -1,15 +1,15 @@
-package edu.geekhub.homework.playlist.util;
+package edu.geekhub.homework.playlist;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class CsvConvertor {
+public class CsvConvertorImp {
 
     private static final int CHARACTER_LENGTH = 1;
 
-    private CsvConvertor() {
+    private CsvConvertorImp() {
     }
 
     private static final String SCV = ".csv";

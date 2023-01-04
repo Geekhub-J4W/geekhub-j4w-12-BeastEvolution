@@ -5,8 +5,6 @@ import static java.util.stream.Collectors.*;
 import edu.geekhub.homework.log.LogRecord;
 import edu.geekhub.homework.log.LogType;
 import edu.geekhub.homework.log.Logger;
-import edu.geekhub.homework.playlist.util.CsvConvertor;
-import edu.geekhub.homework.playlist.util.TxtConvertor;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -21,7 +19,7 @@ import java.util.Optional;
 public class PlaylistConvertor {
     private static final String LINE_ELEMENTS_SEPARATOR = " \\| ";
 
-    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CsvConvertor.convert(
+    private static final int[] ALLOWED_PATH_NAME_SYMBOLS = CsvConvertorImp.convert(
         new File(Objects.requireNonNull(
             PlaylistConvertor.class.getResource("/SymbolsForPathNaming.csv"))
             .getPath()
@@ -29,10 +27,10 @@ public class PlaylistConvertor {
     );
 
     private static final Logger logger = new Logger();
-
+    private final TxtConvertor txtConvertor = new TxtConvertorImp();
 
     public List<PlaylistElement> convertToPlaylist(File inputFile) {
-        String fileContent = TxtConvertor.convertToString(inputFile);
+        String fileContent = txtConvertor.convertToString(inputFile);
         String[] elements = getElement(fileContent);
 
         return Arrays.stream(elements)
