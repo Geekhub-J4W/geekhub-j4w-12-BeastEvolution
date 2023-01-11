@@ -4,53 +4,56 @@ import edu.geekhub.homework.log.LogRecord;
 import edu.geekhub.homework.log.LogType;
 import edu.geekhub.homework.log.Logger;
 import edu.geekhub.homework.playlist.exceptions.SaveException;
+import edu.geekhub.homework.playlist.interfaces.PlaylistConvertor;
+import edu.geekhub.homework.playlist.interfaces.PlaylistService;
+import edu.geekhub.homework.playlist.util.txt.TxtConvertorImp;
+
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
-public class PlaylistService {
-    private  static final Path HOME_PATH = Paths.get(System.getProperty("user.home"));
-    private  static final Path FOLDER_TO_SAVE_PLAYLIST = HOME_PATH.resolve("Music Library");
-    private static final File PLAYLIST_FILE = new File(
-        Objects.requireNonNull(
-            PlaylistService.class.getResource("/playlist.txt")
-        ).getPath()
-    );
+public class PlaylistServiceImp implements PlaylistService {
     private static final int FILE_MAX_SIZE = 1_048_576 * 10;
-    private static final Logger logger = new Logger();
-    private final PlaylistConvertor playlistConvertor;
+    private final Path saveFolder;
+    private final File playlistFile;
+    private final Logger logger;
+    private final Clock clock;
+    private final PlaylistConvertor playlistConvertor = new PlaylistConvertorImp(
+        new Logger(),
+        Clock.systemDefaultZone(),
+        new TxtConvertorImp()
+    );
 
-    public PlaylistService(PlaylistConvertor playlistConvertor) {
-        this.playlistConvertor = playlistConvertor;
+    public PlaylistServiceImp(Path saveFolder, File playlistFile, Logger logger, Clock clock) {
+        this.saveFolder = saveFolder;
+        this.playlistFile = playlistFile;
+        this.logger = logger;
+        this.clock = clock;
     }
 
-    public void saveSongsOnDrive() {
-        List<PlaylistElement> playlistElements = playlistConvertor.convertToPlaylist(PLAYLIST_FILE);
+    @Override
+    public List<File> saveSongsOnDrive() {
+        List<PlaylistElement> playlistElements = playlistConvertor.convert(playlistFile);
 
-        playlistElements
-            .forEach(this::saveSong);
+        return playlistElements.stream()
+            .map(this::saveSong)
+            .flatMap(Optional::stream)
+            .toList();
     }
 
-    private void saveSong(PlaylistElement playlistElement) {
-        Path savingPath = FOLDER_TO_SAVE_PLAYLIST.resolve(playlistElement.pathToFile());
-        URL songLink = playlistElement.fileUrl();
-
-        if (savingPath.toFile().exists()) {
-            logger.log(
-                new LogRecord(
-                    LogType.ERROR,
-                    "Don't save \"" + playlistElement.name() + "\" because it already exist"
-                )
-            );
-            return;
-        }
-
-        byte[] songData;
+    private Optional<File> saveSong(PlaylistElement playlistElement) {
+        Path savingPath = saveFolder.resolve(playlistElement.pathToSave());
         try {
+            checkForAbsenceFile(savingPath);
+            URL songLink = playlistElement.linkToSongFile();
+
+            byte[] songData;
+
             songData = downloadFromServer(songLink);
             createSavingPath(savingPath);
             saveOnDrive(songData, savingPath);
@@ -58,20 +61,32 @@ public class PlaylistService {
             logger.log(
                 new LogRecord(
                     LogType.INFO,
+                    LocalDateTime.now(clock),
                     "File \"" + playlistElement.name() + "\" was saved by path: "
-                    + System.lineSeparator()
-                    + savingPath
+                        + System.lineSeparator()
+                        + savingPath
                 )
             );
+
+            return Optional.of(savingPath.toFile());
         } catch (SaveException e) {
             logger.log(
                 new LogRecord(
                     LogType.ERROR,
+                    LocalDateTime.now(clock),
                     "Failed to save " + playlistElement.name() + " file"
                         + System.lineSeparator()
                         + e.getMessage(),
                     e
                 ));
+        }
+
+        return Optional.empty();
+    }
+
+    private void checkForAbsenceFile(Path savingPath) {
+        if (savingPath.toFile().exists()) {
+            throw new SaveException("Because it already exist");
         }
     }
 

@@ -5,13 +5,20 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MenuBuilder {
-    public static final MenuNode menuRoot = new PassthroughMenuNode(
-        "Root",
-        new int[0]
-    );
     private static final int ROOT_LEVEL = 0;
+    private static MenuNode menuRoot;
+
+    private MenuBuilder() {
+    }
 
     public static Menu build(List<MenuNode> menuNodes) {
+        menuRoot = new PassthroughMenuNode(
+            "Root",
+            new int[0]
+        );
+        menuNodes = menuNodes.stream()
+            .map(MenuNode::clone)
+            .toList();
         int currentLevel = ROOT_LEVEL + 1;
 
         while (isLevelExist(currentLevel, menuNodes)) {
@@ -23,11 +30,12 @@ public class MenuBuilder {
     }
 
     private static boolean isLevelExist(int level, List<MenuNode> allNodes) {
-        return allNodes.stream()
+        return !allNodes.stream()
             .filter(node -> isNodeFromLevel(level, node))
             .toList()
-            .size() > 0;
+            .isEmpty();
     }
+
     private static List<MenuNode> getLevelNodesInRightOrder(int level, List<MenuNode> allNodes) {
         return allNodes.stream()
             .filter(node -> isNodeFromLevel(level, node))
@@ -40,12 +48,9 @@ public class MenuBuilder {
     }
 
     private static void buildLevel(List<MenuNode> levelNodes) {
-        levelNodes.stream()
+        levelNodes
             .forEach(MenuBuilder::addNodeToTree);
     }
-//    private static void addBeckNodeToLevel() {
-//
-//    }
 
     private static void addNodeToTree(MenuNode menuNode) {
         MenuNode parentNode = getParentNode(menuNode);
@@ -54,14 +59,14 @@ public class MenuBuilder {
             throw new IllegalArgumentException(
                 "Passed nodes that have a gap between menu items on level " + parentNode.getLevel()
                     + System.lineSeparator()
-                    + "Gap between " + parentNode.getChildren().size()
+                    + "Gap between " + (parentNode.getChildren().size() - 1)
                     + " and " + menuNode.getIndex() + " items"
             );
         } else if (parentNode.getChildren().size() > menuNode.getIndex()) {
             throw new IllegalArgumentException(
                 "Passed nodes that have same index with some item,"
                     + " equals - " + menuNode.getIndex()
-                    + ", on level " + menuNode.getLevel()
+                    + ", on level " + parentNode.getLevel()
             );
         }
 
