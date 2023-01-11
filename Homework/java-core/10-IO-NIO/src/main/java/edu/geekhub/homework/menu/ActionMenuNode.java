@@ -14,4 +14,13 @@ public class ActionMenuNode extends MenuNode {
 
         return this.parent;
     }
+
+    @Override
+    public MenuNode clone() {
+        return new ActionMenuNode(
+            this.name,
+            this.location,
+            this.runnable
+        );
+    }
 }

@@ -9,4 +9,12 @@ public class BackMenuNode extends MenuNode {
     public MenuNode action() {
         return this.getParent().getParent();
     }
+
+    @Override
+    public MenuNode clone() {
+        return new BackMenuNode(
+            this.name,
+            this.location
+        );
+    }
 }

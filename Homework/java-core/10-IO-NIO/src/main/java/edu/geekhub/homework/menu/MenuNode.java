@@ -1,7 +1,9 @@
 package edu.geekhub.homework.menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class MenuNode {
     String name;
@@ -39,9 +41,24 @@ public abstract class MenuNode {
         return location.length;
     }
 
-    protected void setParent(MenuNode parent) {
+    public void setParent(MenuNode parent) {
         this.parent = parent;
     }
 
+    public void setChildren(List<MenuNode> children) {
+        this.children = children;
+    }
+
     public abstract MenuNode action();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuNode menuNode = (MenuNode) o;
+        return Objects.equals(name, menuNode.name) && Objects.equals(children, menuNode.children) && Arrays.equals(location, menuNode.location);
+    }
+
+
+    public abstract MenuNode clone();
 }
