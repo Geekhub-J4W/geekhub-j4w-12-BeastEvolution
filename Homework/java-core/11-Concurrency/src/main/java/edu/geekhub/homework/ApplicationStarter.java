@@ -1,6 +1,10 @@
 package edu.geekhub.homework;
 
-public class ApplicationStarter {
+import edu.geekhub.homework.simulator.RaceSimulatorService;
 
-    // Write code here :)
+public class ApplicationStarter {
+    public static void main(String[] args) throws InterruptedException {
+        RaceSimulatorService service = new RaceSimulatorService();
+        service.run();
+    }
 }
