@@ -7,8 +7,8 @@ import edu.geekhub.homework.transport.interfaces.Vehicle;
 
 import java.util.Optional;
 
-public class Car implements Vehicle, Runnable {
-    private static final int MOVE_DISTANCE = 1;
+public class Scooter implements Vehicle, Runnable {
+    private static final int MOVE_DISTANCE = 2;
     private static int counter = 0;
     private Point location;
     private final TrackMap trackMap;
@@ -16,7 +16,7 @@ public class Car implements Vehicle, Runnable {
     private final Thread thread;
     private VehicleState state;
 
-    public Car(Point location, TrackMap trackMap) {
+    public Scooter(Point location, TrackMap trackMap) {
         this.location = location;
         this.trackMap = trackMap;
         this.index = counter;
@@ -170,7 +170,7 @@ public class Car implements Vehicle, Runnable {
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "Scooter{" +
             "index=" + index +
             '}';
     }

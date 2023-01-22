@@ -10,6 +10,7 @@ import java.util.List;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 public final class RandomTrackGenerator implements TrackGenerator {
+    private static final int MOVE_DISTANCE = 1;
     public static final int INDEX_OF_FIRST_ELEMENT = 0;
     private final int minSize;
     private final int maxSize;
@@ -66,7 +67,7 @@ public final class RandomTrackGenerator implements TrackGenerator {
 
     private TrackBlock generateNext(TrackBlock current) {
         Direction direction = Direction.randomDirection();
-        return current.createRespectToThis(direction.getX(), direction.getY());
+        return current.createRespectToThis(direction.getX(MOVE_DISTANCE), direction.getY(MOVE_DISTANCE));
     }
 
     private List<TrackBlock> generateFinish(List<TrackBlock> generatedRoad) {

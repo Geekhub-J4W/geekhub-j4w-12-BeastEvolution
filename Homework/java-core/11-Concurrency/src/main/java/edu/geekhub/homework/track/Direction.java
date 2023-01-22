@@ -13,12 +13,12 @@ public enum Direction {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
+    public int getX(int ratio) {
+        return x * ratio;
     }
 
-    public int getY() {
-        return y;
+    public int getY(int ratio) {
+        return y * ratio;
     }
 
     public static Direction randomDirection() {

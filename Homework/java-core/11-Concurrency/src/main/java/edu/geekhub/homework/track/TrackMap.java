@@ -37,7 +37,7 @@ public final class TrackMap {
     }
 
     public static TrackMap generate() {
-        TrackGenerator randomTrackGenerator = new RandomTrackGenerator(3, 4);
+        TrackGenerator randomTrackGenerator = new RandomTrackGenerator(3, 20);
         List<TrackBlock> trackBlocks = randomTrackGenerator.generateTrack();
 
         return new TrackMap(

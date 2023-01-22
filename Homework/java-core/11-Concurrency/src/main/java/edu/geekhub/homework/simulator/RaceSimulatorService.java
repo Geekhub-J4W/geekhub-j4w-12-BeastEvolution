@@ -1,6 +1,7 @@
 package edu.geekhub.homework.simulator;
 
 import edu.geekhub.homework.track.TrackMap;
+import edu.geekhub.homework.transport.Delays;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -23,7 +24,7 @@ public class RaceSimulatorService {
         while (true) {
 //            executorService.submit(vehicleGenerator.generateVehicle());
             vehicleGenerator.generateVehicle();
-            Thread.sleep(350);
+            Thread.sleep(Delays.getRandomDelayInMillis(500, 1000));
         }
     }
 
