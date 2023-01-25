@@ -2,48 +2,56 @@ package edu.geekhub.homework.simulator;
 
 import edu.geekhub.homework.geometry.Point;
 import edu.geekhub.homework.track.TrackMap;
+import edu.geekhub.homework.track.controller.Track;
 import edu.geekhub.homework.transport.Car;
-import edu.geekhub.homework.transport.Scooter;
 import edu.geekhub.homework.transport.VehicleType;
+import edu.geekhub.homework.transport.interfaces.Vehicle;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class VehicleGenerator {
-    private TrackMap trackMap;
+    private final TrackMap trackMap;
+    private final Track track;
 
-    public VehicleGenerator(TrackMap trackMap) {
+    public VehicleGenerator(TrackMap trackMap, Track track) {
         this.trackMap = trackMap;
+        this.track = track;
     }
 
-    public void generateVehicle() {
-        synchronized (trackMap) {
-//            Car newCar = new Car(getGenerationLocation(), trackMap);
-//            newCar.envy();
-//            Vehicle newVehicle = new Scooter(getGenerationLocation(), trackMap);
-//            newVehicle.envy();
-//            Vehicle newVehicle = new Truck(getGenerationLocation(), trackMap);
-//            newVehicle.envy();
-            VehicleType vehicleType = VehicleType.randomVehicleType();
-            switch (vehicleType) {
-                case CAR -> new Car(getGenerationLocation(), trackMap).envy();
-                case SCOOTER -> new Scooter(getGenerationLocation(), trackMap).envy();
+    public Vehicle spawnVehicle(VehicleType vehicleType) {
+        Vehicle vehicle;
+        switch (vehicleType) {
+            case CAR -> {
+                Point spawnLocation = getSpawnLocation();
+                vehicle = new Car(spawnLocation, track, vehicleType);
+                track.setVehicleOnMapLocation(vehicle, spawnLocation);
+                return vehicle;
+            }
+            case SCOOTER -> {
+                Point spawnLocation = getSpawnLocation();
+                vehicle = new Car(spawnLocation, track, vehicleType);
+                track.setVehicleOnMapLocation(vehicle, spawnLocation);
+                return vehicle;
+            }
+            case TRUCK -> {
+                Point spawnLocation = getSpawnLocation();
+                vehicle = new Car(spawnLocation, track, vehicleType);
+                track.setVehicleOnMapLocation(vehicle, spawnLocation);
+                return vehicle;
             }
         }
+        throw new RuntimeException("Error vehicle type");
     }
 
-//    private void setToLocation(Car car) {
-//        trackMap.getTrackElements().put(location, car);
-//    }
-
-    private Point getGenerationLocation() {
+    private Point getSpawnLocation() {
         Point generationLocation;
         do {
-            generationLocation = getRandomStartLocation();
-        } while (trackMap.getTrackElements().get(generationLocation).isPresent());
+            generationLocation = getRandomSpawnLocation();
+        } while (!track.getLocationContent(generationLocation).isEmpty());
         return generationLocation;
     }
 
-    private Point getRandomStartLocation() {
+    private Point getRandomSpawnLocation() {
         return trackMap
             .getStartLocation()
             .get(

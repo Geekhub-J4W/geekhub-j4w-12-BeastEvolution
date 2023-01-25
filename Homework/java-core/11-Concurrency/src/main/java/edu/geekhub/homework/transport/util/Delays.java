@@ -1,4 +1,4 @@
-package edu.geekhub.homework.transport;
+package edu.geekhub.homework.transport.util;
 
 import java.util.concurrent.ThreadLocalRandom;
 

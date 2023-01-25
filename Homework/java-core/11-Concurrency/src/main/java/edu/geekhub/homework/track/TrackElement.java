@@ -3,16 +3,17 @@ package edu.geekhub.homework.track;
 import edu.geekhub.homework.geometry.Point;
 import edu.geekhub.homework.transport.interfaces.Vehicle;
 
+import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Set;
 
 public final class TrackElement {
     private final Point location;
-    private Optional<Vehicle> vehicle;
+    private Set<Vehicle> vehicle;
 
     public TrackElement(Point location) {
         this.location = location;
-        vehicle = Optional.empty();
+        vehicle = new HashSet<>();
     }
 
     public int getXCoordinate() {
@@ -27,11 +28,11 @@ public final class TrackElement {
         return location;
     }
 
-    public Optional<Vehicle> getVehicle() {
+    public Set<Vehicle> getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Optional<Vehicle> vehicle) {
+    public void setVehicle(Set<Vehicle> vehicle) {
         this.vehicle = vehicle;
     }
 

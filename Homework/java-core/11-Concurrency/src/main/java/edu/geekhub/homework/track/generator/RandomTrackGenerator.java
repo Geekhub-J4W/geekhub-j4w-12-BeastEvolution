@@ -1,8 +1,8 @@
 package edu.geekhub.homework.track.generator;
 
-import edu.geekhub.homework.track.Direction;
 import edu.geekhub.homework.track.TrackBlock;
 import edu.geekhub.homework.track.interfaces.TrackGenerator;
+import edu.geekhub.homework.transport.util.Direction;
 
 import java.util.ArrayList;
 import java.util.List;

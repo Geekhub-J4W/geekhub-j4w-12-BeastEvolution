@@ -1,5 +1,6 @@
 package edu.geekhub.homework.track;
 
+import edu.geekhub.homework.transport.util.Direction;
 import org.junit.jupiter.api.Test;
 
 class DirectionTest {

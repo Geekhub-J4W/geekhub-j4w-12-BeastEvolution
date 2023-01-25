@@ -1,186 +1,95 @@
 package edu.geekhub.homework.transport;
 
 import edu.geekhub.homework.geometry.Point;
-import edu.geekhub.homework.track.Direction;
-import edu.geekhub.homework.track.TrackMap;
+import edu.geekhub.homework.track.controller.LocationNonexistentException;
+import edu.geekhub.homework.track.controller.Track;
+import edu.geekhub.homework.transport.controllers.interfaces.VehicleController;
 import edu.geekhub.homework.transport.interfaces.Vehicle;
 
-import java.util.Optional;
+import static edu.geekhub.homework.transport.VehicleState.*;
 
-public class Car implements Vehicle, Runnable {
-    private static final int MOVE_DISTANCE = 1;
+public class Car implements Vehicle {
     private static int counter = 0;
     private Point location;
-    private final TrackMap trackMap;
     private final int index;
-    private final Thread thread;
     private VehicleState state;
+    private final Track track;
+    private final VehicleType vehicleType;
+    private VehicleController vehicleController;
 
-    public Car(Point location, TrackMap trackMap) {
+    public Car(Point location, Track track, VehicleType vehicleType) {
         this.location = location;
-        this.trackMap = trackMap;
+        this.track = track;
         this.index = counter;
+        this.vehicleType = vehicleType;
         counter++;
-        state = VehicleState.STANDS;
-        setToLocation();
-        thread = new Thread(this);
+        state = NORMAL;
+//        spawn();
     }
 
-    private void setToLocation() {
-        trackMap.getTrackElements().put(location, Optional.of(this));
-        System.out.println(this+ " : Spawn on location : " + location);
+    public void setVehicleController(VehicleController vehicleController) {
+        this.vehicleController = vehicleController;
     }
 
-    public void envy() {
-        thread.start();
-    }
-
-    @Override
-    public void run() {
-        state = VehicleState.RUN;
-        while (state == VehicleState.RUN) {
-            move();
+    //    private void spawn() {
+//        track.setVehicleOnMapLocation(this, location);
+//        System.out.println(this + " : Spawn on location : " + location);
+//    }
+    public void move(Point newLocation) {
+        synchronized (track) {
+            Point oldLocation = location;
+            track.deleteVehicleFromLocation(this, location);
             try {
-                Thread.sleep(Delays.getRandomDelayInMillis(500, 1000));
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                track.setVehicleOnMapLocation(this, newLocation);
+                location = newLocation;
+                if (isAccidentHappened(location)) {
+                    state = CRASH;
+                    System.out.printf("%s :CRASH: move from %s to %s%n", this, oldLocation, newLocation);
+                    return;
+                }
+                System.out.printf("%s :NORMAL: move from %s to %s%n", this, oldLocation, newLocation);
+            } catch (LocationNonexistentException e) {
+                System.out.printf("%s :OUTROAD: move from %s to %s%n", this, oldLocation, newLocation);
+                location = null;
+                state = OUTROAD;
             }
         }
-
-        printResult();
-        if(state == VehicleState.FINISHED) {
-            System.exit(0);
-        }
     }
 
-    private void printResult() {
-        if (state == VehicleState.FINISHED) {
-            System.out.println(
-                String.format("Finished: %s no position %s%n", this, location)
-            );
-            System.out.println("Finish location: ");
-            trackMap.getFinishLocation().forEach(System.out::println);
-            System.out.println("Start location: ");
-            trackMap.getStartLocation().forEach(System.out::println);
-        }
-        if (state == VehicleState.OUTROAD) {
-            System.out.println(this + " : Car pulled out the road. To location:" + location);
-        }
-        if (state == VehicleState.CRASH) {
-            System.out.println(this + " : Cars collided in one square " + location);
-        }
-    }
-
-    private void move() {
-        synchronized (trackMap) {
-            changePosition();
-            System.out.println(this + " : " + location);
-        }
-    }
-
-    private void changePosition() {
-        deleteFromOldLocation(location);
-        setOnNewLocation(getNewLocation());
-    }
-
-    private void deleteFromOldLocation(Point location) {
-        if (trackMap.getTrackElements().get(location).isEmpty()) {
-            throw new LocationException(
-                String.format(
-                    "Vehicle must be on %s location, but track element was empty%n"
-                    , location
-                )
-            );
-        } else {
-            trackMap.getTrackElements().put(location, Optional.empty());
-        }
-    }
-
-    private void setOnNewLocation(Point newLocation) {
-        browseLocation(newLocation);
-        if(carIsNotTowed()) {
-            trackMap.getTrackElements().put(newLocation, Optional.of(this));
-            location = newLocation;
-        } else {
-            location = null;
-        }
-//        if (!trackMap.getTrackElements().containsKey(newLocation)) {
-//            throw new CrashException("Car pulled out the road.\nTo location:" + newLocation);
-//        }
-//        if (trackMap.getTrackElements().get(newLocation).isEmpty()) {
-//            trackMap.getTrackElements().put(newLocation, Optional.of(this));
-//            location = newLocation;
-//        } else {
-//            throw new CrashException("Cars collided in one square");
-//        }
-    }
-
-    private boolean carIsNotTowed() {
-        return (state != VehicleState.OUTROAD && state != VehicleState.CRASH);
-    }
-
-    private void browseLocation(Point location) {
-        if (isLocationNotOnRoad(location)) {
-            state = VehicleState.OUTROAD;
-            System.out.println(this + " : Car pulled out the road. To location:" + location);
-            return;
-        }
-        if (isLocationBusy(location)) {
-            state = VehicleState.CRASH;
-            changeStateOfCarOnLocation(location, VehicleState.CRASH);
-            deleteFromOldLocation(location);
-            System.out.println("Delete from location : " + location);
-            return;
-        }
-        if (isMoveToFinishLocation(location)) {
-            state = VehicleState.FINISHED;
-            return;
-        }
-    }
-
-    private void changeStateOfCarOnLocation(Point location, VehicleState state) {
-        if (trackMap.getTrackElements().get(location).isPresent()) {
-            Vehicle car = trackMap.getTrackElements().get(location)
-                .get();
-            car.setState(state);
-            System.out.printf(this + " : %s and %s crash on: %s%n", this, car, location);
-        } else {
-            throw new LocationException(
-                String.format("On location %s must be a car, but wasn't%n", location)
-            );
-        }
-    }
-
-    private boolean isLocationNotOnRoad(Point location) {
-        return !trackMap.getTrackElements().containsKey(location);
-    }
-
-    private boolean isLocationBusy(Point location) {
-        return trackMap.getTrackElements().get(location).isPresent();
-    }
-
-    private boolean isMoveToFinishLocation(Point location) {
-        return trackMap.getFinishLocation().contains(location);
-    }
-
-    private Point getNewLocation() {
-        Direction direction = Direction.randomDirection();
-        return location.createRespectToThis(direction.getX(MOVE_DISTANCE), direction.getY(MOVE_DISTANCE));
+    private boolean isAccidentHappened(Point Location) {
+        return track.getLocationContent(location).size() > 1;
     }
 
     @Override
     public String toString() {
-        return "Car{" +
+        return vehicleType + "{" +
             "index=" + index +
             '}';
     }
 
-    public void setState(VehicleState state) {
+    public synchronized void setState(VehicleState state) {
         this.state = state;
     }
 
+    public VehicleState getState() {
+        return state;
+    }
+
     @Override
-    public Point getLocation() {
+    public synchronized Point getLocation() {
         return location;
+    }
+
+    @Override
+    public synchronized void setLocation(Point location) {
+        this.location = location;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public VehicleController getVehicleController() {
+        return vehicleController;
     }
 }

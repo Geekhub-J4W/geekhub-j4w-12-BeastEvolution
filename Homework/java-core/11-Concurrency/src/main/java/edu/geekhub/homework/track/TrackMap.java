@@ -8,23 +8,23 @@ import edu.geekhub.homework.transport.interfaces.Vehicle;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
-public final class TrackMap {
-    private final Map<Point, Optional<Vehicle>> trackElements;
+public class TrackMap {
+    private final Map<Point, Set<Vehicle>> trackElements;
     private final List<Point> startLocation;
     private final List<Point> finishLocation;
 
-    public TrackMap(Map<Point, Optional<Vehicle>> trackElements, List<Point> startLocation, List<Point> finishLocation) {
+    public TrackMap(Map<Point, Set<Vehicle>> trackElements, List<Point> startLocation, List<Point> finishLocation) {
         this.trackElements = Collections.synchronizedMap(trackElements);
         this.startLocation = startLocation;
         this.finishLocation = finishLocation;
     }
 
-    public Map<Point, Optional<Vehicle>> getTrackElements() {
+    public Map<Point, Set<Vehicle>> getTrackElements() {
         return trackElements;
     }
 
