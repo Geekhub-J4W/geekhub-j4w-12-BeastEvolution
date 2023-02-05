@@ -21,8 +21,23 @@ class Tests {
     }
 
     @Test
+    @Tag("Correct")
     void get_another_property_name1_from_line() {
         String line = "name1=value1";
+        PropertyParser propertyParser = new PropertyParser();
+
+        Property expectedProperty = new Property("name1", "value1");
+
+        Property property = propertyParser.getProperty(line);
+
+        assertThat(property)
+            .isEqualTo(expectedProperty);
+    }
+
+    @Test
+    @Tag("Correct")
+    void get_property_that_have_attachment_from_line() {
+        String line = "gh.inject.name1=value1";
         PropertyParser propertyParser = new PropertyParser();
 
         Property expectedProperty = new Property("name1", "value1");
