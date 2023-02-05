@@ -14,26 +14,10 @@ public class StringValidator {
             throw new IllegalArgumentException("Input string can't be null");
         }
 
-        char[] stringChars = string.toCharArray();
-
-        for (char stringChar : stringChars) {
-            if (isCharacterInvalid(stringChar)) {
-                return false;
-            }
-        }
-        return true;
+        return string.chars().allMatch(stringChar -> isCharacterValid((char) stringChar));
     }
 
-    private boolean isCharacterInvalid(char stringChar) {
-        boolean found = false;
-
-        for (char validChar : validChars) {
-            if (stringChar == validChar) {
-                found = true;
-                break;
-            }
-        }
-
-        return !found;
+    private boolean isCharacterValid(char stringChar) {
+        return String.valueOf(validChars).indexOf(stringChar) != -1;
     }
 }
