@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class Tests {
     @Test
-    @Tag("Correct")
+    @Tag("PropertyParser")
     void get_property_name_from_line() {
         String line = "name=value";
         PropertyParser propertyParser = new PropertyParser();
@@ -21,12 +21,12 @@ class Tests {
     }
 
     @Test
-    @Tag("Correct")
+    @Tag("PropertyParser")
     void get_another_property_name1_from_line() {
-        String line = "name1=value1";
+        String line = "anotherName=another value";
         PropertyParser propertyParser = new PropertyParser();
 
-        Property expectedProperty = new Property("name1", "value1");
+        Property expectedProperty = new Property("anotherName", "another value");
 
         Property property = propertyParser.getProperty(line);
 
@@ -35,12 +35,12 @@ class Tests {
     }
 
     @Test
-    @Tag("Correct")
-    void get_property_that_have_attachment_from_line() {
-        String line = "gh.inject.name1=value1";
+    @Tag("PropertyParser")
+    void get_property_that_have_prefix_from_line() {
+        String line = "gh.inject.name=value";
         PropertyParser propertyParser = new PropertyParser();
 
-        Property expectedProperty = new Property("name1", "value1");
+        Property expectedProperty = new Property("name", "value");
 
         Property property = propertyParser.getProperty(line);
 
