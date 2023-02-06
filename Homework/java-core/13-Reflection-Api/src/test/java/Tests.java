@@ -1,6 +1,7 @@
 import edu.geekhub.homework.entity.Property;
 import edu.geekhub.homework.entity.PropertyService;
 import edu.geekhub.homework.parsers.PropertyParser;
+import edu.geekhub.homework.reflection.ReflectionSetter;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -108,4 +109,20 @@ class Tests {
             "asd:Incorrect input line format. It must contain exactly one '=' symbol\r\n"
         );
     }
+
+    @Test
+    void Set_value_to_class_declared_field() {
+        ObjectWithField target = new ObjectWithField("value");
+        String fieldName = "field";
+        String fieldValue = "newValue";
+
+        ReflectionSetter reflectionSetter = new ReflectionSetter();
+        ObjectWithField expectedResult = new ObjectWithField("newValue");
+
+        reflectionSetter.setFieldValue(target, fieldName, fieldValue);
+
+        assertThat(target)
+            .isEqualTo(expectedResult);
+    }
+
 }
