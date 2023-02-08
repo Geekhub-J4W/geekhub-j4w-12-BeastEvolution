@@ -3,6 +3,8 @@ import edu.geekhub.homework.entity.PropertyService;
 import edu.geekhub.homework.files.ResourceUtil;
 import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
+import edu.geekhub.homework.reflection.StringConverter;
+import edu.geekhub.homework.reflection.exceptions.UnsupportedTypeException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -165,6 +167,29 @@ class Tests {
 
         assertThat(new String(fileData))
             .isEqualTo("field=newValue");
+    }
+
+    @Test
+    @Tag("StringConverter")
+    void Convert_string_variable_to_another_type() {
+        String intInStringFormat = "1";
+        int expectedResult = 1;
+
+        int result = StringConverter.convert(intInStringFormat, Integer.class);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("StringConverter")
+    void Invalid_to_convert_string_variable_into_illegal_type() {
+        String intInStringFormat = "1";
+        Class<?> type = int.class;
+
+        assertThatThrownBy(() -> StringConverter.convert(intInStringFormat, int.class))
+            .isInstanceOf(UnsupportedTypeException.class)
+            .hasMessage("Unsupported type" + type.getName());
     }
 
 }
