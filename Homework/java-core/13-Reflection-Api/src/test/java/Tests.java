@@ -1,7 +1,6 @@
 import edu.geekhub.homework.entity.Property;
 import edu.geekhub.homework.entity.PropertyService;
 import edu.geekhub.homework.files.ResourceUtil;
-import edu.geekhub.homework.inject.InjectProcessor;
 import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
 import org.junit.jupiter.api.Tag;
@@ -144,6 +143,28 @@ class Tests {
         //Assert
         assertThat(target)
             .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("ResourceUtil")
+    void Get_file_from_resources_by_name() {
+        String fileName = "emptyApplication.properties";
+
+        byte[] fileData = ResourceUtil.getFileData(fileName, Tests.class);
+
+        assertThat(fileData)
+            .isEmpty();
+    }
+
+    @Test
+    @Tag("ResourceUtil")
+    void Get_file_with_data_from_resources_by_name() {
+        String fileName = "application.properties";
+
+        byte[] fileData = ResourceUtil.getFileData(fileName, Tests.class);
+
+        assertThat(new String(fileData))
+            .isEqualTo("field=newValue");
     }
 
 }
