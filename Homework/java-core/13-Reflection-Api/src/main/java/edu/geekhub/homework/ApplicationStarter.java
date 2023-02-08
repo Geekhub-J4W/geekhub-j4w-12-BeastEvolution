@@ -1,6 +1,15 @@
 package edu.geekhub.homework;
 
-public class ApplicationStarter {
+import edu.geekhub.homework.inject.InjectProcessor;
 
-    // Write code here :)
+
+public class ApplicationStarter {
+    public static void main(String[] args){
+        GeekHubCourse geekHubCourse = new GeekHubCourse();
+
+        InjectProcessor injectProcessor = new InjectProcessor("application.properties");
+        injectProcessor.process(geekHubCourse);
+
+        System.out.println(geekHubCourse);
+    }
 }
