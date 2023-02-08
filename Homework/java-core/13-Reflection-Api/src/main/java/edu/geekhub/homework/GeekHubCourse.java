@@ -53,4 +53,15 @@ public class GeekHubCourse {
     private void setRegistrations(int registrations) {
         this.registrations = registrations;
     }
+
+    @Override
+    public String toString() {
+        return "GeekHubCourse{" +
+            "name='" + name + '\'' +
+            ", duration=" + duration +
+            ", description='" + description + '\'' +
+            ", mentorName='" + mentorName + '\'' +
+            ", registrations=" + registrations +
+            '}';
+    }
 }
