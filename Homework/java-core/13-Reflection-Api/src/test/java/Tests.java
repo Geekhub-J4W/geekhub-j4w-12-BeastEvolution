@@ -3,6 +3,7 @@ import edu.geekhub.homework.entity.PropertyService;
 import edu.geekhub.homework.entity.PropertyUtil;
 import edu.geekhub.homework.entity.exceptions.PropertyNotFoundException;
 import edu.geekhub.homework.files.ResourceUtil;
+import edu.geekhub.homework.inject.InjectProcessor;
 import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
 import edu.geekhub.homework.reflection.PrimitiveClassUtil;
@@ -298,5 +299,36 @@ class Tests {
         assertThatThrownBy(() -> PrimitiveClassUtil.getWrapperClass(null))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Passed class is equal null");
+    }
+
+    @Test
+    @Tag("InjectProcessor")
+    void Set_values_of_class_instant_fields_with_injectable_annotation() {
+        //Arrange
+        InjectProcessor injectProcessor = new InjectProcessor("application.properties");
+
+        ObjectWithAnnotatedField object = new ObjectWithAnnotatedField("value");
+        ObjectWithAnnotatedField expectedResult = new ObjectWithAnnotatedField("newValue");
+
+        //Act
+        injectProcessor.process(object);
+
+        //Assert
+        assertThat(object)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("InjectProcessor")
+    void Set_values_of_class_instant_fields_with_injectable_single_value_annotation() {
+        InjectProcessor injectProcessor = new InjectProcessor("anotherApplication.properties");
+
+        ObjectWithSingleValueAnnotatedField object = new ObjectWithSingleValueAnnotatedField("value");
+        ObjectWithSingleValueAnnotatedField expectedResult = new ObjectWithSingleValueAnnotatedField("newValue");
+
+        injectProcessor.process(object);
+
+        assertThat(object)
+            .isEqualTo(expectedResult);
     }
 }
