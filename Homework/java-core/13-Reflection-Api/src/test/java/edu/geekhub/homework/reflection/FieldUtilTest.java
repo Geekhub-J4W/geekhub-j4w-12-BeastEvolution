@@ -65,7 +65,7 @@ class FieldUtilTest {
         assertThatThrownBy(() -> FieldUtil.setFieldValue(target, fieldName, fieldValue))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage(
-                String.format("Passed argument:%s with value equal null", target)
+                "Passed target Object with value equal null"
             );
     }
 
@@ -79,7 +79,7 @@ class FieldUtilTest {
         assertThatThrownBy(() -> FieldUtil.setFieldValue(target, fieldName, fieldValue))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage(
-                String.format("Passed argument:%s with value equal null", target)
+                "Passed fieldName String with value equal null"
             );
     }
 
@@ -93,7 +93,7 @@ class FieldUtilTest {
         assertThatThrownBy(() -> FieldUtil.setFieldValue(target, fieldName, fieldValue))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage(
-                String.format("Passed argument:%s with value equal null", target)
+                "Passed fieldName Object fieldValue value equal null"
             );
     }
 }
