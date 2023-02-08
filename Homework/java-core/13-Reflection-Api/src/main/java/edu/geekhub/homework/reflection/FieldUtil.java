@@ -8,9 +8,17 @@ public class FieldUtil {
     }
 
     public static void setFieldValue(Object target, String fieldName, Object fieldValue) {
-        if (Objects.isNull(target) || Objects.isNull(fieldName) || Objects.isNull(fieldValue)) {
+        if (Objects.isNull(target)) {
             throw new IllegalArgumentException(
-                String.format("Passed argument:%s with value equal null", target)
+                "Passed target Object with value equal null"
+            );
+        } else if (Objects.isNull(fieldName)) {
+            throw new IllegalArgumentException(
+                "Passed fieldName String with value equal null"
+            );
+        } else if (Objects.isNull(fieldValue)) {
+            throw new IllegalArgumentException(
+                "Passed fieldName Object fieldValue value equal null"
             );
         }
         try {
