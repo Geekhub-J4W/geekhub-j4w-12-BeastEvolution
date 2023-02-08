@@ -1,6 +1,6 @@
 package edu.geekhub.homework.reflection;
 
-import edu.geekhub.homework.reflection.exceptions.UnsupportedTypeException;
+import edu.geekhub.homework.reflection.fields.UnsupportedTypeException;
 
 import java.util.HashMap;
 import java.util.Map;

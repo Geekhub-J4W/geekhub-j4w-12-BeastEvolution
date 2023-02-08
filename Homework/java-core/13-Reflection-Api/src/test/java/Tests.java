@@ -7,7 +7,7 @@ import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
 import edu.geekhub.homework.reflection.PrimitiveClassUtil;
 import edu.geekhub.homework.reflection.StringConverter;
-import edu.geekhub.homework.reflection.exceptions.UnsupportedTypeException;
+import edu.geekhub.homework.reflection.fields.UnsupportedTypeException;
 import edu.geekhub.homework.resurces.ResourcesUtil;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
