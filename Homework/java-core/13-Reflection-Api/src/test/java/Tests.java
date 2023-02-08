@@ -2,13 +2,13 @@ import edu.geekhub.homework.entity.Property;
 import edu.geekhub.homework.entity.PropertyService;
 import edu.geekhub.homework.entity.PropertyUtil;
 import edu.geekhub.homework.entity.exceptions.PropertyNotFoundException;
-import edu.geekhub.homework.files.ResourceUtil;
 import edu.geekhub.homework.inject.InjectProcessor;
 import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
 import edu.geekhub.homework.reflection.PrimitiveClassUtil;
 import edu.geekhub.homework.reflection.StringConverter;
 import edu.geekhub.homework.reflection.exceptions.UnsupportedTypeException;
+import edu.geekhub.homework.resurces.ResourcesUtil;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -156,7 +156,7 @@ class Tests {
     void Get_file_from_resources_by_name() {
         String fileName = "emptyApplication.properties";
 
-        byte[] fileData = ResourceUtil.getFileData(fileName, Tests.class);
+        byte[] fileData = ResourcesUtil.getFileData(fileName, Tests.class);
 
         assertThat(fileData)
             .isEmpty();
@@ -167,7 +167,7 @@ class Tests {
     void Get_file_with_data_from_resources_by_name() {
         String fileName = "application.properties";
 
-        byte[] fileData = ResourceUtil.getFileData(fileName, Tests.class);
+        byte[] fileData = ResourcesUtil.getFileData(fileName, Tests.class);
 
         assertThat(new String(fileData))
             .isEqualTo("field=newValue");

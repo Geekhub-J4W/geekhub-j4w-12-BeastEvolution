@@ -3,10 +3,10 @@ package edu.geekhub.homework.inject;
 import edu.geekhub.homework.entity.Property;
 import edu.geekhub.homework.entity.PropertyService;
 import edu.geekhub.homework.entity.exceptions.PropertyNotFoundException;
-import edu.geekhub.homework.files.ResourceUtil;
 import edu.geekhub.homework.reflection.FieldUtil;
 import edu.geekhub.homework.reflection.PrimitiveClassUtil;
 import edu.geekhub.homework.reflection.StringConverter;
+import edu.geekhub.homework.resurces.ResourcesUtil;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class InjectProcessor {
     private final List<Property> properties;
 
     public InjectProcessor(String resourceFileName) {
-        byte[] propertiesFileData = ResourceUtil.getFileData(resourceFileName, InjectProcessor.class);
+        byte[] propertiesFileData = ResourcesUtil.getFileData(resourceFileName, InjectProcessor.class);
 
         PropertyService propertyService = new PropertyService(logger);
         this.properties = propertyService.getPropertiesFromFile(propertiesFileData);

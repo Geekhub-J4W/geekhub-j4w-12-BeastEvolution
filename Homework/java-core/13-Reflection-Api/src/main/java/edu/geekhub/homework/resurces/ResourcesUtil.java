@@ -1,12 +1,12 @@
-package edu.geekhub.homework.files;
+package edu.geekhub.homework.resurces;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ResourceUtil {
+public class ResourcesUtil {
 
-    private ResourceUtil() {
+    private ResourcesUtil() {
     }
 
     public static byte[] getFileData(String fileName, Class<?> cazz) {
