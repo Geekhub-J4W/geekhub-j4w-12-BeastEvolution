@@ -5,6 +5,7 @@ import edu.geekhub.homework.entity.exceptions.PropertyNotFoundException;
 import edu.geekhub.homework.files.ResourceUtil;
 import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
+import edu.geekhub.homework.reflection.PrimitiveClassUtil;
 import edu.geekhub.homework.reflection.StringConverter;
 import edu.geekhub.homework.reflection.exceptions.UnsupportedTypeException;
 import org.junit.jupiter.api.Tag;
@@ -259,6 +260,7 @@ class Tests {
     }
 
     @Test
+    @Tag("PropertyUtil")
     void Not_find_property_by_name_in_list_of_properties() {
         String searchedPropertyName = "name";
         List<Property> properties = List.of(
@@ -270,4 +272,31 @@ class Tests {
             .hasMessage(String.format("Can't find property with name:%s in array:\n%s\n", searchedPropertyName, properties));
     }
 
+    @Test
+    @Tag("PrimitiveClassUtil")
+    void Convert_primitive_type_class_to_it_wrapper_class() {
+        Class<?> intClass = int.class;
+
+        Class<?> result = PrimitiveClassUtil.getWrapperClass(intClass);
+
+        assertThat(result)
+            .isEqualTo(Integer.class);
+    }
+
+    @Test
+    @Tag("PrimitiveClassUtil")
+    void Invalid_to_convert_not_primitive_type_class_to_it_wrapper_class() {
+        Class<?> stringClass = String.class;
+
+        assertThatThrownBy(() -> PrimitiveClassUtil.getWrapperClass(stringClass))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage(String.format("Passed class:%s is not a primitive type class", stringClass));
+    }
+    @Test
+    @Tag("PrimitiveClassUtil")
+    void Invalid_to_convert_primitive_type_class_equal_null() {
+        assertThatThrownBy(() -> PrimitiveClassUtil.getWrapperClass(null))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Passed class is equal null");
+    }
 }
