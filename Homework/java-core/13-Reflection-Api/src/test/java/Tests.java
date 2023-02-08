@@ -1,5 +1,7 @@
 import edu.geekhub.homework.entity.Property;
 import edu.geekhub.homework.entity.PropertyService;
+import edu.geekhub.homework.entity.PropertyUtil;
+import edu.geekhub.homework.entity.exceptions.PropertyNotFoundException;
 import edu.geekhub.homework.files.ResourceUtil;
 import edu.geekhub.homework.parsers.PropertyParser;
 import edu.geekhub.homework.reflection.FieldUtil;
@@ -190,6 +192,82 @@ class Tests {
         assertThatThrownBy(() -> StringConverter.convert(intInStringFormat, int.class))
             .isInstanceOf(UnsupportedTypeException.class)
             .hasMessage("Unsupported type" + type.getName());
+    }
+
+    @Test
+    @Tag("PropertyUtil")
+    void Find_first_property_by_name_in_list_with_one_element() {
+        String propertyName = "name";
+        Property expectedResult = new Property(propertyName, "value");
+        List<Property> properties = List.of(
+            expectedResult
+        );
+
+        Property result = PropertyUtil.findFirstPropertyByName(properties, propertyName);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("PropertyUtil")
+    void Find_first_property_by_name_in_list_with_two_element() {
+        String propertyName = "name";
+        Property expectedResult = new Property(propertyName, "value");
+        List<Property> properties = List.of(
+            new Property("anotherName", "anotherValue"),
+            expectedResult
+        );
+
+        Property result = PropertyUtil.findFirstPropertyByName(properties, propertyName);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("PropertyUtil")
+    void Find_first_property_by_name_in_list_with_three_element() {
+        String propertyName = "name";
+        Property expectedResult = new Property(propertyName, "value");
+        List<Property> properties = List.of(
+            new Property("anotherName", "anotherValue"),
+            expectedResult,
+            new Property("someAnotherName", "someAnotherValue")
+        );
+
+        Property result = PropertyUtil.findFirstPropertyByName(properties, propertyName);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("PropertyUtil")
+    void Find_first_property_by_name_in_list_with_two_property_with_same_names() {
+        String propertyName = "name";
+        Property expectedResult = new Property(propertyName, "value");
+        List<Property> properties = List.of(
+            expectedResult,
+            new Property(propertyName, "someAnotherValue")
+        );
+
+        Property result = PropertyUtil.findFirstPropertyByName(properties, propertyName);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    void Not_find_property_by_name_in_list_of_properties() {
+        String searchedPropertyName = "name";
+        List<Property> properties = List.of(
+            new Property("anotherName", "value")
+        );
+
+        assertThatThrownBy(() -> PropertyUtil.findFirstPropertyByName(properties, searchedPropertyName))
+            .isInstanceOf(PropertyNotFoundException.class)
+            .hasMessage(String.format("Can't find property with name:%s in array:\n%s\n", searchedPropertyName, properties));
     }
 
 }
