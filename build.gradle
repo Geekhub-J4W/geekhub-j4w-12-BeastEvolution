@@ -13,4 +13,10 @@ allprojects {
             sourceDirs += file('src/main/java')
         }
     }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+        }
+    }
 }
