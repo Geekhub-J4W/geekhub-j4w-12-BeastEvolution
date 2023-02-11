@@ -1,0 +1,11 @@
+plugins {
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion = '10.7.0'
+    configFile = rootProject.file("config/checkstyle/google_checks_castom.xml")
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
