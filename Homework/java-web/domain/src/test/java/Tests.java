@@ -480,4 +480,30 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductPriceValidator")
+    void Validate_product_with_price_currency_equal_null() {
+        //Arrange
+        Currency currency = null;
+        Price price = new Price(new BigDecimal("10"), currency);
+        Product product = new Product(
+            "Name",
+            price
+        );
+
+        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException(
+                "Product price currency should not be equal null, but was: " + currency
+            )
+        );
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }

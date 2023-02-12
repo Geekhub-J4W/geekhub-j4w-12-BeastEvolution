@@ -17,6 +17,14 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
             return Optional.of(
                 new ValidationException("Product price value should not null, but was:"
                     + product.getPrice().getValue()));
+        } else if (Objects.isNull(product.getPrice().getCurrency())) {
+
+            return Optional.of(
+                new ValidationException(
+                    "Product price currency should not be equal null, but was: "
+                        + product.getPrice().getCurrency()
+                )
+            );
         } else if (isPriceValueNegativeNumber(product.getPrice().getValue())) {
 
             return Optional.of(
