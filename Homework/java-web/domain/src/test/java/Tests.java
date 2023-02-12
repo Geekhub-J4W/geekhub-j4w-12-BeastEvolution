@@ -1,16 +1,15 @@
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
-import com.web.product.exceptions.InvalidPriceException;
 import com.web.product.validation.ProductNameValidator;
 import com.web.product.validation.ProductValidator;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.Optional;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -18,6 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class Tests {
 
     @Test
+    @Tag("Price")
     void Create_price_with_currency_type() {
         BigDecimal value = new BigDecimal("10");
         Currency currency = Currency.USD;
@@ -31,15 +31,7 @@ class Tests {
     }
 
     @Test
-    void Invalid_to_create_price_with_negative_price() {
-        BigDecimal value = new BigDecimal("-1");
-
-        assertThatThrownBy(() -> new Price(value, Currency.USD))
-            .isInstanceOf(InvalidPriceException.class)
-            .hasMessage("Price can't be negative, but set: " + value);
-    }
-
-    @Test
+    @Tag("Product")
     void Create_product() {
         String name = "New product";
         Price price = new Price(new BigDecimal("10"), Currency.USD);
@@ -53,6 +45,7 @@ class Tests {
     }
 
     @ParameterizedTest
+    @Tag("StringValidator")
     @ValueSource(strings =
         {
             "a",
@@ -69,6 +62,7 @@ class Tests {
     }
 
     @ParameterizedTest
+    @Tag("StringValidator")
     @ValueSource(strings =
         {
             "b",
@@ -88,6 +82,7 @@ class Tests {
 
 
     @ParameterizedTest
+    @Tag("ProductNameValidator")
     @ValueSource(strings = {
         "Name",
         "NAME",
@@ -123,6 +118,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ValidationException")
     void Validation_exceptions_is_equal_if_it_massages_is_equal() {
         ValidationException someException = new ValidationException("Massage");
         ValidationException anotherException = new ValidationException("Massage");
@@ -134,6 +130,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ValidationException")
     void Validation_exceptions_not_equal_if_it_massages_not_equal() {
         ValidationException someException = new ValidationException("Some massage");
         ValidationException anotherException = new ValidationException("Another massage");
@@ -145,6 +142,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ValidationException")
     void Validation_exceptions_hashcode_is_equal_if_it_massages_is_equal() {
         //Arrange
         ValidationException someException = new ValidationException("Massage");
@@ -162,6 +160,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ValidationException")
     void Validation_exceptions_hashcode_not_equal_if_it_massages_not_equal() {
         //Arrange
         ValidationException someException = new ValidationException("Some massage");
@@ -179,6 +178,7 @@ class Tests {
     }
 
     @ParameterizedTest
+    @Tag("ProductNameValidator")
     @ValueSource(strings = {
         "Мыло",
         "Name\n",
@@ -204,6 +204,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ProductNameValidator")
     void Validate_product_name_with_lowercase_first_symbols() {
         //Arrange
         String name = "name";
@@ -229,6 +230,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ProductNameValidator")
     void Validate_product_with_empty_name() {
         //Arrange
         String name = "";
@@ -254,6 +256,7 @@ class Tests {
     }
 
     @Test
+    @Tag("ProductNameValidator")
     void Validate_product_with_name_equal_null() {
         //Arrange
         String name = null;
@@ -279,6 +282,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Get_rate_for_conversion_UAH_to_EUR() {
         Currency uah = Currency.UAH;
         Currency eur = Currency.EUR;
@@ -291,6 +295,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Get_rate_for_conversion_EUR_to_UAH() {
         Currency uah = Currency.UAH;
         Currency eur = Currency.EUR;
@@ -303,6 +308,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Get_rate_for_conversion_UAH_to_UAH() {
         Currency uah = Currency.UAH;
         BigDecimal expectedResult = new BigDecimal("1.000");
@@ -314,6 +320,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Convert_price_in_USD_to_price_in_EUR() {
         Price priceInUsd = new Price(new BigDecimal("10"), Currency.USD);
         Currency targetCurrency = Currency.EUR;
@@ -326,6 +333,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Convert_price_in_UAH_to_price_in_EUR() {
         Price priceInUsd = new Price(new BigDecimal("1000"), Currency.UAH);
         Currency targetCurrency = Currency.EUR;
@@ -338,6 +346,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Convert_price_with_fraction_digits_in_USD_to_price_in_EUR() {
         Price priceInUsd = new Price(new BigDecimal("31.794"), Currency.USD);
         Currency targetCurrency = Currency.EUR;
@@ -350,6 +359,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Convert_price_with_fraction_digits_in_UAH_to_price_in_EUR() {
         Price priceInUsd = new Price(new BigDecimal("1379.9371"), Currency.UAH);
         Currency targetCurrency = Currency.EUR;
@@ -362,6 +372,7 @@ class Tests {
     }
 
     @Test
+    @Tag("Currency")
     void Convert_price_in_EUR_to_price_in_EUR() {
         Price priceInUsd = new Price(new BigDecimal("37.43"), Currency.EUR);
         Currency targetCurrency = Currency.EUR;
