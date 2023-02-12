@@ -407,7 +407,7 @@ class Tests {
 
     @Test
     @Tag("ProductPriceValidator")
-    void Validate_product_with_negative_price() {
+    void Validate_product_with_negative_price_value() {
         //Arrange
         Price price = new Price(new BigDecimal("-10"), Currency.USD);
         Product product = new Product(
