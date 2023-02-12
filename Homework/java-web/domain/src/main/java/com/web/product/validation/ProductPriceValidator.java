@@ -46,7 +46,21 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
                     )
                 )
             );
+        } else if (isValueHaveInvalidScale(product.getPrice())) {
+
+            return Optional.of(
+                new ValidationException(
+                    String.format(
+                        "Product price value should have number of fraction digits"
+                            + " no greater then %s for %s currency type, but was: %s",
+                        product.getPrice().getCurrency().getFractionDigits(),
+                        product.getPrice().getCurrency(),
+                        product.getPrice().getValue().scale()
+                    )
+                )
+            );
         }
+
         return Optional.empty();
     }
 
@@ -56,5 +70,9 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
 
     private boolean isPriceValueGreaterThenMaxValue(Price productPrice) {
         return productPrice.compareTo(MAX_PRICE_VALUE) > 0;
+    }
+
+    private boolean isValueHaveInvalidScale(Price productPrice) {
+        return productPrice.getValue().scale() > productPrice.getCurrency().getFractionDigits();
     }
 }

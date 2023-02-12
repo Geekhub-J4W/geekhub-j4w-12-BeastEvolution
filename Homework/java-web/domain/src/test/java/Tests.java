@@ -589,4 +589,37 @@ class Tests {
         assertThat(result)
             .isEqualTo(0);
     }
+
+    @Test
+    @Tag("ProductPriceValidator")
+    void Validate_product_with_price_value_with_illegal_number_of_fraction_digits() {
+        //Arrange
+        Currency currency = Currency.USD;
+        BigDecimal value = new BigDecimal("10.234");
+        Price price = new Price(value, currency);
+        Product product = new Product(
+            "Name",
+            price
+        );
+
+        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException(
+                String.format(
+                    "Product price value should have number of fraction digits no greater then %s "
+                        + "for %s currency type, but was: %s",
+                    currency.getFractionDigits(),
+                    currency,
+                    value.scale()
+                )
+            )
+        );
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
