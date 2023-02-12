@@ -463,12 +463,13 @@ class Tests {
             price
         );
 
+        Price maxPrice = new Price(new BigDecimal(1_000_000), Currency.USD);
         ProductValidator<Product> productValidator = new ProductPriceValidator<>();
         Optional<ValidationException> expectedResult = Optional.of(
             new ValidationException(
                 String.format("Product price value should not be greater then %s, but was: %s",
-                    1_000_000,
-                    price.getValue()
+                    maxPrice,
+                    price.convertTo(maxPrice.getCurrency())
                 )
             )
         );
