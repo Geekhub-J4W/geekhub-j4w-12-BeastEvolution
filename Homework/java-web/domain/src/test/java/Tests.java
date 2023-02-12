@@ -428,4 +428,28 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductPriceValidator")
+    void Validate_product_with_price_value_equal_null() {
+        //Arrange
+        Price price = new Price(null, Currency.USD);
+        Product product = new Product(
+            "Name",
+            price
+        );
+
+        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException("Product price should not null, but was:"
+                + price.getValue())
+        );
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
