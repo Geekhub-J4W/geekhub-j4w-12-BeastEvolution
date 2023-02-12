@@ -263,7 +263,7 @@
       <property name="allowedAbbreviationLength" value="0"/>
       <property name="tokens"
                value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF,
-                    PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF, PATTERN_VARIABLE_DEF, RECORD_DEF,
+                    PARAMETER_DEF, VARIABLE_DEF, PATTERN_VARIABLE_DEF, RECORD_DEF,
                     RECORD_COMPONENT_DEF"/>
     </module>
     <module name="NoWhitespaceBeforeCaseDefaultColon"/>
@@ -348,7 +348,7 @@
       <property name="excludeScope" value="nothing"/>
     </module>
     <module name="MethodName">
-      <property name="format" value="^[A-Z]([a-z1-9]+_*)+$"/>
+      <property name="format" value="^[A-Z]([a-zA-Z1-9]+_*)+$"/>
       <message key="name.invalidPattern"
              value="Method name ''{0}'' must match pattern ''{1}''."/>
     </module>
