@@ -87,10 +87,30 @@ class Tests {
     }
 
 
-    @Test
-    void Validate_product_name() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "Name",
+        "NAME",
+        "SOME NAME",
+        "Some name",
+        "Some Name",
+        "Name with version 01",
+        "Name: Some name",
+        "Name(add info)",
+        "Name value = 10",
+        "Ім'я",
+        "ІМ'Я",
+        "Якесь ім'я",
+        "ЯКЕСЬ ІМ'Я",
+        "Якесь Ім'я",
+        "Ім'я з версією 01",
+        "Ім'я: Якесь ім'я",
+        "Ім'я(додаткова інформація)",
+        "Значення імені = 10",
+    })
+    void Validate_product_name(String name) {
         Product product = new Product(
-            "New product",
+            name,
             new Price(new BigDecimal("10"), Currency.UAH)
         );
         ProductValidator<Product> productValidator = new ProductNameValidator<>();
