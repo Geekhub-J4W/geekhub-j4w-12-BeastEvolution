@@ -417,7 +417,7 @@ class Tests {
 
         ProductValidator<Product> productValidator = new ProductPriceValidator<>();
         Optional<ValidationException> expectedResult = Optional.of(
-            new ValidationException("Product price should be a positive number, but was:"
+            new ValidationException("Product price value should be a positive number, but was:"
                 + price.getValue())
         );
 

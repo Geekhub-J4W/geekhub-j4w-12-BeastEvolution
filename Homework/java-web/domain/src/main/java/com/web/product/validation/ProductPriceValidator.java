@@ -11,7 +11,7 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
     public Optional<ValidationException> validate(Product product) {
         if (isPriceValueNegativeNumber(product.getPrice().getValue())) {
             return Optional.of(
-                new ValidationException("Product price should be a positive number, but was:"
+                new ValidationException("Product price value should be a positive number, but was:"
                     + product.getPrice().getValue())
             );
         }
