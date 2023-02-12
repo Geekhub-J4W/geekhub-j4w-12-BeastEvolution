@@ -5,8 +5,11 @@ import com.web.Price;
 import com.web.product.Currency;
 import com.web.product.Product;
 import com.web.product.exceptions.InvalidPriceException;
+import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class Tests {
 
@@ -43,5 +46,39 @@ public class Tests {
             .isEqualTo(name);
         assertThat(product.getPrice())
             .isEqualTo(price);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings =
+        {
+            "a",
+            "aa"
+        })
+    void Validate_string_with_valid_chars(String validString) {
+        char[] validChars = {'a'};
+        StringValidator stringValidator = new StringValidator(validChars);
+
+        boolean result = stringValidator.validateString(validString);
+
+        assertThat(result)
+            .isTrue();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings =
+        {
+            "b",
+            "bb",
+            "ab",
+            "abc"
+        })
+    void Validate_string_with_invalid_chars(String invalidString) {
+        char[] validChars = {'a'};
+        StringValidator stringValidator = new StringValidator(validChars);
+
+        boolean result = stringValidator.validateString(invalidString);
+
+        assertThat(result)
+            .isFalse();
     }
 }
