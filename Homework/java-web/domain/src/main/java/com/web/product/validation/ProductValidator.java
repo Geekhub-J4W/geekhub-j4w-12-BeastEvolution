@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface ProductValidator<T extends Product> {
 
-    Optional<ValidationException> validate(T object);
+    Optional<ValidationException> validate(T product);
 }

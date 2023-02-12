@@ -14,30 +14,31 @@ public class ProductNameValidator<T extends Product> implements ProductValidator
     );
 
     @Override
-    public Optional<ValidationException> validate(T object) {
-        if (Objects.isNull(object.getName())) {
+    public Optional<ValidationException> validate(T product) {
+        if (Objects.isNull(product.getName())) {
             return Optional.of(
                 new ValidationException(
-                    "Product name must be not equal null, but was set:" + object.getName()
+                    "Product name must be not equal null, but was set:" + product.getName()
                 )
             );
-        } else if (isNameEmpty(object.getName())) {
+        } else if (isNameEmpty(product.getName())) {
             return Optional.of(
                 new ValidationException(
-                    "Product name must be not empty, but was set:" + object.getName()
+                    "Product name must be not empty, but was set:" + product.getName()
                 )
             );
-        } else if (isNotNameBeginWithUppercaseChar(object.getName())) {
+        } else if (isNotNameBeginWithUppercaseChar(product.getName())) {
             return Optional.of(
                 new ValidationException(
-                    "Product name must begin with Uppercase symbol, but was set:" + object.getName()
+                    "Product name must begin with Uppercase symbol, but was set:"
+                        + product.getName()
                 )
             );
-        } else if (isNameContainIllegalSymbols(object.getName())) {
+        } else if (isNameContainIllegalSymbols(product.getName())) {
             return Optional.of(
                 new ValidationException(
                     "Product name must contain only English and Ukrainian alphabet characters,"
-                        + " digits and punctuation marks, but set: " + object.getName()
+                        + " digits and punctuation marks, but set: " + product.getName()
                 )
             );
         }
