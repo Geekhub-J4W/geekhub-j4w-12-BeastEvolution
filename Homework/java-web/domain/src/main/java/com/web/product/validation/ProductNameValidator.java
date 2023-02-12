@@ -4,45 +4,52 @@ import com.web.product.Product;
 import com.web.product.ProductNameCharacters;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-public class ProductNameValidator<T extends Product> implements ProductValidator<T> {
+public class ProductNameValidator<T extends Product> {
 
     private final StringValidator stringValidator = new StringValidator(
         ProductNameCharacters.getProductNameValidCharacters()
     );
 
-    @Override
-    public Optional<ValidationException> validate(T product) {
+
+    public List<ValidationException> validate(T product) {
+        List<ValidationException> validationExceptions = new ArrayList<>();
         if (Objects.isNull(product.getName())) {
-            return Optional.of(
-                new ValidationException(
-                    "Product name must be not equal null, but was set:" + product.getName()
-                )
-            );
+            validationExceptions.add(new ValidationException(
+                "Product name must be not equal null, but was set:" + product.getName()
+            ));
+
+            return validationExceptions;
         } else if (isNameEmpty(product.getName())) {
-            return Optional.of(
+            validationExceptions.add(
                 new ValidationException(
                     "Product name must be not empty, but was set:" + product.getName()
                 )
             );
-        } else if (isNotNameBeginWithUppercaseChar(product.getName())) {
-            return Optional.of(
+
+            return validationExceptions;
+        }
+
+        if (isNotNameBeginWithUppercaseChar(product.getName())) {
+            validationExceptions.add(
                 new ValidationException(
                     "Product name must begin with Uppercase symbol, but was set:"
                         + product.getName()
                 )
             );
-        } else if (isNameContainIllegalSymbols(product.getName())) {
-            return Optional.of(
+        }
+        if (isNameContainIllegalSymbols(product.getName())) {
+            validationExceptions.add(
                 new ValidationException(
                     "Product name must contain only English and Ukrainian alphabet characters,"
                         + " digits and punctuation marks, but set: " + product.getName()
                 )
             );
         }
-        return Optional.empty();
+        return validationExceptions;
     }
 
     private boolean isNameEmpty(String name) {

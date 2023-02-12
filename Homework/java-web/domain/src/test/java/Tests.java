@@ -9,6 +9,8 @@ import com.web.product.validation.ProductValidator;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -109,10 +111,10 @@ class Tests {
             name,
             new Price(new BigDecimal("10"), Currency.UAH)
         );
-        ProductValidator<Product> productValidator = new ProductNameValidator<>();
-        Optional<ValidationException> expectedResult = Optional.empty();
+        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+        List<ValidationException> expectedResult = new ArrayList<>();
 
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(product);
 
         assertThat(result)
             .isEqualTo(expectedResult);
@@ -190,15 +192,15 @@ class Tests {
             name,
             new Price(new BigDecimal("10"), Currency.UAH)
         );
-        ProductValidator<Product> productValidator = new ProductNameValidator<>();
-        Optional<ValidationException> expectedResult = Optional.of(
+        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product name must contain only English and Ukrainian alphabet characters,"
                     + " digits and punctuation marks, but set: " + name
             )
         );
 
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(product);
 
         assertThat(result)
             .isEqualTo(expectedResult);
@@ -214,16 +216,16 @@ class Tests {
             new Price(new BigDecimal("10"), Currency.UAH)
         );
 
-        ProductValidator<Product> productValidator = new ProductNameValidator<>();
+        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
 
-        Optional<ValidationException> expectedResult = Optional.of(
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product name must begin with Uppercase symbol, but was set:" + name
             )
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -240,16 +242,16 @@ class Tests {
             new Price(new BigDecimal("10"), Currency.UAH)
         );
 
-        ProductValidator<Product> productValidator = new ProductNameValidator<>();
+        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
 
-        Optional<ValidationException> expectedResult = Optional.of(
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product name must be not empty, but was set:" + name
             )
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -266,16 +268,16 @@ class Tests {
             new Price(new BigDecimal("10"), Currency.UAH)
         );
 
-        ProductValidator<Product> productValidator = new ProductNameValidator<>();
+        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
 
-        Optional<ValidationException> expectedResult = Optional.of(
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product name must be not equal null, but was set:" + name
             )
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(product);
 
         //Assert
         assertThat(result)
