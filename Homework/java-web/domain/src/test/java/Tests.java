@@ -232,4 +232,29 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    void Validate_product_with_name_equal_null() {
+        //Arrange
+        String name = null;
+        Product product = new Product(
+            name,
+            new Price(new BigDecimal("10"), Currency.UAH)
+        );
+
+        ProductValidator<Product> productValidator = new ProductNameValidator<>();
+
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException(
+                "Product name must be not equal null, but was set:" + name
+            )
+        );
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }

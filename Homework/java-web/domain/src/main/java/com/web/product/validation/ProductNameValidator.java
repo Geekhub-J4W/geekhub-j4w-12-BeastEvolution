@@ -4,6 +4,7 @@ import com.web.product.Product;
 import com.web.product.ProductNameCharacters;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ProductNameValidator<T extends Product> implements ProductValidator<T> {
@@ -14,7 +15,13 @@ public class ProductNameValidator<T extends Product> implements ProductValidator
 
     @Override
     public Optional<ValidationException> validate(T object) {
-        if (isNameEmpty(object.getName())) {
+        if (Objects.isNull(object.getName())) {
+            return Optional.of(
+                new ValidationException(
+                    "Product name must be not equal null, but was set:" + object.getName()
+                )
+            );
+        } else if (isNameEmpty(object.getName())) {
             return Optional.of(
                 new ValidationException(
                     "Product name must be not empty, but was set:" + object.getName()
