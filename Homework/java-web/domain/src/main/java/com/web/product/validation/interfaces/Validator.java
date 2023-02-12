@@ -1,10 +1,9 @@
 package com.web.product.validation.interfaces;
 
-import com.web.product.Product;
 import com.web.product.validation.exceptions.ValidationException;
-import java.util.Optional;
+import java.util.List;
 
-public interface Validator<T extends Product> {
+public interface Validator<T> {
 
-    Optional<ValidationException> validate(T product);
+    List<ValidationException> validate(T product);
 }
