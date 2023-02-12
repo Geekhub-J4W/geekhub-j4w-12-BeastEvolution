@@ -404,4 +404,28 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductPriceValidator")
+    void Validate_product_with_negative_price() {
+        //Arrange
+        Price price = new Price(new BigDecimal("-10"), Currency.USD);
+        Product product = new Product(
+            "Name",
+            price
+        );
+
+        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException("Product price should be a positive number, but was:"
+                + price.getValue())
+        );
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
