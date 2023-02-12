@@ -4,19 +4,21 @@ import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
 import com.web.product.validation.exceptions.ValidationException;
+import com.web.product.validation.interfaces.Validator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AmountValidator {
+public class AmountValidator<T extends Product> implements Validator<T> {
 
     private static final Price MAX_PRICE_VALUE = new Price(
         new BigDecimal(1_000_000),
         Currency.USD
     );
 
-    public List<ValidationException> validate(Product product) {
+    @Override
+    public List<ValidationException> validate(T product) {
         List<ValidationException> validationExceptions = new ArrayList<>();
 
         if (Objects.isNull(product.getPrice().getAmount())) {

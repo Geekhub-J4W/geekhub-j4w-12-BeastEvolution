@@ -2,14 +2,17 @@ package com.web.product.validation;
 
 import com.web.product.Product;
 import com.web.product.validation.exceptions.ValidationException;
+import com.web.product.validation.interfaces.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PriceValidator {
-    AmountValidator amountValidator = new AmountValidator();
+public class PriceValidator<T extends Product> implements Validator<T> {
 
-    public List<ValidationException> validate(Product product) {
+    AmountValidator<Product> amountValidator = new AmountValidator<>();
+
+    @Override
+    public List<ValidationException> validate(T product) {
         List<ValidationException> validationExceptions = new ArrayList<>();
 
         if (Objects.isNull(product.getPrice().getCurrency())) {

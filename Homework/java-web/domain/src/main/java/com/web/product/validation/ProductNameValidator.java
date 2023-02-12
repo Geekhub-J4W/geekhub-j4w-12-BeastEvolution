@@ -3,18 +3,19 @@ package com.web.product.validation;
 import com.web.product.Product;
 import com.web.product.ProductNameCharacters;
 import com.web.product.validation.exceptions.ValidationException;
+import com.web.product.validation.interfaces.Validator;
 import com.web.valodation.StringValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ProductNameValidator<T extends Product> {
+public class ProductNameValidator<T extends Product> implements Validator<T> {
 
     private final StringValidator stringValidator = new StringValidator(
         ProductNameCharacters.getProductNameValidCharacters()
     );
 
-
+    @Override
     public List<ValidationException> validate(T product) {
         List<ValidationException> validationExceptions = new ArrayList<>();
         if (Objects.isNull(product.getName())) {
