@@ -452,4 +452,32 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductPriceValidator")
+    void Validate_product_with_price_value_greater_than_allowed() {
+        //Arrange
+        Price price = new Price(new BigDecimal(1_000_001), Currency.USD);
+        Product product = new Product(
+            "Name",
+            price
+        );
+
+        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException(
+                String.format("Product price value should not be greater then %s, but was: %s",
+                    1_000_000,
+                    price.getValue()
+                )
+            )
+        );
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
