@@ -1,6 +1,5 @@
 package com.web.product;
 
-import com.web.product.exceptions.InvalidPriceException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -11,16 +10,8 @@ public class Price {
     private final Currency currency;
 
     public Price(BigDecimal value, Currency currency) {
-        if (isPriceValueNegative(value)) {
-            throw new InvalidPriceException("Price can't be negative, but set: " + value);
-        }
-
         this.value = value;
         this.currency = currency;
-    }
-
-    private boolean isPriceValueNegative(BigDecimal value) {
-        return value.signum() < 0;
     }
 
     public BigDecimal getValue() {
