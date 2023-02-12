@@ -3,15 +3,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
+import com.web.product.validation.PriceValidator;
 import com.web.product.validation.ProductNameValidator;
-import com.web.product.validation.ProductPriceValidator;
-import com.web.product.validation.ProductValidator;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -388,7 +386,7 @@ class Tests {
     }
 
     @Test
-    @Tag("ProductPriceValidator")
+    @Tag("PriceValidator")
     void Validate_product_with_correct_price() {
         //Arrange
         Product product = new Product(
@@ -396,11 +394,11 @@ class Tests {
             new Price(new BigDecimal("10"), Currency.USD)
         );
 
-        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
-        Optional<ValidationException> expectedResult = Optional.empty();
+        PriceValidator priceValidator = new PriceValidator();
+        List<ValidationException> expectedResult = List.of();
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -408,7 +406,7 @@ class Tests {
     }
 
     @Test
-    @Tag("ProductPriceValidator")
+    @Tag("PriceValidator")
     void Validate_product_with_negative_price_value() {
         //Arrange
         Price price = new Price(new BigDecimal("-10"), Currency.USD);
@@ -417,14 +415,14 @@ class Tests {
             price
         );
 
-        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
-        Optional<ValidationException> expectedResult = Optional.of(
+        PriceValidator priceValidator = new PriceValidator();
+        List<ValidationException> expectedResult = List.of(
             new ValidationException("Product price value should be a positive number, but was:"
                 + price.getValue())
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -432,7 +430,7 @@ class Tests {
     }
 
     @Test
-    @Tag("ProductPriceValidator")
+    @Tag("PriceValidator")
     void Validate_product_with_price_value_equal_null() {
         //Arrange
         Price price = new Price(null, Currency.USD);
@@ -441,14 +439,14 @@ class Tests {
             price
         );
 
-        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
-        Optional<ValidationException> expectedResult = Optional.of(
+        PriceValidator priceValidator = new PriceValidator();
+        List<ValidationException> expectedResult = List.of(
             new ValidationException("Product price value should not null, but was:"
                 + price.getValue())
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -456,7 +454,7 @@ class Tests {
     }
 
     @Test
-    @Tag("ProductPriceValidator")
+    @Tag("PriceValidator")
     void Validate_product_with_price_value_greater_than_allowed() {
         //Arrange
         Price price = new Price(new BigDecimal(1_000_001), Currency.USD);
@@ -466,8 +464,9 @@ class Tests {
         );
 
         Price maxPrice = new Price(new BigDecimal(1_000_000), Currency.USD);
-        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
-        Optional<ValidationException> expectedResult = Optional.of(
+
+        PriceValidator priceValidator = new PriceValidator();
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 String.format("Product price value should not be greater then %s, but was: %s",
                     maxPrice,
@@ -477,7 +476,7 @@ class Tests {
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -485,7 +484,7 @@ class Tests {
     }
 
     @Test
-    @Tag("ProductPriceValidator")
+    @Tag("PriceValidator")
     void Validate_product_with_price_currency_equal_null() {
         //Arrange
         Currency currency = null;
@@ -495,15 +494,15 @@ class Tests {
             price
         );
 
-        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
-        Optional<ValidationException> expectedResult = Optional.of(
+        PriceValidator priceValidator = new PriceValidator();
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product price currency should not be equal null, but was: " + currency
             )
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(product);
 
         //Assert
         assertThat(result)
@@ -593,7 +592,7 @@ class Tests {
     }
 
     @Test
-    @Tag("ProductPriceValidator")
+    @Tag("PriceValidator")
     void Validate_product_with_price_value_with_illegal_number_of_fraction_digits() {
         //Arrange
         Currency currency = Currency.USD;
@@ -604,8 +603,8 @@ class Tests {
             price
         );
 
-        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
-        Optional<ValidationException> expectedResult = Optional.of(
+        PriceValidator priceValidator = new PriceValidator();
+        List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 String.format(
                     "Product price value should have number of fraction digits no greater then %s "
@@ -618,7 +617,7 @@ class Tests {
         );
 
         //Act
-        Optional<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(product);
 
         //Assert
         assertThat(result)

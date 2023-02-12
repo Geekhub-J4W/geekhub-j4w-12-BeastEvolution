@@ -5,26 +5,27 @@ import com.web.product.Price;
 import com.web.product.Product;
 import com.web.product.validation.exceptions.ValidationException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-public class ProductPriceValidator<T extends Product> implements ProductValidator<T> {
+public class PriceValidator {
 
     private static final Price MAX_PRICE_VALUE = new Price(
         new BigDecimal(1_000_000),
         Currency.USD
     );
 
-    @Override
-    public Optional<ValidationException> validate(Product product) {
+
+    public List<ValidationException> validate(Product product) {
         if (Objects.isNull(product.getPrice().getValue())) {
 
-            return Optional.of(
+            return List.of(
                 new ValidationException("Product price value should not null, but was:"
                     + product.getPrice().getValue()));
         } else if (Objects.isNull(product.getPrice().getCurrency())) {
 
-            return Optional.of(
+            return List.of(
                 new ValidationException(
                     "Product price currency should not be equal null, but was: "
                         + product.getPrice().getCurrency()
@@ -32,13 +33,13 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
             );
         } else if (isPriceValueNegativeNumber(product.getPrice().getValue())) {
 
-            return Optional.of(
+            return List.of(
                 new ValidationException("Product price value should be a positive number, but was:"
                     + product.getPrice().getValue())
             );
         } else if (isPriceValueGreaterThenMaxValue(product.getPrice())) {
 
-            return Optional.of(
+            return List.of(
                 new ValidationException(
                     String.format("Product price value should not be greater then %s, but was: %s",
                         MAX_PRICE_VALUE,
@@ -48,7 +49,7 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
             );
         } else if (isValueHaveInvalidScale(product.getPrice())) {
 
-            return Optional.of(
+            return List.of(
                 new ValidationException(
                     String.format(
                         "Product price value should have number of fraction digits"
@@ -61,7 +62,7 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
             );
         }
 
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     private boolean isPriceValueNegativeNumber(BigDecimal priceValue) {
