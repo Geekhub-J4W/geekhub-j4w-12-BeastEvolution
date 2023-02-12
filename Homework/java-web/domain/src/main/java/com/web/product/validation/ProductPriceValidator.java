@@ -12,7 +12,7 @@ public class ProductPriceValidator<T extends Product> implements ProductValidato
     public Optional<ValidationException> validate(Product product) {
         if (Objects.isNull(product.getPrice().getValue())) {
             return Optional.of(
-                new ValidationException("Product price should not null, but was:"
+                new ValidationException("Product price value should not null, but was:"
                     + product.getPrice().getValue()));
         } else if (isPriceValueNegativeNumber(product.getPrice().getValue())) {
             return Optional.of(

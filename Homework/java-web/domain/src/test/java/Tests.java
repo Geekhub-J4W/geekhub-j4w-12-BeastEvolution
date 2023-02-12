@@ -441,7 +441,7 @@ class Tests {
 
         ProductValidator<Product> productValidator = new ProductPriceValidator<>();
         Optional<ValidationException> expectedResult = Optional.of(
-            new ValidationException("Product price should not null, but was:"
+            new ValidationException("Product price value should not null, but was:"
                 + price.getValue())
         );
 
