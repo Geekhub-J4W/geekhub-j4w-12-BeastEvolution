@@ -14,7 +14,13 @@ public class ProductNameValidator<T extends Product> implements ProductValidator
 
     @Override
     public Optional<ValidationException> validate(T object) {
-        if (isNotNameBeginWithUppercaseChar(object.getName())) {
+        if (isNameEmpty(object.getName())) {
+            return Optional.of(
+                new ValidationException(
+                    "Product name must be not empty, but was set:" + object.getName()
+                )
+            );
+        } else if (isNotNameBeginWithUppercaseChar(object.getName())) {
             return Optional.of(
                 new ValidationException(
                     "Product name must begin with Uppercase symbol, but was set:" + object.getName()
@@ -29,6 +35,10 @@ public class ProductNameValidator<T extends Product> implements ProductValidator
             );
         }
         return Optional.empty();
+    }
+
+    private boolean isNameEmpty(String name) {
+        return name.isEmpty();
     }
 
     private boolean isNotNameBeginWithUppercaseChar(String name) {
