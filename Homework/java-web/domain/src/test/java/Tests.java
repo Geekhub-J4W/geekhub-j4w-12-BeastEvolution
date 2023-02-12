@@ -157,4 +157,29 @@ public class Tests {
         assertThat(result)
             .isFalse();
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "Мыло",
+        "Name\n",
+        "Name÷"
+    })
+    void Validate_product_name_with_incorrect_symbols(String name) {
+        Product product = new Product(
+            name,
+            new Price(new BigDecimal("10"), Currency.UAH)
+        );
+        ProductValidator<Product> productValidator = new ProductNameValidator<>();
+        Optional<ValidationException> expectedResult = Optional.of(
+            new ValidationException(
+                "Product name must contain only English and Ukrainian alphabet characters,"
+                    + " digits and punctuation marks, but set: " + name
+            )
+        );
+
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
