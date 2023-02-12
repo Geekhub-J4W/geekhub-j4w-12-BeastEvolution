@@ -14,7 +14,13 @@ public class ProductNameValidator<T extends Product> implements ProductValidator
 
     @Override
     public Optional<ValidationException> validate(T object) {
-        if (isNameContainIllegalSymbols(object.getName())) {
+        if (isNotNameBeginWithUppercaseChar(object.getName())) {
+            return Optional.of(
+                new ValidationException(
+                    "Product name must begin with Uppercase symbol, but was set:" + object.getName()
+                )
+            );
+        } else if (isNameContainIllegalSymbols(object.getName())) {
             return Optional.of(
                 new ValidationException(
                     "Product name must contain only English and Ukrainian alphabet characters,"
@@ -23,6 +29,11 @@ public class ProductNameValidator<T extends Product> implements ProductValidator
             );
         }
         return Optional.empty();
+    }
+
+    private boolean isNotNameBeginWithUppercaseChar(String name) {
+        char firstChar = name.charAt(0);
+        return !Character.isUpperCase(firstChar);
     }
 
     private boolean isNameContainIllegalSymbols(String name) {
