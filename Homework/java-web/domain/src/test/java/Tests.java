@@ -4,6 +4,7 @@ import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
 import com.web.product.validation.ProductNameValidator;
+import com.web.product.validation.ProductPriceValidator;
 import com.web.product.validation.ProductValidator;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
@@ -381,6 +382,26 @@ class Tests {
         Price priceInEur = priceInUsd.convertTo(targetCurrency);
 
         assertThat(priceInEur)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("ProductPriceValidator")
+    void Validate_product_with_correct_price() {
+        //Arrange
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductValidator<Product> productValidator = new ProductPriceValidator<>();
+        Optional<ValidationException> expectedResult = Optional.empty();
+
+        //Act
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
             .isEqualTo(expectedResult);
     }
 }
