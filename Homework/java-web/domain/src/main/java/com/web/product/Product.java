@@ -1,7 +1,5 @@
 package com.web.product;
 
-import com.web.Price;
-
 public class Product {
 
     private final String name;
