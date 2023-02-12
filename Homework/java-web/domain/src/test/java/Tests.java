@@ -277,4 +277,39 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    void Get_rate_for_conversion_UAH_to_EUR() {
+        Currency uah = Currency.UAH;
+        Currency eur = Currency.EUR;
+        BigDecimal expectedResult = new BigDecimal("0.025");
+
+        BigDecimal uahToEurConversationRate = uah.getConversionRate(eur);
+
+        assertThat(uahToEurConversationRate)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    void Get_rate_for_conversion_EUR_to_UAH() {
+        Currency uah = Currency.UAH;
+        Currency eur = Currency.EUR;
+        BigDecimal expectedResult = new BigDecimal("39.630");
+
+        BigDecimal uahToEurConversationRate = eur.getConversionRate(uah);
+
+        assertThat(uahToEurConversationRate)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    void Get_rate_for_conversion_UAH_to_UAH() {
+        Currency uah = Currency.UAH;
+        BigDecimal expectedResult = new BigDecimal("1.000");
+
+        BigDecimal uahToEurConversationRate = uah.getConversionRate(uah);
+
+        assertThat(uahToEurConversationRate)
+            .isEqualTo(expectedResult);
+    }
 }
