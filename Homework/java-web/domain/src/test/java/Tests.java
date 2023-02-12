@@ -5,8 +5,12 @@ import com.web.Price;
 import com.web.product.Currency;
 import com.web.product.Product;
 import com.web.product.exceptions.InvalidPriceException;
+import com.web.product.validation.ProductNameValidator;
+import com.web.product.validation.ProductValidator;
+import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -81,4 +85,22 @@ public class Tests {
         assertThat(result)
             .isFalse();
     }
+
+
+    @Test
+    void Validate_product_name() {
+        Product product = new Product(
+            "New product",
+            new Price(new BigDecimal("10"), Currency.UAH)
+        );
+        ProductValidator<Product> productValidator = new ProductNameValidator<>();
+        Optional<ValidationException> expectedResult = Optional.empty();
+
+        Optional<ValidationException> result = productValidator.validate(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+
 }
