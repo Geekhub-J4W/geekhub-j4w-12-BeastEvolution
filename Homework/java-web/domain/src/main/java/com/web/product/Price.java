@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-public class Price {
+public class Price implements Comparable<Price> {
 
     private final BigDecimal value;
     private final Currency currency;
@@ -28,6 +28,13 @@ public class Price {
             .setScale(targetCurrency.getFractionDigits(), RoundingMode.HALF_UP);
 
         return new Price(convertedValue, targetCurrency);
+    }
+
+    @Override
+    public int compareTo(Price targetPrice) {
+        Price targetPriceInSameCurrency = targetPrice.convertTo(this.currency);
+
+        return this.value.compareTo(targetPriceInSameCurrency.value);
     }
 
     @Override

@@ -506,4 +506,86 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_value() {
+        Price priceInUsd = new Price(new BigDecimal("10"), Currency.USD);
+        Price priceInEur = new Price(new BigDecimal("10"), Currency.EUR);
+
+        int result = priceInEur.compareTo(priceInUsd);
+
+        assertThat(result)
+            .isGreaterThan(0);
+    }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_EUR_with_price_in_EUR_that_have_equal_value() {
+        Price priceInEur = new Price(new BigDecimal("10"), Currency.EUR);
+
+        int result = priceInEur.compareTo(priceInEur);
+
+        assertThat(result)
+            .isEqualTo(0);
+    }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_UAH_with_price_in_USD_that_have_equal_value() {
+        Price priceInUah = new Price(new BigDecimal("10"), Currency.UAH);
+        Price priceInUsd = new Price(new BigDecimal("10"), Currency.USD);
+
+        int result = priceInUah.compareTo(priceInUsd);
+
+        assertThat(result)
+            .isLessThan(0);
+    }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_UAH_with_price_in_USD_that_have_equal_value_that_have_fraction_digits() {
+        Price priceInUah = new Price(new BigDecimal("321.27"), Currency.UAH);
+        Price priceInUsd = new Price(new BigDecimal("321.27"), Currency.USD);
+
+        int result = priceInUah.compareTo(priceInUsd);
+
+        assertThat(result)
+            .isLessThan(0);
+    }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_value_that_have_fraction_digits() {
+        Price priceInUsd = new Price(new BigDecimal("2323.13"), Currency.USD);
+        Price priceInEur = new Price(new BigDecimal("2323.13"), Currency.EUR);
+
+        int result = priceInEur.compareTo(priceInUsd);
+
+        assertThat(result)
+            .isGreaterThan(0);
+    }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_EUR_with_price_in_EUR_that_have_equal_value_that_have_fraction_digits() {
+        Price priceInEur = new Price(new BigDecimal("329.8"), Currency.EUR);
+
+        int result = priceInEur.compareTo(priceInEur);
+
+        assertThat(result)
+            .isEqualTo(0);
+    }
+
+    @Test
+    @Tag("Price")
+    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_value_in_one_currency() {
+        Price priceInEur = new Price(new BigDecimal("10"), Currency.EUR);
+        Price priceInUsd = new Price(new BigDecimal("10.70"), Currency.USD);
+
+        int result = priceInEur.compareTo(priceInUsd);
+
+        assertThat(result)
+            .isEqualTo(0);
+    }
 }
