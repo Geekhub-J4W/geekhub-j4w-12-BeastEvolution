@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PriceValidator {
-    PriceValueValidator priceValueValidator = new PriceValueValidator();
+    AmountValidator amountValidator = new AmountValidator();
 
     public List<ValidationException> validate(Product product) {
         List<ValidationException> validationExceptions = new ArrayList<>();
@@ -22,7 +22,7 @@ public class PriceValidator {
             );
         }
 
-        validationExceptions.addAll(priceValueValidator.validate(product));
+        validationExceptions.addAll(amountValidator.validate(product));
 
         return validationExceptions;
     }

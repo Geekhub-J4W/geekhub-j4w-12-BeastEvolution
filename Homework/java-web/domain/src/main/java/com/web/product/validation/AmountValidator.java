@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PriceValueValidator {
+public class AmountValidator {
 
     private static final Price MAX_PRICE_VALUE = new Price(
         new BigDecimal(1_000_000),
@@ -19,18 +19,18 @@ public class PriceValueValidator {
     public List<ValidationException> validate(Product product) {
         List<ValidationException> validationExceptions = new ArrayList<>();
 
-        if (Objects.isNull(product.getPrice().getValue())) {
+        if (Objects.isNull(product.getPrice().getAmount())) {
             validationExceptions.add(
-                new ValidationException("Product price value should not null, but was:"
-                    + product.getPrice().getValue())
+                new ValidationException("Product price amount should not null, but was:"
+                    + product.getPrice().getAmount())
             );
             return validationExceptions;
         }
 
-        if (isPriceValueNegativeNumber(product.getPrice().getValue())) {
+        if (isPriceValueNegativeNumber(product.getPrice().getAmount())) {
             validationExceptions.add(
-                new ValidationException("Product price value should be a positive number, but was:"
-                    + product.getPrice().getValue())
+                new ValidationException("Product price amount should be a positive number, but was:"
+                    + product.getPrice().getAmount())
             );
         }
 
@@ -38,7 +38,7 @@ public class PriceValueValidator {
             validationExceptions.add(
                 new ValidationException(
                     String.format(
-                        "Product price value should not be greater then %s, but was: %s",
+                        "Product price amount should not be greater then %s, but was: %s",
                         MAX_PRICE_VALUE,
                         product.getPrice().convertTo(MAX_PRICE_VALUE.getCurrency())
                     )
@@ -50,11 +50,11 @@ public class PriceValueValidator {
             validationExceptions.add(
                 new ValidationException(
                     String.format(
-                        "Product price value should have number of fraction digits"
+                        "Product price amount should have number of fraction digits"
                             + " no greater then %s for %s currency type, but was: %s",
                         product.getPrice().getCurrency().getFractionDigits(),
                         product.getPrice().getCurrency(),
-                        product.getPrice().getValue().scale()
+                        product.getPrice().getAmount().scale()
                     )
                 )
             );
@@ -72,6 +72,6 @@ public class PriceValueValidator {
     }
 
     private boolean isValueHaveInvalidScale(Price productPrice) {
-        return productPrice.getValue().scale() > productPrice.getCurrency().getFractionDigits();
+        return productPrice.getAmount().scale() > productPrice.getCurrency().getFractionDigits();
     }
 }

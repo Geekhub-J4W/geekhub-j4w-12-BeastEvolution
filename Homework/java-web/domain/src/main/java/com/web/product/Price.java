@@ -6,16 +6,16 @@ import java.util.Objects;
 
 public class Price implements Comparable<Price> {
 
-    private final BigDecimal value;
+    private final BigDecimal amount;
     private final Currency currency;
 
-    public Price(BigDecimal value, Currency currency) {
-        this.value = value;
+    public Price(BigDecimal amount, Currency currency) {
+        this.amount = amount;
         this.currency = currency;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
     public Currency getCurrency() {
@@ -24,7 +24,7 @@ public class Price implements Comparable<Price> {
 
     public Price convertTo(Currency targetCurrency) {
         BigDecimal conversionRate = currency.getConversionRate(targetCurrency);
-        BigDecimal convertedValue = value.multiply(conversionRate)
+        BigDecimal convertedValue = amount.multiply(conversionRate)
             .setScale(targetCurrency.getFractionDigits(), RoundingMode.HALF_UP);
 
         return new Price(convertedValue, targetCurrency);
@@ -34,7 +34,7 @@ public class Price implements Comparable<Price> {
     public int compareTo(Price targetPrice) {
         Price targetPriceInSameCurrency = targetPrice.convertTo(this.currency);
 
-        return this.value.compareTo(targetPriceInSameCurrency.value);
+        return this.amount.compareTo(targetPriceInSameCurrency.amount);
     }
 
     @Override
@@ -46,18 +46,18 @@ public class Price implements Comparable<Price> {
             return false;
         }
         Price price = (Price) o;
-        return Objects.equals(value, price.value) && currency == price.currency;
+        return Objects.equals(amount, price.amount) && currency == price.currency;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, currency);
+        return Objects.hash(amount, currency);
     }
 
     @Override
     public String toString() {
         return "Price{"
-            + "value=" + value
+            + "value=" + amount
             + ", currency=" + currency
             + '}';
     }

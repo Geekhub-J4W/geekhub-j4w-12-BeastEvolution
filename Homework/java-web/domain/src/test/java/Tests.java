@@ -20,12 +20,12 @@ class Tests {
     @Test
     @Tag("Price")
     void Create_price_with_currency_type() {
-        BigDecimal value = new BigDecimal("10");
+        BigDecimal amount = new BigDecimal("10");
         Currency currency = Currency.USD;
 
-        Price price = new Price(value, currency);
+        Price price = new Price(amount, currency);
 
-        assertThat(price.getValue())
+        assertThat(price.getAmount())
             .isEqualTo(new BigDecimal(10));
         assertThat(price.getCurrency())
             .isEqualTo(Currency.USD);
@@ -407,7 +407,7 @@ class Tests {
 
     @Test
     @Tag("PriceValidator")
-    void Validate_product_with_negative_price_value() {
+    void Validate_product_with_negative_price_amount() {
         //Arrange
         Price price = new Price(new BigDecimal("-10"), Currency.USD);
         Product product = new Product(
@@ -417,8 +417,8 @@ class Tests {
 
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
-            new ValidationException("Product price value should be a positive number, but was:"
-                + price.getValue())
+            new ValidationException("Product price amount should be a positive number, but was:"
+                + price.getAmount())
         );
 
         //Act
@@ -431,7 +431,7 @@ class Tests {
 
     @Test
     @Tag("PriceValidator")
-    void Validate_product_with_price_value_equal_null() {
+    void Validate_product_with_price_amount_equal_null() {
         //Arrange
         Price price = new Price(null, Currency.USD);
         Product product = new Product(
@@ -441,8 +441,8 @@ class Tests {
 
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
-            new ValidationException("Product price value should not null, but was:"
-                + price.getValue())
+            new ValidationException("Product price amount should not null, but was:"
+                + price.getAmount())
         );
 
         //Act
@@ -455,7 +455,7 @@ class Tests {
 
     @Test
     @Tag("PriceValidator")
-    void Validate_product_with_price_value_greater_than_allowed() {
+    void Validate_product_with_price_amount_greater_than_allowed() {
         //Arrange
         Price price = new Price(new BigDecimal(1_000_001), Currency.USD);
         Product product = new Product(
@@ -468,7 +468,7 @@ class Tests {
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
-                String.format("Product price value should not be greater then %s, but was: %s",
+                String.format("Product price amount should not be greater then %s, but was: %s",
                     maxPrice,
                     price.convertTo(maxPrice.getCurrency())
                 )
@@ -511,7 +511,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_value() {
+    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_amount() {
         Price priceInUsd = new Price(new BigDecimal("10"), Currency.USD);
         Price priceInEur = new Price(new BigDecimal("10"), Currency.EUR);
 
@@ -523,7 +523,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_EUR_with_price_in_EUR_that_have_equal_value() {
+    void Compare_price_in_EUR_with_price_in_EUR_that_have_equal_amount() {
         Price priceInEur = new Price(new BigDecimal("10"), Currency.EUR);
 
         int result = priceInEur.compareTo(priceInEur);
@@ -534,7 +534,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_UAH_with_price_in_USD_that_have_equal_value() {
+    void Compare_price_in_UAH_with_price_in_USD_that_have_equal_amount() {
         Price priceInUah = new Price(new BigDecimal("10"), Currency.UAH);
         Price priceInUsd = new Price(new BigDecimal("10"), Currency.USD);
 
@@ -546,7 +546,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_UAH_with_price_in_USD_that_have_equal_value_that_have_fraction_digits() {
+    void Compare_price_in_UAH_with_price_in_USD_that_have_equal_amount_that_have_fraction_digits() {
         Price priceInUah = new Price(new BigDecimal("321.27"), Currency.UAH);
         Price priceInUsd = new Price(new BigDecimal("321.27"), Currency.USD);
 
@@ -558,7 +558,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_value_that_have_fraction_digits() {
+    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_amount_that_have_fraction_digits() {
         Price priceInUsd = new Price(new BigDecimal("2323.13"), Currency.USD);
         Price priceInEur = new Price(new BigDecimal("2323.13"), Currency.EUR);
 
@@ -570,7 +570,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_EUR_with_price_in_EUR_that_have_equal_value_that_have_fraction_digits() {
+    void Compare_price_in_EUR_with_price_in_EUR_that_have_equal_amount_that_have_fraction_digits() {
         Price priceInEur = new Price(new BigDecimal("329.8"), Currency.EUR);
 
         int result = priceInEur.compareTo(priceInEur);
@@ -581,7 +581,7 @@ class Tests {
 
     @Test
     @Tag("Price")
-    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_value_in_one_currency() {
+    void Compare_price_in_EUR_with_price_in_USD_that_have_equal_amount_in_one_currency() {
         Price priceInEur = new Price(new BigDecimal("10"), Currency.EUR);
         Price priceInUsd = new Price(new BigDecimal("10.70"), Currency.USD);
 
@@ -593,11 +593,11 @@ class Tests {
 
     @Test
     @Tag("PriceValidator")
-    void Validate_product_with_price_value_with_illegal_number_of_fraction_digits() {
+    void Validate_product_with_price_amount_with_illegal_number_of_fraction_digits() {
         //Arrange
         Currency currency = Currency.USD;
-        BigDecimal value = new BigDecimal("10.234");
-        Price price = new Price(value, currency);
+        BigDecimal amount = new BigDecimal("10.234");
+        Price price = new Price(amount, currency);
         Product product = new Product(
             "Name",
             price
@@ -607,11 +607,11 @@ class Tests {
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 String.format(
-                    "Product price value should have number of fraction digits no greater then %s "
+                    "Product price amount should have number of fraction digits no greater then %s "
                         + "for %s currency type, but was: %s",
                     currency.getFractionDigits(),
                     currency,
-                    value.scale()
+                    amount.scale()
                 )
             )
         );
