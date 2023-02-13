@@ -12,9 +12,11 @@ import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class Tests {
@@ -639,5 +641,23 @@ class Tests {
         assertThatThrownBy(() -> productValidator.validate(product))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Product should not be equal null, but was: " + product);
+    }
+
+    @ParameterizedTest
+    @Tag("ProductValidator")
+    @MethodSource("ArgsProviderFactory")
+    void Invalid_to_validate_product_with_null_element(Product product) {
+        ProductValidator productValidator = new ProductValidator();
+
+        assertThatThrownBy(() -> productValidator.validate(product))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    static Stream<Product> ArgsProviderFactory() {
+        return Stream.of(
+            new Product(null, new Price(new BigDecimal("10"), Currency.USD)),
+            new Product("Name", new Price(null, Currency.USD)),
+            new Product("Name", new Price(new BigDecimal("10"), null))
+        );
     }
 }
