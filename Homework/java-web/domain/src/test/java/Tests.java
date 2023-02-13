@@ -6,6 +6,7 @@ import com.web.product.Price;
 import com.web.product.Product;
 import com.web.product.validation.PriceValidator;
 import com.web.product.validation.ProductNameValidator;
+import com.web.product.validation.ProductValidator;
 import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
@@ -606,5 +607,17 @@ class Tests {
         assertThatThrownBy(() -> priceValidator.validate(price))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Product price should not be equal null, but was: " + price);
+    }
+
+    @Test
+    @Tag("ProductValidator")
+    void Validate_correct_product() {
+        Product product = new Product("Name",
+            new Price(new BigDecimal("15"), Currency.USD)
+        );
+
+        ProductValidator productValidator = new ProductValidator();
+
+        System.out.println(productValidator.validate(product));
     }
 }
