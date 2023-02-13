@@ -717,4 +717,20 @@ class Tests {
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Can't add product equal null to repository");
     }
+
+    @Test
+    @Tag("ProductRepository")
+    void Get_correct_result_when_add_valid_product_to_repository() {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        ProductRepository productRepository = new ProductRepository(new ArrayList<>());
+        String expectedResult = "Product was added to repository.";
+
+        String result = productRepository.saveToRepository(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
