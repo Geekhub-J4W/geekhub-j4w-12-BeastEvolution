@@ -1,7 +1,6 @@
 package com.web.product.validation;
 
 import com.web.product.Price;
-import com.web.product.validation.exceptions.ValidationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ public class PriceValidator {
     private final AmountValidator amountValidator = new AmountValidator();
 
 
-    public List<ValidationException> validate(Price price) {
+    public List<String> validate(Price price) {
         if (Objects.isNull(price)) {
             throw new IllegalArgumentException(
                 "Product price should not be equal null, but was: " + price

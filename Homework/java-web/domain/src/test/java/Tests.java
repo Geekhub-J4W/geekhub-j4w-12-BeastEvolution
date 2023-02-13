@@ -118,9 +118,9 @@ class Tests {
     })
     void Validate_product_name(String productName) {
         ProductNameValidator productValidator = new ProductNameValidator();
-        List<ValidationException> expectedResult = new ArrayList<>();
+        List<String> expectedResult = List.of();
 
-        List<ValidationException> result = productValidator.validate(productName);
+        List<String> result = productValidator.validate(productName);
 
         assertThat(result)
             .isEqualTo(expectedResult);
@@ -195,14 +195,12 @@ class Tests {
     })
     void Validate_product_name_with_incorrect_symbols(String productName) {
         ProductNameValidator productValidator = new ProductNameValidator();
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                "Product name must contain only English and Ukrainian alphabet characters,"
-                    + " digits and punctuation marks, but set: " + productName
-            )
+        List<String> expectedResult = List.of(
+            "Product name must contain only English and Ukrainian alphabet characters,"
+                + " digits and punctuation marks, but set: " + productName
         );
 
-        List<ValidationException> result = productValidator.validate(productName);
+        List<String> result = productValidator.validate(productName);
 
         assertThat(result)
             .isEqualTo(expectedResult);
@@ -216,14 +214,12 @@ class Tests {
 
         ProductNameValidator productValidator = new ProductNameValidator();
 
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                "Product name must begin with Uppercase symbol, but was set:" + productName
-            )
+        List<String> expectedResult = List.of(
+            "Product name must begin with Uppercase symbol, but was set:" + productName
         );
 
         //Act
-        List<ValidationException> result = productValidator.validate(productName);
+        List<String> result = productValidator.validate(productName);
 
         //Assert
         assertThat(result)
@@ -238,14 +234,12 @@ class Tests {
 
         ProductNameValidator productValidator = new ProductNameValidator();
 
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                "Product name must be not empty, but was set:" + productName
-            )
+        List<String> expectedResult = List.of(
+            "Product name must be not empty, but was set:" + productName
         );
 
         //Act
-        List<ValidationException> result = productValidator.validate(productName);
+        List<String> result = productValidator.validate(productName);
 
         //Assert
         assertThat(result)
@@ -377,10 +371,10 @@ class Tests {
         Price price = new Price(new BigDecimal("10"), Currency.USD);
 
         PriceValidator priceValidator = new PriceValidator();
-        List<ValidationException> expectedResult = List.of();
+        List<String> expectedResult = List.of();
 
         //Act
-        List<ValidationException> result = priceValidator.validate(price);
+        List<String> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -394,13 +388,13 @@ class Tests {
         Price price = new Price(new BigDecimal("-10"), Currency.USD);
 
         PriceValidator priceValidator = new PriceValidator();
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException("Product price amount should be a positive number, but was:"
-                + price.getAmount())
+        List<String> expectedResult = List.of(
+            "Product price amount should be a positive number, but was:"
+                + price.getAmount()
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(price);
+        List<String> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -432,17 +426,15 @@ class Tests {
         Price maxPrice = new Price(new BigDecimal(1_000_000), Currency.USD);
 
         PriceValidator priceValidator = new PriceValidator();
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                String.format("Product price amount should not be greater then %s, but was: %s",
-                    maxPrice,
-                    price.convertTo(maxPrice.getCurrency())
-                )
+        List<String> expectedResult = List.of(
+            String.format("Product price amount should not be greater then %s, but was: %s",
+                maxPrice,
+                price.convertTo(maxPrice.getCurrency())
             )
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(price);
+        List<String> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -556,20 +548,18 @@ class Tests {
         Price price = new Price(amount, currency);
 
         PriceValidator priceValidator = new PriceValidator();
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                String.format(
-                    "Product price amount should have number of fraction digits no greater then %s "
-                        + "for %s currency type, but was: %s",
-                    currency.getFractionDigits(),
-                    currency,
-                    amount.scale()
-                )
+        List<String> expectedResult = List.of(
+            String.format(
+                "Product price amount should have number of fraction digits no greater then %s "
+                    + "for %s currency type, but was: %s",
+                currency.getFractionDigits(),
+                currency,
+                amount.scale()
             )
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(price);
+        List<String> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -607,33 +597,24 @@ class Tests {
         Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
         Product product = new Product(name, price);
 
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                "Product name must begin with Uppercase symbol, but was set:" + name
-            ),
-            new ValidationException(
-                "Product name must contain only English and Ukrainian alphabet characters,"
-                    + " digits and punctuation marks, but set: " + name
-            ),
-            new ValidationException(
-                "Product price amount should be a positive number, but was:" + price.getAmount()
-            ),
-
-            new ValidationException(
-                String.format(
-                    "Product price amount should have number of fraction digits"
-                        + " no greater then %s for %s currency type, but was: %s",
-                    price.getCurrency().getFractionDigits(),
-                    price.getCurrency(),
-                    price.getAmount().scale()
-                )
+        List<String> expectedResult = List.of(
+            "Product name must begin with Uppercase symbol, but was set:" + name,
+            "Product name must contain only English and Ukrainian alphabet characters,"
+                + " digits and punctuation marks, but set: " + name,
+            "Product price amount should be a positive number, but was:" + price.getAmount(),
+            String.format(
+                "Product price amount should have number of fraction digits"
+                    + " no greater then %s for %s currency type, but was: %s",
+                price.getCurrency().getFractionDigits(),
+                price.getCurrency(),
+                price.getAmount().scale()
             )
         );
 
         ProductValidator productValidator = new ProductValidator();
 
         //Act
-        List<ValidationException> result = productValidator.validate(product);
+        List<String> result = productValidator.validate(product);
 
         //Assert
         assertThat(result)

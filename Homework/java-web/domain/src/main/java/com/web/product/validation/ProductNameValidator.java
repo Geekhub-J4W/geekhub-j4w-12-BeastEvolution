@@ -1,7 +1,6 @@
 package com.web.product.validation;
 
 import com.web.product.ProductNameCharacters;
-import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,42 +13,36 @@ public class ProductNameValidator {
     );
 
 
-    public List<ValidationException> validate(String productName) {
+    public List<String> validate(String productName) {
         if (Objects.isNull(productName)) {
             throw new IllegalArgumentException(
                 "Product name must be not equal null, but was: " + productName
             );
         }
 
-        List<ValidationException> validationExceptions = new ArrayList<>();
+        List<String> validationResults = new ArrayList<>();
 
         if (isNameEmpty(productName)) {
-            validationExceptions.add(
-                new ValidationException(
-                    "Product name must be not empty, but was set:" + productName
-                )
+            validationResults.add(
+                "Product name must be not empty, but was set:" + productName
             );
 
-            return validationExceptions;
+            return validationResults;
         }
 
         if (isNotNameBeginWithUppercaseChar(productName)) {
-            validationExceptions.add(
-                new ValidationException(
-                    "Product name must begin with Uppercase symbol, but was set:"
-                        + productName
-                )
+            validationResults.add(
+                "Product name must begin with Uppercase symbol, but was set:"
+                    + productName
             );
         }
         if (isNameContainIllegalSymbols(productName)) {
-            validationExceptions.add(
-                new ValidationException(
-                    "Product name must contain only English and Ukrainian alphabet characters,"
-                        + " digits and punctuation marks, but set: " + productName
-                )
+            validationResults.add(
+                "Product name must contain only English and Ukrainian alphabet characters,"
+                    + " digits and punctuation marks, but set: " + productName
             );
         }
-        return validationExceptions;
+        return validationResults;
     }
 
     private boolean isNameEmpty(String name) {
