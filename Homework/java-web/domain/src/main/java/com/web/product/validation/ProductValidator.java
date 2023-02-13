@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class ProductValidator {
 
-    private final ProductNameValidator<Product> productNameValidator = new ProductNameValidator<>();
+    private final ProductNameValidator productNameValidator = new ProductNameValidator();
     private final PriceValidator priceValidator = new PriceValidator();
 
 
@@ -20,7 +20,7 @@ public class ProductValidator {
         }
         List<ValidationException> validationExceptions = new ArrayList<>();
 
-        validationExceptions.addAll(productNameValidator.validate(product));
+        validationExceptions.addAll(productNameValidator.validate(product.getName()));
         validationExceptions.addAll(priceValidator.validate(product.getPrice()));
         return validationExceptions;
     }

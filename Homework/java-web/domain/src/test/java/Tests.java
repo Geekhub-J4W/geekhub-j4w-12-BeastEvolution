@@ -106,15 +106,11 @@ class Tests {
         "Ім'я(додаткова інформація)",
         "Значення імені = 10",
     })
-    void Validate_product_name(String name) {
-        Product product = new Product(
-            name,
-            new Price(new BigDecimal("10"), Currency.UAH)
-        );
-        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+    void Validate_product_name(String productName) {
+        ProductNameValidator productValidator = new ProductNameValidator();
         List<ValidationException> expectedResult = new ArrayList<>();
 
-        List<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(productName);
 
         assertThat(result)
             .isEqualTo(expectedResult);
@@ -187,20 +183,16 @@ class Tests {
         "Name\n",
         "Name÷"
     })
-    void Validate_product_name_with_incorrect_symbols(String name) {
-        Product product = new Product(
-            name,
-            new Price(new BigDecimal("10"), Currency.UAH)
-        );
-        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+    void Validate_product_name_with_incorrect_symbols(String productName) {
+        ProductNameValidator productValidator = new ProductNameValidator();
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product name must contain only English and Ukrainian alphabet characters,"
-                    + " digits and punctuation marks, but set: " + name
+                    + " digits and punctuation marks, but set: " + productName
             )
         );
 
-        List<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(productName);
 
         assertThat(result)
             .isEqualTo(expectedResult);
@@ -210,22 +202,18 @@ class Tests {
     @Tag("ProductNameValidator")
     void Validate_product_name_with_lowercase_first_symbols() {
         //Arrange
-        String name = "name";
-        Product product = new Product(
-            name,
-            new Price(new BigDecimal("10"), Currency.UAH)
-        );
+        String productName = "name";
 
-        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+        ProductNameValidator productValidator = new ProductNameValidator();
 
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
-                "Product name must begin with Uppercase symbol, but was set:" + name
+                "Product name must begin with Uppercase symbol, but was set:" + productName
             )
         );
 
         //Act
-        List<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(productName);
 
         //Assert
         assertThat(result)
@@ -236,22 +224,18 @@ class Tests {
     @Tag("ProductNameValidator")
     void Validate_product_with_empty_name() {
         //Arrange
-        String name = "";
-        Product product = new Product(
-            name,
-            new Price(new BigDecimal("10"), Currency.UAH)
-        );
+        String productName = "";
 
-        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+        ProductNameValidator productValidator = new ProductNameValidator();
 
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
-                "Product name must be not empty, but was set:" + name
+                "Product name must be not empty, but was set:" + productName
             )
         );
 
         //Act
-        List<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(productName);
 
         //Assert
         assertThat(result)
@@ -262,22 +246,18 @@ class Tests {
     @Tag("ProductNameValidator")
     void Validate_product_with_name_equal_null() {
         //Arrange
-        String name = null;
-        Product product = new Product(
-            name,
-            new Price(new BigDecimal("10"), Currency.UAH)
-        );
+        String productName = null;
 
-        ProductNameValidator<Product> productValidator = new ProductNameValidator<>();
+        ProductNameValidator productValidator = new ProductNameValidator();
 
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
-                "Product name must be not equal null, but was set:" + name
+                "Product name must be not equal null, but was set:" + productName
             )
         );
 
         //Act
-        List<ValidationException> result = productValidator.validate(product);
+        List<ValidationException> result = productValidator.validate(productName);
 
         //Assert
         assertThat(result)
