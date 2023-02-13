@@ -4,16 +4,17 @@ jobs:
   print:
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository project
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v2
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: 17
           distribution: 'adopt'
-        
+          cache: gradle
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
+        run: ./gradlew build --scan --no-daemon
+      - name: Archive test report
+        uses: actions/upload-artifact@v2
         with:
-          arguments: build --scan
+          name: Test report
+          path: build/reports/tests/test
