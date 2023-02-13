@@ -15,7 +15,8 @@ public class ProductService {
     public String saveToRepository(Product product) {
         List<String> validationResults = productValidator.validate(product);
         if (!validationResults.isEmpty()) {
-            return String.join("\n", validationResults);
+            return "Product was not save to the repository because:\n"
+                + String.join("\n", validationResults);
         }
 
         return productRepository.saveToRepository(product);

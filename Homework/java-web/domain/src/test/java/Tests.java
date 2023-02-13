@@ -867,4 +867,27 @@ class Tests {
 
         verify(productRepository, never()).saveToRepository(product);
     }
+
+    @Test
+    @Tag("ProductService")
+    void Get_correct_result_when_save_invalid_product() {
+        String name = "name - мыло";
+        Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
+        Product product = new Product(name, price);
+        String expectedResult = "Product was not save to the repository because:\n"
+            + "Product name must begin with Uppercase symbol, but was set:name - мыло\n"
+            + "Product name must contain only English and Ukrainian alphabet characters,"
+            + " digits and punctuation marks, but set: name - мыло\n"
+            + "Product price amount should be a positive number, but was:-1000001.123\n"
+            + "Product price amount should have number of fraction digits no greater then 2"
+            + " for USD currency type, but was: 3";
+        ProductService productService = new ProductService(
+            new ProductRepository(new ArrayList<>())
+        );
+
+        String result = productService.saveToRepository(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
