@@ -1,7 +1,6 @@
 package edu.geekhub.homework.entity;
 
 import edu.geekhub.homework.parsers.PropertyParser;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +28,7 @@ public class PropertyService {
                     return propertyParser.getProperty(line);
                 } catch (IllegalArgumentException e) {
                     logger.warning(
-                        String.format("%s:%s%n", line, e.getMessage())
+                        String.format("%s:%s\n", line, e.getMessage())
                     );
                     return null;
                 }

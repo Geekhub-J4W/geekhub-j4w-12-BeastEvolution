@@ -1,15 +1,16 @@
 package edu.geekhub.homework.entity;
 
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Logger;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class PropertyServiceTest {
     @Test
@@ -78,7 +79,7 @@ class PropertyServiceTest {
         propertyService.getPropertiesFromFile(fileData);
 
         verify(logger).warning(
-            "asd:Incorrect input line format. It must contain exactly one '=' symbol\r\n"
+            "asd:Incorrect input line format. It must contain exactly one '=' symbol\n"
         );
     }
 }
