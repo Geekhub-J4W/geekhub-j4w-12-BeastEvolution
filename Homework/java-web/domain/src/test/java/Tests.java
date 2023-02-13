@@ -853,4 +853,18 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductService")
+    void Save_invalid_product(@Mock ProductRepository productRepository) {
+        String name = "name - мыло";
+        Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
+        Product product = new Product(name, price);
+
+        ProductService productService = new ProductService(productRepository);
+
+        productService.saveToRepository(product);
+
+        verify(productRepository, never()).saveToRepository(product);
+    }
 }
