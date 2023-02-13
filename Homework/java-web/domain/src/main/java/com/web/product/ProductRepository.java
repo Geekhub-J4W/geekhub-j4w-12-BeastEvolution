@@ -25,6 +25,7 @@ public class ProductRepository {
     }
 
     public String deleteFromRepository(Product product) {
+        products.remove(product);
         return "Product was deleted from repository";
     }
 }

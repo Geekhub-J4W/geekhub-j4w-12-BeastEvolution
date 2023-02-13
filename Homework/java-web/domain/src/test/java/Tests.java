@@ -775,4 +775,19 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductRepository")
+    void Delete_product_from_repository(@Mock List<Product> products) {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductRepository productRepository = new ProductRepository(products);
+
+        productRepository.deleteFromRepository(product);
+
+        verify(products).remove(product);
+    }
 }
