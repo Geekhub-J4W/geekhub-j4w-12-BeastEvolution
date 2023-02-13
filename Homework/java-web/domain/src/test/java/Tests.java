@@ -661,4 +661,15 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductValidator")
+    void Invalid_to_validate_product_equal_null() {
+        Product product = null;
+        ProductValidator productValidator = new ProductValidator();
+
+        assertThatThrownBy(() -> productValidator.validate(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Product should not be equal null, but was: " + product);
+    }
 }
