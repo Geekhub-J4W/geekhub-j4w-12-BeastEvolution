@@ -250,18 +250,11 @@ class Tests {
 
         ProductNameValidator productValidator = new ProductNameValidator();
 
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                "Product name must be not equal null, but was set:" + productName
-            )
-        );
-
         //Act
-        List<ValidationException> result = productValidator.validate(productName);
-
         //Assert
-        assertThat(result)
-            .isEqualTo(expectedResult);
+        assertThatThrownBy(() -> productValidator.validate(productName))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Product name must be not equal null, but was: " + productName);
     }
 
     @Test

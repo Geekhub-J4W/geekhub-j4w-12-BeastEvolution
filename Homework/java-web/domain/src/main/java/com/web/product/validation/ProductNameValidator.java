@@ -15,14 +15,15 @@ public class ProductNameValidator {
 
 
     public List<ValidationException> validate(String productName) {
-        List<ValidationException> validationExceptions = new ArrayList<>();
         if (Objects.isNull(productName)) {
-            validationExceptions.add(new ValidationException(
-                "Product name must be not equal null, but was set:" + productName
-            ));
+            throw new IllegalArgumentException(
+                "Product name must be not equal null, but was: " + productName
+            );
+        }
 
-            return validationExceptions;
-        } else if (isNameEmpty(productName)) {
+        List<ValidationException> validationExceptions = new ArrayList<>();
+
+        if (isNameEmpty(productName)) {
             validationExceptions.add(
                 new ValidationException(
                     "Product name must be not empty, but was set:" + productName
