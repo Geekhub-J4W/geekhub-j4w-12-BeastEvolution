@@ -25,7 +25,9 @@ public class ProductRepository {
     }
 
     public String deleteFromRepository(Product product) {
-        products.remove(product);
-        return "Product was deleted from repository";
+        if (products.remove(product)) {
+            return "Product was deleted from repository";
+        }
+        return "Failed to remove product from the repository";
     }
 }
