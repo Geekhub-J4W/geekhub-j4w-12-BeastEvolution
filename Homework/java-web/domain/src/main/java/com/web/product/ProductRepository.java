@@ -1,12 +1,15 @@
 package com.web.product;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ProductRepository {
 
-    private final List<Product> products = new ArrayList<>();
+    private final List<Product> products;
+
+    public ProductRepository(List<Product> products) {
+        this.products = products;
+    }
 
     public String saveToRepository(Product product) {
         if (Objects.isNull(product)) {
