@@ -1,6 +1,7 @@
 package com.web.product;
 
 import com.web.product.validation.ProductValidator;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,5 +36,12 @@ public class ProductService {
 
     public List<Product> getAll() {
         return productRepository.getAll();
+    }
+
+    public List<Product> getAllSorted(Comparator<Product> comparator) {
+
+        return productRepository.getAll().stream()
+            .sorted(comparator)
+            .toList();
     }
 }

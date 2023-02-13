@@ -16,6 +16,7 @@ import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Tag;
@@ -976,6 +977,44 @@ class Tests {
         );
 
         List<String> result = priceValidator.validate(price);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    void Get_all_products_sorted_by_product_name_in_natural_order() {
+        List<Product> productList = List.of(
+            new Product(
+                "Product2",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product1",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "AProduct",
+                new Price(new BigDecimal("10"), Currency.USD)
+            )
+        );
+        ProductService productService = new ProductService(new ProductRepository(productList));
+        List<Product> expectedResult = List.of(
+            new Product(
+                "AProduct",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product1",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product2",
+                new Price(new BigDecimal("10"), Currency.USD)
+            )
+        );
+
+        List<Product> result = productService.getAllSorted(Comparator.comparing(Product::getName));
 
         assertThat(result)
             .isEqualTo(expectedResult);
