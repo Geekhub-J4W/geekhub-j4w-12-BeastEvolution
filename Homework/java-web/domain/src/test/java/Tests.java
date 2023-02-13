@@ -890,4 +890,17 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductService")
+    void Invalid_to_save_product_equal_null() {
+        Product product = null;
+        ProductService productService = new ProductService(
+            new ProductRepository(new ArrayList<>())
+        );
+
+        assertThatThrownBy(() -> productService.saveToRepository(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Product should not be equal null, but was: " + product);
+    }
 }
