@@ -8,6 +8,7 @@ import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
 import com.web.product.ProductRepository;
+import com.web.product.ProductService;
 import com.web.product.validation.PriceValidator;
 import com.web.product.validation.ProductNameValidator;
 import com.web.product.validation.ProductValidator;
@@ -652,7 +653,7 @@ class Tests {
 
     @Test
     @Tag("ProductRepository")
-    void Add_valid_product_to_repository(@Mock List<Product> products) {
+    void Add_product_to_repository(@Mock List<Product> products) {
         //Assert
         Product product = new Product(
             "Name",
@@ -670,7 +671,7 @@ class Tests {
 
     @Test
     @Tag("ProductRepository")
-    void Add_valid_product_that_already_exist_in_repository(@Mock List<Product> products) {
+    void Add_product_that_already_exist_in_repository(@Mock List<Product> products) {
         //Arrange
         Product product = new Product(
             "Name",
@@ -821,5 +822,19 @@ class Tests {
         assertThatThrownBy(() -> productRepository.deleteFromRepository(product))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Can't delete product equal null to repository");
+    }
+
+    @Test
+    @Tag("ProductService")
+    void Save_valid_product(@Mock ProductRepository productRepository) {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        ProductService productService = new ProductService(productRepository);
+
+        productService.saveToRepository(product);
+
+        verify(productRepository).saveToRepository(product);
     }
 }
