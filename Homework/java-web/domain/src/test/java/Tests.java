@@ -620,4 +620,45 @@ class Tests {
 
         System.out.println(productValidator.validate(product));
     }
+
+    @Test
+    @Tag("ProductValidator")
+    void Validate_incorrect_product() {
+        //Arrange
+        String name = "name - мыло";
+        Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
+        Product product = new Product(name, price);
+
+        List<ValidationException> expectedResult = List.of(
+            new ValidationException(
+                "Product name must begin with Uppercase symbol, but was set:" + name
+            ),
+            new ValidationException(
+                "Product name must contain only English and Ukrainian alphabet characters,"
+                    + " digits and punctuation marks, but set: " + name
+            ),
+            new ValidationException(
+                "Product price amount should be a positive number, but was:" + price.getAmount()
+            ),
+
+            new ValidationException(
+                String.format(
+                    "Product price amount should have number of fraction digits"
+                        + " no greater then %s for %s currency type, but was: %s",
+                    price.getCurrency().getFractionDigits(),
+                    price.getCurrency(),
+                    price.getAmount().scale()
+                )
+            )
+        );
+
+        ProductValidator productValidator = new ProductValidator();
+
+        //Act
+        List<ValidationException> result = productValidator.validate(product);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
