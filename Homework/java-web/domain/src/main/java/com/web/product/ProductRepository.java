@@ -39,4 +39,8 @@ public class ProductRepository {
         }
         return "Failed to remove product from the repository";
     }
+
+    public List<Product> getAll() {
+        return products;
+    }
 }

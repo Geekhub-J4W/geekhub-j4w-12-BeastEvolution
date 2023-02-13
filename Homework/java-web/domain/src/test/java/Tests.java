@@ -930,4 +930,21 @@ class Tests {
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Can't delete product equal null");
     }
+
+    @Test
+    @Tag("ProductRepository")
+    void Get_all_products_from_repository_with_one_element() {
+        List<Product> productList = List.of(
+            new Product(
+                "ProductOne",
+                new Price(new BigDecimal("10"), Currency.USD)
+            )
+        );
+        ProductRepository productRepository = new ProductRepository(productList);
+
+        List<Product> result = productRepository.getAll();
+
+        assertThat(result)
+            .isEqualTo(productList);
+    }
 }
