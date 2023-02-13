@@ -947,4 +947,21 @@ class Tests {
         assertThat(result)
             .isEqualTo(productList);
     }
+
+    @Test
+    @Tag("ProductRepository")
+    void Get_all_products() {
+        List<Product> productList = List.of(
+            new Product(
+                "ProductOne",
+                new Price(new BigDecimal("10"), Currency.USD)
+            )
+        );
+        ProductService productService = new ProductService(new ProductRepository(productList));
+
+        List<Product> result = productService.getAll();
+
+        assertThat(result)
+            .isEqualTo(productList);
+    }
 }

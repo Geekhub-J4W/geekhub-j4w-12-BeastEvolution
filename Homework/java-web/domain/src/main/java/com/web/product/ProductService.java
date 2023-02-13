@@ -32,4 +32,8 @@ public class ProductService {
 
         return productRepository.deleteFromRepository(product);
     }
+
+    public List<Product> getAll() {
+        return productRepository.getAll();
+    }
 }
