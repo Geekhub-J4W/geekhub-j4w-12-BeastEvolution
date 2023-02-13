@@ -390,16 +390,13 @@ class Tests {
     @Tag("PriceValidator")
     void Validate_product_with_correct_price() {
         //Arrange
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
+        Price price = new Price(new BigDecimal("10"), Currency.USD);
 
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of();
 
         //Act
-        List<ValidationException> result = priceValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -411,10 +408,6 @@ class Tests {
     void Validate_product_with_negative_price_amount() {
         //Arrange
         Price price = new Price(new BigDecimal("-10"), Currency.USD);
-        Product product = new Product(
-            "Name",
-            price
-        );
 
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
@@ -423,7 +416,7 @@ class Tests {
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -432,19 +425,15 @@ class Tests {
 
     @Test
     @Tag("PriceValidator")
-    void Validate_product_with_price_amount_equal_null() {
+    void Invalid_to_validate_product_with_price_amount_equal_null() {
         //Arrange
         Price price = new Price(null, Currency.USD);
-        Product product = new Product(
-            "Name",
-            price
-        );
 
         PriceValidator priceValidator = new PriceValidator();
 
         //Act
         //Assert
-        assertThatThrownBy(() -> priceValidator.validate(product))
+        assertThatThrownBy(() -> priceValidator.validate(price))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Product price amount should not null, but was:"
                 + price.getAmount());
@@ -455,10 +444,6 @@ class Tests {
     void Validate_product_with_price_amount_greater_than_allowed() {
         //Arrange
         Price price = new Price(new BigDecimal(1_000_001), Currency.USD);
-        Product product = new Product(
-            "Name",
-            price
-        );
 
         Price maxPrice = new Price(new BigDecimal(1_000_000), Currency.USD);
 
@@ -473,7 +458,7 @@ class Tests {
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
@@ -486,10 +471,6 @@ class Tests {
         //Arrange
         Currency currency = null;
         Price price = new Price(new BigDecimal("10"), currency);
-        Product product = new Product(
-            "Name",
-            price
-        );
 
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
@@ -500,7 +481,7 @@ class Tests {
 
         //Act
         //Assert
-        assertThatThrownBy(() -> priceValidator.validate(product))
+        assertThatThrownBy(() -> priceValidator.validate(price))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Product price currency should not be equal null, but was: " + currency);
     }
@@ -594,10 +575,6 @@ class Tests {
         Currency currency = Currency.USD;
         BigDecimal amount = new BigDecimal("10.234");
         Price price = new Price(amount, currency);
-        Product product = new Product(
-            "Name",
-            price
-        );
 
         PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
@@ -613,7 +590,7 @@ class Tests {
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(product);
+        List<ValidationException> result = priceValidator.validate(price);
 
         //Assert
         assertThat(result)
