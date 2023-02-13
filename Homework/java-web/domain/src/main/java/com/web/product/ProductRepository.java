@@ -25,6 +25,11 @@ public class ProductRepository {
     }
 
     public String deleteFromRepository(Product product) {
+        if (Objects.isNull(product)) {
+            throw new IllegalArgumentException(
+                "Can't delete product equal null to repository"
+            );
+        }
         if (!products.contains(product)) {
             return "Failed to remove product from the repository,"
                 + " because repository not contain it";

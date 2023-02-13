@@ -825,8 +825,20 @@ class Tests {
         ProductRepository productRepository = new ProductRepository(products);
         when(products.contains(product)).thenReturn(false);
 
-        String result = productRepository.deleteFromRepository(product);
+        productRepository.deleteFromRepository(product);
 
         verify(products, never()).remove(product);
+    }
+
+    @Test
+    @Tag("ProductRepository")
+    void Invalid_to_delete_product_that_not_exist_in_repository() {
+        Product product = null;
+
+        ProductRepository productRepository = new ProductRepository(new ArrayList<>());
+
+        assertThatThrownBy(() -> productRepository.deleteFromRepository(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Can't delete product equal null to repository");
     }
 }
