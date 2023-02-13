@@ -681,7 +681,7 @@ class Tests {
     @Test
     @Tag("ProductRepository")
     void Add_valid_product_that_already_exist_in_repository() {
-        //Arange
+        //Arrange
         Product product = new Product(
             "Name",
             new Price(new BigDecimal("10"), Currency.USD)
@@ -699,5 +699,16 @@ class Tests {
         //Assert
         assertThat(result)
             .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("ProductRepository")
+    void Invalid_to_add_product_equal_null_repository() {
+        Product product = null;
+        ProductRepository productRepository = new ProductRepository();
+
+        assertThatThrownBy(() -> productRepository.saveToRepository(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Can't add product equal null to repository");
     }
 }
