@@ -1019,4 +1019,44 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    void Get_all_products_sorted_by_product_name_in_reversed_order() {
+        List<Product> productList = List.of(
+            new Product(
+                "Product2",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product1",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "AProduct",
+                new Price(new BigDecimal("10"), Currency.USD)
+            )
+        );
+        ProductService productService = new ProductService(new ProductRepository(productList));
+        List<Product> expectedResult = List.of(
+            new Product(
+                "Product2",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product1",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "AProduct",
+                new Price(new BigDecimal("10"), Currency.USD)
+            )
+        );
+
+        List<Product> result = productService.getAllSorted(
+            Comparator.comparing(Product::getName).reversed()
+        );
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
