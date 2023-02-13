@@ -671,8 +671,32 @@ class Tests {
         );
         ProductRepository productRepository = new ProductRepository();
         String expectedResult = "Product was added to repository.";
+
         String result = productRepository.saveToRepository(product);
 
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("ProductRepository")
+    void Add_valid_product_that_already_exist_in_repository() {
+        //Arange
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductRepository productRepository = new ProductRepository();
+        String expectedResult =
+            "Product was not added to the repository because it is already there.";
+
+        productRepository.saveToRepository(product);
+
+        //Act
+        String result = productRepository.saveToRepository(product);
+
+        //Assert
         assertThat(result)
             .isEqualTo(expectedResult);
     }
