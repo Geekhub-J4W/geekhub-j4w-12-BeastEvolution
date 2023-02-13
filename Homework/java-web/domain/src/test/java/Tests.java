@@ -964,4 +964,20 @@ class Tests {
         assertThat(result)
             .isEqualTo(productList);
     }
+
+    @Test
+    @Tag("PriceValidator")
+    void Validate_price_amount_equal_zero() {
+        Price price = new Price(new BigDecimal("0"), Currency.USD);
+        PriceValidator priceValidator = new PriceValidator();
+        List<String> expectedResult = List.of(
+            "Product price amount should not be 0, but was: "
+                + price.getAmount()
+        );
+
+        List<String> result = priceValidator.validate(price);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }

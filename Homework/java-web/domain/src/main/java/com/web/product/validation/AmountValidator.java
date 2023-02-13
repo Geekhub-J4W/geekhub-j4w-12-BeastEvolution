@@ -41,6 +41,13 @@ public class AmountValidator {
             );
         }
 
+        if (price.getAmount().equals(new BigDecimal(0))) {
+            validationResults.add(
+                "Product price amount should not be 0, but was: "
+                    + price.getAmount()
+            );
+        }
+
         if (isValueHaveInvalidScale(price)) {
             validationResults.add(
                 String.format(
