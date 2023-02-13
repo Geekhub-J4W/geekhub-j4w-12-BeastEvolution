@@ -2,6 +2,7 @@ package com.web.product;
 
 import com.web.product.validation.ProductValidator;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductService {
 
@@ -20,5 +21,15 @@ public class ProductService {
         }
 
         return productRepository.saveToRepository(product);
+    }
+
+    public String deleteFromRepository(Product product) {
+        if (Objects.isNull(product)) {
+            throw new IllegalArgumentException(
+                "Can't delete product equal null"
+            );
+        }
+
+        return productRepository.deleteFromRepository(product);
     }
 }

@@ -903,4 +903,31 @@ class Tests {
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Product should not be equal null, but was: " + product);
     }
+
+    @Test
+    @Tag("ProductService")
+    void Delete_valid_product(@Mock ProductRepository productRepository) {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        ProductService productService = new ProductService(productRepository);
+
+        productService.deleteFromRepository(product);
+
+        verify(productRepository).deleteFromRepository(product);
+    }
+
+    @Test
+    @Tag("ProductService")
+    void Invalid_to_delete_product_equal_null() {
+        Product product = null;
+        ProductService productService = new ProductService(
+            new ProductRepository(new ArrayList<>())
+        );
+
+        assertThatThrownBy(() -> productService.deleteFromRepository(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Can't delete product equal null");
+    }
 }
