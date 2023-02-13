@@ -454,11 +454,6 @@ class Tests {
         Price price = new Price(new BigDecimal("10"), currency);
 
         PriceValidator priceValidator = new PriceValidator();
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException(
-                "Product price currency should not be equal null, but was: " + currency
-            )
-        );
 
         //Act
         //Assert
@@ -476,7 +471,7 @@ class Tests {
         int result = priceInEur.compareTo(priceInUsd);
 
         assertThat(result)
-            .isGreaterThan(0);
+            .isPositive();
     }
 
     @Test
@@ -487,7 +482,7 @@ class Tests {
         int result = priceInEur.compareTo(priceInEur);
 
         assertThat(result)
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -499,7 +494,7 @@ class Tests {
         int result = priceInUah.compareTo(priceInUsd);
 
         assertThat(result)
-            .isLessThan(0);
+            .isNegative();
     }
 
     @Test
@@ -511,7 +506,7 @@ class Tests {
         int result = priceInUah.compareTo(priceInUsd);
 
         assertThat(result)
-            .isLessThan(0);
+            .isNegative();
     }
 
     @Test
@@ -523,7 +518,7 @@ class Tests {
         int result = priceInEur.compareTo(priceInUsd);
 
         assertThat(result)
-            .isGreaterThan(0);
+            .isPositive();
     }
 
     @Test
@@ -534,7 +529,7 @@ class Tests {
         int result = priceInEur.compareTo(priceInEur);
 
         assertThat(result)
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -546,7 +541,7 @@ class Tests {
         int result = priceInEur.compareTo(priceInUsd);
 
         assertThat(result)
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
