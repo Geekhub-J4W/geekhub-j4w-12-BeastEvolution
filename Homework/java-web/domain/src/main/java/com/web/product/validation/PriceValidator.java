@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class PriceValidator<T extends Product> implements Validator<T> {
 
-    AmountValidator<Product> amountValidator = new AmountValidator<>();
+    private final AmountValidator amountValidator = new AmountValidator();
 
     @Override
     public List<ValidationException> validate(T product) {
@@ -25,7 +25,7 @@ public class PriceValidator<T extends Product> implements Validator<T> {
             );
         }
 
-        validationExceptions.addAll(amountValidator.validate(product));
+        validationExceptions.addAll(amountValidator.validate(product.getPrice()));
 
         return validationExceptions;
     }

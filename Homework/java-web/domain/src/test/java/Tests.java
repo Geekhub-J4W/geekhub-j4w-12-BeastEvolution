@@ -1,4 +1,5 @@
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.web.product.Currency;
 import com.web.product.Price;
@@ -440,17 +441,13 @@ class Tests {
         );
 
         PriceValidator<Product> priceValidator = new PriceValidator<>();
-        List<ValidationException> expectedResult = List.of(
-            new ValidationException("Product price amount should not null, but was:"
-                + price.getAmount())
-        );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(product);
-
         //Assert
-        assertThat(result)
-            .isEqualTo(expectedResult);
+        assertThatThrownBy(() -> priceValidator.validate(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Product price amount should not null, but was:"
+                + price.getAmount());
     }
 
     @Test
