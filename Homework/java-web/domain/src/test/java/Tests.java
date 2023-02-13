@@ -837,4 +837,20 @@ class Tests {
 
         verify(productRepository).saveToRepository(product);
     }
+
+    @Test
+    @Tag("ProductService")
+    void Get_correct_result_when_save_valid_product() {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        ProductService productService = new ProductService(
+            new ProductRepository(new ArrayList<>()));
+        String expectedResult = "Product was added to repository.";
+        String result = productService.saveToRepository(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
