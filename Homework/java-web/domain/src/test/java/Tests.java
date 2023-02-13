@@ -395,7 +395,7 @@ class Tests {
             new Price(new BigDecimal("10"), Currency.USD)
         );
 
-        PriceValidator<Product> priceValidator = new PriceValidator<>();
+        PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of();
 
         //Act
@@ -416,7 +416,7 @@ class Tests {
             price
         );
 
-        PriceValidator<Product> priceValidator = new PriceValidator<>();
+        PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
             new ValidationException("Product price amount should be a positive number, but was:"
                 + price.getAmount())
@@ -440,7 +440,7 @@ class Tests {
             price
         );
 
-        PriceValidator<Product> priceValidator = new PriceValidator<>();
+        PriceValidator priceValidator = new PriceValidator();
 
         //Act
         //Assert
@@ -462,7 +462,7 @@ class Tests {
 
         Price maxPrice = new Price(new BigDecimal(1_000_000), Currency.USD);
 
-        PriceValidator<Product> priceValidator = new PriceValidator<>();
+        PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 String.format("Product price amount should not be greater then %s, but was: %s",
@@ -491,7 +491,7 @@ class Tests {
             price
         );
 
-        PriceValidator<Product> priceValidator = new PriceValidator<>();
+        PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 "Product price currency should not be equal null, but was: " + currency
@@ -499,11 +499,10 @@ class Tests {
         );
 
         //Act
-        List<ValidationException> result = priceValidator.validate(product);
-
         //Assert
-        assertThat(result)
-            .isEqualTo(expectedResult);
+        assertThatThrownBy(() -> priceValidator.validate(product))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Product price currency should not be equal null, but was: " + currency);
     }
 
     @Test
@@ -600,7 +599,7 @@ class Tests {
             price
         );
 
-        PriceValidator<Product> priceValidator = new PriceValidator<>();
+        PriceValidator priceValidator = new PriceValidator();
         List<ValidationException> expectedResult = List.of(
             new ValidationException(
                 String.format(
