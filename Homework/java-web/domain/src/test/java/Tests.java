@@ -785,9 +785,32 @@ class Tests {
         );
 
         ProductRepository productRepository = new ProductRepository(products);
+        when(products.contains(product)).thenReturn(true);
 
         productRepository.deleteFromRepository(product);
 
         verify(products).remove(product);
+    }
+
+    @Test
+    @Tag("ProductRepository")
+    void Get_correct_result_when_delete_product_that_not_exist_in_repository(
+        @Mock List<Product> products
+    ) {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductRepository productRepository = new ProductRepository(products);
+        when(products.contains(product)).thenReturn(false);
+
+        String expectedResult = "Failed to remove product from the repository,"
+            + " because repository not contain it";
+
+        String result = productRepository.deleteFromRepository(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
     }
 }

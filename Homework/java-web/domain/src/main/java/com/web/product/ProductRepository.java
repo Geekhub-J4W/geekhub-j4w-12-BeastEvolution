@@ -25,6 +25,10 @@ public class ProductRepository {
     }
 
     public String deleteFromRepository(Product product) {
+        if (!products.contains(product)) {
+            return "Failed to remove product from the repository,"
+                + " because repository not contain it";
+        }
         if (products.remove(product)) {
             return "Product was deleted from repository";
         }
