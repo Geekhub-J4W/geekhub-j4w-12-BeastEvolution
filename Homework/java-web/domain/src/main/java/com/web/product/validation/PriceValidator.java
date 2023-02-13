@@ -11,8 +11,11 @@ public class PriceValidator {
 
 
     public List<ValidationException> validate(Price price) {
-
-        if (Objects.isNull(price.getCurrency())) {
+        if (Objects.isNull(price)) {
+            throw new IllegalArgumentException(
+                "Product price should not be equal null, but was: " + price
+            );
+        } else if (Objects.isNull(price.getCurrency())) {
             throw new IllegalArgumentException(
                 "Product price currency should not be equal null, but was: "
                     + price.getCurrency()

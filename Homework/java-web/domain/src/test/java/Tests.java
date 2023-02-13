@@ -596,4 +596,15 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("PriceValidator")
+    void Invalid_to_validate_product_price_if_price_equal_null() {
+        Price price = null;
+        PriceValidator priceValidator = new PriceValidator();
+
+        assertThatThrownBy(() -> priceValidator.validate(price))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Product price should not be equal null, but was: " + price);
+    }
 }
