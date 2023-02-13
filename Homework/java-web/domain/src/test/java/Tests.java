@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
+import com.web.product.ProductRepository;
 import com.web.product.validation.PriceValidator;
 import com.web.product.validation.ProductNameValidator;
 import com.web.product.validation.ProductValidator;
@@ -659,5 +660,20 @@ class Tests {
             new Product("Name", new Price(null, Currency.USD)),
             new Product("Name", new Price(new BigDecimal("10"), null))
         );
+    }
+
+    @Test
+    @Tag("ProductRepository")
+    void Add_valid_product_to_repository() {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        ProductRepository productRepository = new ProductRepository();
+        String expectedResult = "Product was added to repository.";
+        String result = productRepository.saveToRepository(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
     }
 }
