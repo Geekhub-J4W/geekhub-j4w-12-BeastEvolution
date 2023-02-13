@@ -23,4 +23,8 @@ public class ProductRepository {
 
         return "Product was added to repository.";
     }
+
+    public String deleteFromRepository(Product product) {
+        return "Product was deleted from repository";
+    }
 }

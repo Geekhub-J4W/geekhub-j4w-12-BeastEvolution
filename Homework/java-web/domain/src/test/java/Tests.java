@@ -756,4 +756,23 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    @Tag("ProductRepository")
+    void Get_correct_result_when_delete_product_from_repository() {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductRepository productRepository = new ProductRepository(new ArrayList<>());
+        productRepository.saveToRepository(product);
+
+        String expectedResult = "Product was deleted from repository";
+
+        String result = productRepository.deleteFromRepository(product);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
