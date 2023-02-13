@@ -1059,4 +1059,42 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResult);
     }
+
+    @Test
+    void Get_all_products_sorted_by_product_price_in_natural_order() {
+        List<Product> productList = List.of(
+            new Product(
+                "Product",
+                new Price(new BigDecimal("10"), Currency.EUR)
+            ),
+            new Product(
+                "Product",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product",
+                new Price(new BigDecimal("10"), Currency.UAH)
+            )
+        );
+        ProductService productService = new ProductService(new ProductRepository(productList));
+        List<Product> expectedResult = List.of(
+            new Product(
+                "Product",
+                new Price(new BigDecimal("10"), Currency.UAH)
+            ),
+            new Product(
+                "Product",
+                new Price(new BigDecimal("10"), Currency.USD)
+            ),
+            new Product(
+                "Product",
+                new Price(new BigDecimal("10"), Currency.EUR)
+            )
+        );
+
+        List<Product> result = productService.getAllSorted(Comparator.comparing(Product::getPrice));
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
 }
