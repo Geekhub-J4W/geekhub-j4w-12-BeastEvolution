@@ -15,7 +15,7 @@ class MenuBuilderTest {
     void Build_menu_tree_with_list_of_nods_in_random_order() {
         //Arrange
         List<MenuNode> menuNodes = new ArrayList<>();
-        MenuNode menuRoot = new PassthroughMenuNode(
+        final MenuNode menuRoot = new PassthroughMenuNode(
             "Root",
             new int[0]
         );
@@ -26,7 +26,7 @@ class MenuBuilderTest {
             }
         );
 
-        MenuNode node0_0 = new PassthroughMenuNode(
+        MenuNode node00 = new PassthroughMenuNode(
             "0",
             new int[]{0, 0}
         );
@@ -38,18 +38,18 @@ class MenuBuilderTest {
             }
         );
 
-        MenuNode buildNode0_0 = new PassthroughMenuNode(
+        MenuNode buildNode00 = new PassthroughMenuNode(
             "0",
             new int[]{0, 0}
         );
 
         // lvl 2
-        menuNodes.add(buildNode0_0);
+        menuNodes.add(buildNode00);
         // lvl 1
         menuNodes.add(buildNode0);
 
         node0.setChildren(
-            List.of(node0_0)
+            List.of(node00)
         );
         menuRoot.setChildren(
             List.of(node0)
@@ -69,7 +69,7 @@ class MenuBuilderTest {
     void Build_menu_tree_with_list_of_nods_in_correct_order() {
         //Arrange
         List<MenuNode> menuNodes = new ArrayList<>();
-        MenuNode menuRoot = new PassthroughMenuNode(
+        final MenuNode menuRoot = new PassthroughMenuNode(
             "Root",
             new int[0]
         );
@@ -80,7 +80,7 @@ class MenuBuilderTest {
             }
         );
 
-        MenuNode node0_0 = new PassthroughMenuNode(
+        MenuNode node00 = new PassthroughMenuNode(
             "0",
             new int[]{0, 0}
         );
@@ -92,7 +92,7 @@ class MenuBuilderTest {
             }
         );
 
-        MenuNode buildNode0_0 = new PassthroughMenuNode(
+        final MenuNode buildNode00 = new PassthroughMenuNode(
             "0",
             new int[]{0, 0}
         );
@@ -100,10 +100,10 @@ class MenuBuilderTest {
         // lvl 2
         menuNodes.add(buildNode0);
         // lvl 1
-        menuNodes.add(buildNode0_0);
+        menuNodes.add(buildNode00);
 
         node0.setChildren(
-            List.of(node0_0)
+            List.of(node00)
         );
         menuRoot.setChildren(
             List.of(node0)
