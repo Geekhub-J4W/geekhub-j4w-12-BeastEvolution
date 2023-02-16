@@ -3,6 +3,10 @@ subprojects {
 
     group = 'web'
 
+    tasks.withType(JavaExec).configureEach {
+        systemProperty 'file.encoding', 'UTF-8'
+    }
+
     repositories {
         mavenCentral()
     }
@@ -20,6 +24,7 @@ subprojects {
     }
 
     test {
+        systemProperty "file.encoding", "utf-8"
         useJUnitPlatform()
     }
 }
