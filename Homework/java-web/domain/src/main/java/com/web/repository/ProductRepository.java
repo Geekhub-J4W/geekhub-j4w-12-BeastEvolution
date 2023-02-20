@@ -15,14 +15,14 @@ public class ProductRepository {
         this.products = products;
     }
 
-    public String saveToRepository(Product product) {
+    public Product saveToRepository(Product product) {
         if (Objects.isNull(product)) {
             throw new IllegalArgumentException("Can't add product equal null to repository");
         }
 
         products.add(product);
 
-        return "Product was added to repository.";
+        return product;
     }
 
     public String deleteFromRepository(Product product) {

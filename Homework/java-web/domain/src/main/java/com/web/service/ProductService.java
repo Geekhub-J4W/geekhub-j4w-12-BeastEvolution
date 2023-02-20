@@ -22,7 +22,7 @@ public class ProductService {
         this.productValidator = productValidator;
     }
 
-    public String saveToRepository(Product product) {
+    public Product saveToRepository(Product product) {
         List<String> validationResults = productValidator.validate(product);
         if (!validationResults.isEmpty()) {
             throw new ValidationException(

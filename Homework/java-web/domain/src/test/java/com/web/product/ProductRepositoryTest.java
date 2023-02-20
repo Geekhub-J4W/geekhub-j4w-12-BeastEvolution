@@ -122,25 +122,6 @@ class ProductRepositoryTest {
 
     @Test
     @Tag("ProductRepository")
-    void Delete_product_that_not_exist_in_repository(@Mock List<Product> products) {
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
-
-        ProductRepository productRepository = new ProductRepository(products);
-        when(products.remove(product)).thenReturn(false);
-
-        try {
-            productRepository.deleteFromRepository(product);
-        } catch (Exception e) {
-        }
-
-        verify(products).remove(product);
-    }
-
-    @Test
-    @Tag("ProductRepository")
     void Invalid_to_delete_product_that_not_exist_in_repository() {
         Product product = null;
 

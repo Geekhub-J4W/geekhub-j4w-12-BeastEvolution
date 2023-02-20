@@ -73,31 +73,6 @@ class ProductServiceTest {
 
     @Test
     @Tag("ProductService")
-    void Save_invalid_product(@Mock ProductRepository productRepository) {
-        String name = "name - мыло";
-        Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
-        Product product = new Product(name, price);
-
-        ProductService productService = new ProductService(
-            productRepository,
-            new ProductValidator(
-                new ProductNameValidator(
-                    new StringValidator(ProductNameCharacters.getProductNameValidCharacters())
-                ),
-                new PriceValidator(new AmountValidator())
-            )
-        );
-
-        try {
-            productService.saveToRepository(product);
-        } catch (Exception e) {
-        }
-
-        verify(productRepository, never()).saveToRepository(product);
-    }
-
-    @Test
-    @Tag("ProductService")
     void Invalid_to_save_incorrect_product() {
         //Arrange
         String name = "name - мыло";
@@ -388,39 +363,6 @@ class ProductServiceTest {
 
     @Test
     @Tag("ProductService")
-    void Add_product_that_already_exist_in_repository(
-        @Mock ProductRepository productRepository,
-        @Mock ProductValidator productValidator
-    ) {
-        //Arrange
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
-
-        ProductService productService = new ProductService(
-            productRepository,
-            productValidator
-        );
-
-        when(productRepository.getAll()).thenReturn(
-            List.of(
-                product
-            )
-        );
-
-        //Act
-        try {
-            productService.saveToRepository(product);
-        } catch (Exception e) {
-        }
-
-        //Assert
-        verify(productRepository, never()).saveToRepository(product);
-    }
-
-    @Test
-    @Tag("ProductService")
     void Invalid_to_add_valid_product_that_already_exist_in_repository(
         @Mock ProductRepository productRepository,
         @Mock ProductValidator productValidator
@@ -506,30 +448,5 @@ class ProductServiceTest {
                 "Failed to remove product from the repository,"
                     + " because repository not contain it"
             );
-    }
-
-    @Test
-    void Try_to_delete_product_that_not_exist_in_repository(
-        @Mock ProductRepository productRepository,
-        @Mock ProductValidator productValidator
-    ) {
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
-
-        ProductService productService = new ProductService(
-            productRepository,
-            productValidator
-        );
-
-        when(productRepository.getAll()).thenReturn(List.of());
-
-        try {
-            productService.deleteFromRepository(product);
-        } catch (Exception e) {
-        }
-
-        verify(productRepository, never()).deleteFromRepository(product);
     }
 }
