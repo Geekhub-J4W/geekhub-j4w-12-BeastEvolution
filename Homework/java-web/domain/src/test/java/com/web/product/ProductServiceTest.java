@@ -437,4 +437,38 @@ class ProductServiceTest {
             .isInstanceOf(ProductAlreadyExistException.class)
             .hasMessage("Product was not added to the repository because it is already there.");
     }
+
+    @Test
+    @Tag("ProductService")
+    void Invalid_to_add_valid_product_that_have_same_name_with_another_product_in_repository(
+        @Mock ProductRepository productRepository,
+        @Mock ProductValidator productValidator
+    ) {
+        //Arrange
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        Product product1 = new Product(
+            "Name",
+            new Price(new BigDecimal("11"), Currency.UAH)
+        );
+
+        ProductService productService = new ProductService(
+            productRepository,
+            productValidator
+        );
+
+        when(productRepository.getAll()).thenReturn(
+            List.of(
+                product
+            )
+        );
+
+        //Act
+        //Assert
+        assertThatThrownBy(() -> productService.saveToRepository(product1))
+            .isInstanceOf(ProductAlreadyExistException.class)
+            .hasMessage("Product was not added to the repository because it is already there.");
+    }
 }

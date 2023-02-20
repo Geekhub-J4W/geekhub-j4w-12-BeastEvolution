@@ -21,4 +21,21 @@ class ProductTest {
         assertThat(product.getPrice())
             .isEqualTo(price);
     }
+
+    @Test
+    void Products_that_only_have_same_name_must_be_equals() {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        Product product1 = new Product(
+            "Name",
+            new Price(new BigDecimal("11"), Currency.UAH)
+        );
+
+        boolean result = product.equals(product1);
+
+        assertThat(result)
+            .isTrue();
+    }
 }
