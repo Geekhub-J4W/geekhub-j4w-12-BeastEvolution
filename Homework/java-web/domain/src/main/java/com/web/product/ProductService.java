@@ -26,6 +26,10 @@ public class ProductService {
                 "Product was not save to the repository because:\n"
                     + String.join("\n", validationResults)
             );
+        } else if (productRepository.getAll().contains(product)) {
+            throw new ProductAlreadyExistException(
+                "Product was not added to the repository because it is already there."
+            );
         }
 
         return productRepository.saveToRepository(product);

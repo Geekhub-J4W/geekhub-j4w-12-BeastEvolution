@@ -1,11 +1,12 @@
 package com.web.menu;
 
 import com.web.config.DomainConfig;
+import com.web.exceptions.ProductAlreadyExistException;
+import com.web.exceptions.ValidationException;
 import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
 import com.web.product.ProductService;
-import com.web.product.validation.exceptions.ValidationException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +57,7 @@ public class ApplicationMenuBuilder {
                     new Price(productAmount, Currency.values()[currencyNumber]));
                 try {
                     System.out.println(productService.saveToRepository(product));
-                } catch (ValidationException e) {
+                } catch (ValidationException | ProductAlreadyExistException e) {
                     System.out.println(e.getMessage());
                 }
             }

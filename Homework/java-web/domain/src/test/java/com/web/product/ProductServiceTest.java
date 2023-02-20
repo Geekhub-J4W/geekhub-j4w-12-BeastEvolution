@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.web.exceptions.ProductAlreadyExistException;
 import com.web.exceptions.ValidationException;
@@ -372,5 +373,68 @@ class ProductServiceTest {
 
         assertThat(result)
             .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("ProductService")
+    void Add_product_that_already_exist_in_repository(
+        @Mock ProductRepository productRepository,
+        @Mock ProductValidator productValidator
+    ) {
+        //Arrange
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductService productService = new ProductService(
+            productRepository,
+            productValidator
+        );
+
+        when(productRepository.getAll()).thenReturn(
+            List.of(
+                product
+            )
+        );
+
+        //Act
+        try {
+            productService.saveToRepository(product);
+        } catch (Exception e) {
+        }
+
+        //Assert
+        verify(productRepository, never()).saveToRepository(product);
+    }
+
+    @Test
+    @Tag("ProductService")
+    void Invalid_to_add_valid_product_that_already_exist_in_repository(
+        @Mock ProductRepository productRepository,
+        @Mock ProductValidator productValidator
+    ) {
+        //Arrange
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductService productService = new ProductService(
+            productRepository,
+            productValidator
+        );
+
+        when(productRepository.getAll()).thenReturn(
+            List.of(
+                product
+            )
+        );
+
+        //Act
+        //Assert
+        assertThatThrownBy(() -> productService.saveToRepository(product))
+            .isInstanceOf(ProductAlreadyExistException.class)
+            .hasMessage("Product was not added to the repository because it is already there.");
     }
 }

@@ -38,26 +38,6 @@ class ProductRepositoryTest {
 
     @Test
     @Tag("ProductRepository")
-    void Add_product_that_already_exist_in_repository(@Mock List<Product> products) {
-        //Arrange
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
-
-        ProductRepository productRepository = new ProductRepository(products);
-
-        when(products.contains(product)).thenReturn(true);
-
-        //Act
-        productRepository.saveToRepository(product);
-
-        //Assert
-        verify(products, never()).add(product);
-    }
-
-    @Test
-    @Tag("ProductRepository")
     void Invalid_to_add_product_equal_null_repository() {
         Product product = null;
         ProductRepository productRepository = new ProductRepository(new ArrayList<>());
@@ -79,29 +59,6 @@ class ProductRepositoryTest {
 
         String result = productRepository.saveToRepository(product);
 
-        assertThat(result)
-            .isEqualTo(expectedResult);
-    }
-
-    @Test
-    @Tag("ProductRepository")
-    void Get_correct_result_when_add_valid_product_that_already_exist_in_repository() {
-        //Arrange
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
-
-        ProductRepository productRepository = new ProductRepository(new ArrayList<>());
-        String expectedResult =
-            "Product was not added to the repository because it is already there.";
-
-        productRepository.saveToRepository(product);
-
-        //Act
-        String result = productRepository.saveToRepository(product);
-
-        //Assert
         assertThat(result)
             .isEqualTo(expectedResult);
     }
