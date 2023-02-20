@@ -1,9 +1,9 @@
 package com.web.menu;
 
+import com.web.config.DomainConfig;
 import com.web.product.Currency;
 import com.web.product.Price;
 import com.web.product.Product;
-import com.web.product.ProductRepository;
 import com.web.product.ProductService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class ApplicationMenuBuilder {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationMenuBuilder.class);
 
     private ApplicationMenuBuilder(MenuNode menuRoot) {
     }
@@ -26,10 +27,9 @@ public class ApplicationMenuBuilder {
     }
 
     private static List<MenuNode> createMenuNodes() {
+        var applicationContext = new AnnotationConfigApplicationContext(DomainConfig.class);
         List<MenuNode> menuNodes = new ArrayList<>();
-        ProductService productService = new ProductService(
-            new ProductRepository(new ArrayList<>())
-        );
+        ProductService productService = applicationContext.getBean(ProductService.class);
         Scanner scanner = new Scanner(System.in);
 
         // lvl 1

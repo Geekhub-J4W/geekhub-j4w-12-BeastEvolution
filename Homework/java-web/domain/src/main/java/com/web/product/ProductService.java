@@ -4,14 +4,17 @@ import com.web.product.validation.ProductValidator;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductValidator productValidator = new ProductValidator();
+    private final ProductValidator productValidator;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductValidator productValidator) {
         this.productRepository = productRepository;
+        this.productValidator = productValidator;
     }
 
     public String saveToRepository(Product product) {

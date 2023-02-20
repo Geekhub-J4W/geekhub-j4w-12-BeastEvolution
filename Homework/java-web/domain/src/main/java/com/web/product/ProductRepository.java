@@ -2,7 +2,9 @@ package com.web.product;
 
 import java.util.List;
 import java.util.Objects;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ProductRepository {
 
     private final List<Product> products;

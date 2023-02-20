@@ -4,12 +4,19 @@ import com.web.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductValidator {
 
-    private final ProductNameValidator productNameValidator = new ProductNameValidator();
-    private final PriceValidator priceValidator = new PriceValidator();
+    private final ProductNameValidator productNameValidator;
+    private final PriceValidator priceValidator;
 
+    public ProductValidator(ProductNameValidator productNameValidator,
+        PriceValidator priceValidator) {
+        this.productNameValidator = productNameValidator;
+        this.priceValidator = priceValidator;
+    }
 
     public List<String> validate(Product product) {
         if (Objects.isNull(product)) {

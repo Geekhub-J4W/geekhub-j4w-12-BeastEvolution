@@ -3,11 +3,16 @@ package com.web.product.validation;
 import com.web.product.Price;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PriceValidator {
 
-    private final AmountValidator amountValidator = new AmountValidator();
+    private final AmountValidator amountValidator;
 
+    public PriceValidator(AmountValidator amountValidator) {
+        this.amountValidator = amountValidator;
+    }
 
     public List<String> validate(Price price) {
         if (Objects.isNull(price)) {

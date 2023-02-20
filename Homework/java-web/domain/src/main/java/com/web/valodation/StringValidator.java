@@ -1,5 +1,8 @@
 package com.web.valodation;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class StringValidator {
 
     private final char[] validChars;

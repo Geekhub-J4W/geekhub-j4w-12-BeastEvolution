@@ -1,17 +1,19 @@
 package com.web.product.validation;
 
-import com.web.product.ProductNameCharacters;
 import com.web.valodation.StringValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductNameValidator {
 
-    private final StringValidator stringValidator = new StringValidator(
-        ProductNameCharacters.getProductNameValidCharacters()
-    );
+    private final StringValidator stringValidator;
 
+    public ProductNameValidator(StringValidator stringValidator) {
+        this.stringValidator = stringValidator;
+    }
 
     public List<String> validate(String productName) {
         if (Objects.isNull(productName)) {
