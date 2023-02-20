@@ -9,6 +9,7 @@ import com.web.product.validation.AmountValidator;
 import com.web.product.validation.PriceValidator;
 import com.web.product.validation.ProductNameValidator;
 import com.web.product.validation.ProductValidator;
+import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -78,24 +79,30 @@ class ProductServiceTest {
             )
         );
 
-        productService.saveToRepository(product);
+        try {
+            productService.saveToRepository(product);
+        } catch (Exception e) {
+        }
 
         verify(productRepository, never()).saveToRepository(product);
     }
 
     @Test
     @Tag("ProductService")
-    void Get_correct_result_when_save_invalid_product() {
+    void Invalid_to_save_incorrect_product() {
+        //Arrange
         String name = "name - мыло";
         Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
         Product product = new Product(name, price);
-        String expectedResult = "Product was not save to the repository because:\n"
+
+        String expectedExceptionMassage = "Product was not save to the repository because:\n"
             + "Product name must begin with Uppercase symbol, but was set:name - мыло\n"
             + "Product name must contain only English and Ukrainian alphabet characters,"
             + " digits and punctuation marks, but set: name - мыло\n"
             + "Product price amount should be a positive number, but was:-1000001.123\n"
             + "Product price amount should have number of fraction digits no greater then 2"
             + " for USD currency type, but was: 3";
+
         ProductService productService = new ProductService(
             new ProductRepository(new ArrayList<>()),
             new ProductValidator(
@@ -106,10 +113,11 @@ class ProductServiceTest {
             )
         );
 
-        String result = productService.saveToRepository(product);
-
-        assertThat(result)
-            .isEqualTo(expectedResult);
+        //Act
+        //Assert
+        assertThatThrownBy(() -> productService.saveToRepository(product))
+            .isInstanceOf(ValidationException.class)
+            .hasMessage(expectedExceptionMassage);
     }
 
     @Test

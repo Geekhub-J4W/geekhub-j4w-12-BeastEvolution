@@ -1,6 +1,7 @@
 package com.web.product;
 
 import com.web.product.validation.ProductValidator;
+import com.web.product.validation.exceptions.ValidationException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -20,8 +21,10 @@ public class ProductService {
     public String saveToRepository(Product product) {
         List<String> validationResults = productValidator.validate(product);
         if (!validationResults.isEmpty()) {
-            return "Product was not save to the repository because:\n"
-                + String.join("\n", validationResults);
+            throw new ValidationException(
+                "Product was not save to the repository because:\n"
+                    + String.join("\n", validationResults)
+            );
         }
 
         return productRepository.saveToRepository(product);
