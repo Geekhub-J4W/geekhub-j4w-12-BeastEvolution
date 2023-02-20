@@ -59,12 +59,11 @@ class ProductRepositoryTest {
             new Price(new BigDecimal("10"), Currency.USD)
         );
         ProductRepository productRepository = new ProductRepository(new ArrayList<>());
-        String expectedResult = "Product was added to repository.";
 
-        String result = productRepository.saveToRepository(product);
+        Product result = productRepository.saveToRepository(product);
 
         assertThat(result)
-            .isEqualTo(expectedResult);
+            .isEqualTo(product);
     }
 
     @Test
@@ -118,6 +117,8 @@ class ProductRepositoryTest {
         assertThatThrownBy(() -> productRepository.deleteFromRepository(product))
             .isInstanceOf(RepositoryException.class)
             .hasMessage("Failed to remove product from the repository");
+
+        verify(products).remove(product);
     }
 
     @Test

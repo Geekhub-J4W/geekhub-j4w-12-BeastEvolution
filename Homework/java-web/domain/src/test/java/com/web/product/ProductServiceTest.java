@@ -64,16 +64,16 @@ class ProductServiceTest {
             new ProductRepository(new ArrayList<>()),
             productValidator
         );
-        String expectedResult = "Product was added to repository.";
-        String result = productService.saveToRepository(product);
+
+        Product result = productService.saveToRepository(product);
 
         assertThat(result)
-            .isEqualTo(expectedResult);
+            .isEqualTo(product);
     }
 
     @Test
     @Tag("ProductService")
-    void Invalid_to_save_incorrect_product() {
+    void Invalid_to_save_incorrect_product(@Mock ProductRepository productRepository) {
         //Arrange
         String name = "name - мыло";
         Price price = new Price(new BigDecimal("-1000001.123"), Currency.USD);
@@ -88,7 +88,7 @@ class ProductServiceTest {
             + " for USD currency type, but was: 3";
 
         ProductService productService = new ProductService(
-            new ProductRepository(new ArrayList<>()),
+            productRepository,
             new ProductValidator(
                 new ProductNameValidator(
                     new StringValidator(ProductNameCharacters.getProductNameValidCharacters())
@@ -102,6 +102,8 @@ class ProductServiceTest {
         assertThatThrownBy(() -> productService.saveToRepository(product))
             .isInstanceOf(ValidationException.class)
             .hasMessage(expectedExceptionMassage);
+
+        verify(productRepository, never()).saveToRepository(product);
     }
 
     @Test
@@ -389,6 +391,8 @@ class ProductServiceTest {
         assertThatThrownBy(() -> productService.saveToRepository(product))
             .isInstanceOf(ProductAlreadyExistException.class)
             .hasMessage("Product was not added to the repository because it is already there.");
+
+        verify(productRepository, never()).saveToRepository(product);
     }
 
     @Test
@@ -448,5 +452,7 @@ class ProductServiceTest {
                 "Failed to remove product from the repository,"
                     + " because repository not contain it"
             );
+
+        verify(productRepository, never()).deleteFromRepository(product);
     }
 }
