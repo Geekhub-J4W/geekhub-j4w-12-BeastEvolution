@@ -1,4 +1,4 @@
-package com.web.product.exceptions;
+package com.web.entity.product.exceptions;
 
 public class InvalidPriceException extends RuntimeException {
 

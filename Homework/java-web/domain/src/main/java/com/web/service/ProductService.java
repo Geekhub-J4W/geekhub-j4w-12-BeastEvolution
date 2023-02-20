@@ -1,9 +1,11 @@
-package com.web.product;
+package com.web.service;
 
-import com.web.exceptions.ProductAlreadyExistException;
-import com.web.exceptions.ProductNotFoundException;
-import com.web.exceptions.ValidationException;
-import com.web.product.validation.ProductValidator;
+import com.web.entity.product.Product;
+import com.web.entity.product.validation.ProductValidator;
+import com.web.repository.ProductRepository;
+import com.web.service.exceptions.ProductAlreadyExistException;
+import com.web.service.exceptions.ProductNotFoundException;
+import com.web.service.exceptions.ValidationException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;

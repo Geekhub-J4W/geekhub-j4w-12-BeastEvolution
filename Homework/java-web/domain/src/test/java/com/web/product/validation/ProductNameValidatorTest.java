@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import com.web.product.ProductNameCharacters;
+import com.web.entity.product.ProductNameCharacters;
+import com.web.entity.product.validation.ProductNameValidator;
 import com.web.valodation.StringValidator;
 import java.util.List;
 import org.junit.jupiter.api.Tag;

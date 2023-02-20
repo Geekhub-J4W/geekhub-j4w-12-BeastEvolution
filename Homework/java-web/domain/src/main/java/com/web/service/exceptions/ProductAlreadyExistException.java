@@ -1,4 +1,4 @@
-package com.web.exceptions;
+package com.web.service.exceptions;
 
 public class ProductAlreadyExistException extends RuntimeException {
 

@@ -1,14 +1,14 @@
 package com.web.menu;
 
 import com.web.config.DomainConfig;
-import com.web.exceptions.ProductAlreadyExistException;
-import com.web.exceptions.ProductNotFoundException;
-import com.web.exceptions.RepositoryException;
-import com.web.exceptions.ValidationException;
-import com.web.product.Currency;
-import com.web.product.Price;
-import com.web.product.Product;
-import com.web.product.ProductService;
+import com.web.entity.product.Currency;
+import com.web.entity.product.Price;
+import com.web.entity.product.Product;
+import com.web.repository.exceptions.RepositoryException;
+import com.web.service.ProductService;
+import com.web.service.exceptions.ProductAlreadyExistException;
+import com.web.service.exceptions.ProductNotFoundException;
+import com.web.service.exceptions.ValidationException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;

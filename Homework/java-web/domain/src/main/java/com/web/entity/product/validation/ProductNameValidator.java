@@ -1,4 +1,4 @@
-package com.web.product.validation;
+package com.web.entity.product.validation;
 
 import com.web.valodation.StringValidator;
 import java.util.ArrayList;

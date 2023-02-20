@@ -1,6 +1,6 @@
 package com.web.config;
 
-import com.web.product.ProductNameCharacters;
+import com.web.entity.product.ProductNameCharacters;
 import com.web.valodation.StringValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

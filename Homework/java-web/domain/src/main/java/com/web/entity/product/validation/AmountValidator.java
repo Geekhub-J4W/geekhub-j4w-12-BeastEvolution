@@ -1,7 +1,7 @@
-package com.web.product.validation;
+package com.web.entity.product.validation;
 
-import com.web.product.Currency;
-import com.web.product.Price;
+import com.web.entity.product.Currency;
+import com.web.entity.product.Price;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

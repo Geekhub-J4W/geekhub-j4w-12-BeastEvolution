@@ -1,6 +1,6 @@
-package com.web.product.validation;
+package com.web.entity.product.validation;
 
-import com.web.product.Product;
+import com.web.entity.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

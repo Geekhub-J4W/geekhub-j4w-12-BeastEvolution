@@ -3,10 +3,14 @@ package com.web.product.validation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.web.product.Currency;
-import com.web.product.Price;
-import com.web.product.Product;
-import com.web.product.ProductNameCharacters;
+import com.web.entity.product.Currency;
+import com.web.entity.product.Price;
+import com.web.entity.product.Product;
+import com.web.entity.product.ProductNameCharacters;
+import com.web.entity.product.validation.AmountValidator;
+import com.web.entity.product.validation.PriceValidator;
+import com.web.entity.product.validation.ProductNameValidator;
+import com.web.entity.product.validation.ProductValidator;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.List;

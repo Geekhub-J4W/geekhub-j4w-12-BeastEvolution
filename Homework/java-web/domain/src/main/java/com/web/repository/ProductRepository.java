@@ -1,6 +1,7 @@
-package com.web.product;
+package com.web.repository;
 
-import com.web.exceptions.RepositoryException;
+import com.web.entity.product.Product;
+import com.web.repository.exceptions.RepositoryException;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
-package com.web.product.validation;
+package com.web.entity.product.validation;
 
-import com.web.product.Price;
+import com.web.entity.product.Price;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Component;

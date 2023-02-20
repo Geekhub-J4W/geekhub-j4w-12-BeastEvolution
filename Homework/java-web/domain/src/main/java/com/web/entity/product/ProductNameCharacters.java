@@ -1,4 +1,4 @@
-package com.web.product;
+package com.web.entity.product;
 
 public class ProductNameCharacters {
 

@@ -1,4 +1,4 @@
-package com.web.product;
+package com.web.entity.product;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.web.exceptions;
+package com.web.repository.exceptions;
 
 public class RepositoryException extends RuntimeException {
 

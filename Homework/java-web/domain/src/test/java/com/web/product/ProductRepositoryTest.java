@@ -5,7 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.web.exceptions.RepositoryException;
+import com.web.entity.product.Currency;
+import com.web.entity.product.Price;
+import com.web.entity.product.Product;
+import com.web.repository.ProductRepository;
+import com.web.repository.exceptions.RepositoryException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

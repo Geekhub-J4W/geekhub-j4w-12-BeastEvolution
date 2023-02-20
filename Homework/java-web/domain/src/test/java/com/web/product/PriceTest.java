@@ -2,6 +2,8 @@ package com.web.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.web.entity.product.Currency;
+import com.web.entity.product.Price;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

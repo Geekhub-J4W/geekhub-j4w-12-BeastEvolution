@@ -2,8 +2,10 @@ package com.web.product.validation;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.web.product.Currency;
-import com.web.product.Price;
+import com.web.entity.product.Currency;
+import com.web.entity.product.Price;
+import com.web.entity.product.validation.AmountValidator;
+import com.web.entity.product.validation.PriceValidator;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
