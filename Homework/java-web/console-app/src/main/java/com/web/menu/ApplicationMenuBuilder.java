@@ -2,6 +2,8 @@ package com.web.menu;
 
 import com.web.config.DomainConfig;
 import com.web.exceptions.ProductAlreadyExistException;
+import com.web.exceptions.ProductNotFoundException;
+import com.web.exceptions.RepositoryException;
 import com.web.exceptions.ValidationException;
 import com.web.product.Currency;
 import com.web.product.Price;
@@ -82,7 +84,11 @@ public class ApplicationMenuBuilder {
                 Product product = new Product(
                     productName,
                     new Price(productAmount, Currency.values()[currencyNumber]));
-                System.out.println(productService.deleteFromRepository(product));
+                try {
+                    System.out.println(productService.deleteFromRepository(product));
+                } catch (RepositoryException | ProductNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         ));
         menuNodes.add(new PassthroughMenuNode(

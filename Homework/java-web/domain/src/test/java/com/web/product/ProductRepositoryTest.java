@@ -2,10 +2,10 @@ package com.web.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.web.exceptions.RepositoryException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ class ProductRepositoryTest {
         );
 
         ProductRepository productRepository = new ProductRepository(products);
-        when(products.contains(product)).thenReturn(true);
+        when(products.remove(product)).thenReturn(true);
 
         productRepository.deleteFromRepository(product);
 
@@ -100,7 +100,7 @@ class ProductRepositoryTest {
 
     @Test
     @Tag("ProductRepository")
-    void Get_correct_result_when_delete_product_that_not_exist_in_repository(
+    void Invalid_delete_product_that_not_exist_in_repository(
         @Mock List<Product> products
     ) {
         Product product = new Product(
@@ -109,15 +109,11 @@ class ProductRepositoryTest {
         );
 
         ProductRepository productRepository = new ProductRepository(products);
-        when(products.contains(product)).thenReturn(false);
+        when(products.remove(product)).thenReturn(false);
 
-        String expectedResult = "Failed to remove product from the repository,"
-            + " because repository not contain it";
-
-        String result = productRepository.deleteFromRepository(product);
-
-        assertThat(result)
-            .isEqualTo(expectedResult);
+        assertThatThrownBy(() -> productRepository.deleteFromRepository(product))
+            .isInstanceOf(RepositoryException.class)
+            .hasMessage("Failed to remove product from the repository");
     }
 
     @Test
@@ -129,11 +125,14 @@ class ProductRepositoryTest {
         );
 
         ProductRepository productRepository = new ProductRepository(products);
-        when(products.contains(product)).thenReturn(false);
+        when(products.remove(product)).thenReturn(false);
 
-        productRepository.deleteFromRepository(product);
+        try {
+            productRepository.deleteFromRepository(product);
+        } catch (Exception e) {
+        }
 
-        verify(products, never()).remove(product);
+        verify(products).remove(product);
     }
 
     @Test

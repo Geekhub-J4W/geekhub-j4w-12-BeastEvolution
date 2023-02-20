@@ -1,5 +1,6 @@
 package com.web.product;
 
+import com.web.exceptions.RepositoryException;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Repository;
@@ -29,14 +30,10 @@ public class ProductRepository {
                 "Can't delete product equal null to repository"
             );
         }
-        if (!products.contains(product)) {
-            return "Failed to remove product from the repository,"
-                + " because repository not contain it";
-        }
         if (products.remove(product)) {
             return "Product was deleted from repository";
         }
-        return "Failed to remove product from the repository";
+        throw new RepositoryException("Failed to remove product from the repository");
     }
 
     public List<Product> getAll() {

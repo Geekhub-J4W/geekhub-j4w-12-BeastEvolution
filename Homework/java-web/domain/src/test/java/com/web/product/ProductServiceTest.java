@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.web.exceptions.ProductAlreadyExistException;
+import com.web.exceptions.ProductNotFoundException;
 import com.web.exceptions.ValidationException;
 import com.web.product.validation.AmountValidator;
 import com.web.product.validation.PriceValidator;
@@ -154,6 +155,10 @@ class ProductServiceTest {
         ProductService productService = new ProductService(
             productRepository,
             productValidator
+        );
+
+        when(productRepository.getAll()).thenReturn(
+            List.of(product)
         );
 
         productService.deleteFromRepository(product);
@@ -470,5 +475,55 @@ class ProductServiceTest {
         assertThatThrownBy(() -> productService.saveToRepository(product1))
             .isInstanceOf(ProductAlreadyExistException.class)
             .hasMessage("Product was not added to the repository because it is already there.");
+    }
+
+    @Test
+    void Invalid_to_delete_product_that_not_exist_in_repository(
+        @Mock ProductRepository productRepository,
+        @Mock ProductValidator productValidator
+    ) {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductService productService = new ProductService(
+            productRepository,
+            productValidator
+        );
+
+        when(productRepository.getAll()).thenReturn(List.of());
+
+        assertThatThrownBy(() -> productService.deleteFromRepository(product))
+            .isInstanceOf(ProductNotFoundException.class)
+            .hasMessage(
+                "Failed to remove product from the repository,"
+                    + " because repository not contain it"
+            );
+    }
+
+    @Test
+    void Try_to_delete_product_that_not_exist_in_repository(
+        @Mock ProductRepository productRepository,
+        @Mock ProductValidator productValidator
+    ) {
+        Product product = new Product(
+            "Name",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductService productService = new ProductService(
+            productRepository,
+            productValidator
+        );
+
+        when(productRepository.getAll()).thenReturn(List.of());
+
+        try {
+            productService.deleteFromRepository(product);
+        } catch (Exception e) {
+        }
+
+        verify(productRepository, never()).deleteFromRepository(product);
     }
 }

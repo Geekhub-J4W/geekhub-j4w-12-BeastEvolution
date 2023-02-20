@@ -1,6 +1,7 @@
 package com.web.product;
 
 import com.web.exceptions.ProductAlreadyExistException;
+import com.web.exceptions.ProductNotFoundException;
 import com.web.exceptions.ValidationException;
 import com.web.product.validation.ProductValidator;
 import java.util.Comparator;
@@ -39,6 +40,11 @@ public class ProductService {
         if (Objects.isNull(product)) {
             throw new IllegalArgumentException(
                 "Can't delete product equal null"
+            );
+        } else if (!productRepository.getAll().contains(product)) {
+            throw new ProductNotFoundException(
+                "Failed to remove product from the repository,"
+                    + " because repository not contain it"
             );
         }
 
