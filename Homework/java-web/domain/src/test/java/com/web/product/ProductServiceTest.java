@@ -5,11 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.web.exceptions.ProductAlreadyExistException;
+import com.web.exceptions.ValidationException;
 import com.web.product.validation.AmountValidator;
 import com.web.product.validation.PriceValidator;
 import com.web.product.validation.ProductNameValidator;
 import com.web.product.validation.ProductValidator;
-import com.web.product.validation.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
 import java.util.ArrayList;

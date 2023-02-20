@@ -1,4 +1,4 @@
-package com.web.product.validation.exceptions;
+package com.web.exceptions;
 
 public class ValidationException extends RuntimeException {
 

@@ -1,7 +1,8 @@
 package com.web.product;
 
+import com.web.exceptions.ProductAlreadyExistException;
+import com.web.exceptions.ValidationException;
 import com.web.product.validation.ProductValidator;
-import com.web.product.validation.exceptions.ValidationException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;

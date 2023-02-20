@@ -1,6 +1,6 @@
 package com.web.product.validation.interfaces;
 
-import com.web.product.validation.exceptions.ValidationException;
+import com.web.exceptions.ValidationException;
 import java.util.List;
 
 public interface Validator<T> {
