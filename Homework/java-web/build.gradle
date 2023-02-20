@@ -3,6 +3,9 @@ subprojects {
 
     group = 'web'
 
+    compileJava { options.encoding = "UTF-8" }
+    compileTestJava { options.encoding = "UTF-8" }
+
     tasks.withType(JavaExec).configureEach {
         systemProperty 'file.encoding', 'UTF-8'
     }
