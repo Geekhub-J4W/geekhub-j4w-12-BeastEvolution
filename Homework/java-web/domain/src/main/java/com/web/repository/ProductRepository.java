@@ -40,4 +40,13 @@ public class ProductRepository {
     public List<Product> getAll() {
         return products;
     }
+
+    public Product findByName(String productName) {
+        Product productEntityDouble = new Product(productName, null);
+        if (products.contains(productEntityDouble)) {
+            return products.get(products.indexOf(productEntityDouble));
+        }
+
+        throw new RepositoryException("Failed to find product with name: " + productName);
+    }
 }

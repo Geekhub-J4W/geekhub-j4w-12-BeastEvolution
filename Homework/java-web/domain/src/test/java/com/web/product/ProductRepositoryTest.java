@@ -150,4 +150,44 @@ class ProductRepositoryTest {
             .isEqualTo(productList);
     }
 
+    @Test
+    void Find_product_by_name() {
+        //Arrange
+        String productName = "Product";
+
+        Product product = new Product(
+            productName,
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+
+        ProductRepository productRepository = new ProductRepository(
+            List.of(
+                product
+            )
+        );
+
+        //Act
+        Product result = productRepository.findByName(productName);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(product);
+    }
+
+    @Test
+    void Invalid_to_find_product_by_name_if_repository_not_contain_product_with_this_name() {
+        //Arrange
+        String productName = "Product";
+
+        ProductRepository productRepository = new ProductRepository(
+            List.of()
+        );
+
+        //Act
+        //Assert
+        assertThatThrownBy(() -> productRepository.findByName(productName))
+            .isInstanceOf(RepositoryException.class)
+            .hasMessage("Failed to find product with name: " + productName);
+    }
+
 }
