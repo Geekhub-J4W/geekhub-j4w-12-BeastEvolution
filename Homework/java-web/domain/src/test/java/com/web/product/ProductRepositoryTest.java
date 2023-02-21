@@ -2,6 +2,7 @@ package com.web.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -9,7 +10,7 @@ import com.web.entity.product.Currency;
 import com.web.entity.product.Price;
 import com.web.entity.product.Product;
 import com.web.repository.ProductRepository;
-import com.web.repository.exceptions.RepositoryException;
+import com.web.service.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,36 +70,45 @@ class ProductRepositoryTest {
     @Test
     @Tag("ProductRepository")
     void Get_correct_result_when_delete_product_from_repository() {
+        String productName = "Name";
         Product product = new Product(
-            "Name",
+            productName,
             new Price(new BigDecimal("10"), Currency.USD)
         );
 
-        ProductRepository productRepository = new ProductRepository(new ArrayList<>());
-        productRepository.saveToRepository(product);
+        List<Product> products = new ArrayList<>();
+        products.add(product);
 
-        String expectedResult = "Product was deleted from repository";
+        ProductRepository productRepository = new ProductRepository(
+            products
+        );
 
-        String result = productRepository.deleteFromRepository(product);
+        Product result = productRepository.deleteFromRepository(productName);
 
         assertThat(result)
-            .isEqualTo(expectedResult);
+            .isEqualTo(product);
     }
 
     @Test
     @Tag("ProductRepository")
-    void Delete_product_from_repository(@Mock List<Product> products) {
+    void Delete_product_from_repository() {
+        String productName = "Name";
         Product product = new Product(
-            "Name",
+            productName,
             new Price(new BigDecimal("10"), Currency.USD)
         );
 
-        ProductRepository productRepository = new ProductRepository(products);
-        when(products.remove(product)).thenReturn(true);
+        List<Product> products = new ArrayList<>();
+        products.add(product);
 
-        productRepository.deleteFromRepository(product);
+        ProductRepository productRepository = new ProductRepository(
+            products
+        );
 
-        verify(products).remove(product);
+        productRepository.deleteFromRepository(productName);
+
+        assertThat(products)
+            .isEmpty();
     }
 
     @Test
@@ -106,31 +116,32 @@ class ProductRepositoryTest {
     void Invalid_delete_product_that_not_exist_in_repository(
         @Mock List<Product> products
     ) {
+        String productName = "Name";
         Product product = new Product(
-            "Name",
+            productName,
             new Price(new BigDecimal("10"), Currency.USD)
         );
 
         ProductRepository productRepository = new ProductRepository(products);
-        when(products.remove(product)).thenReturn(false);
+        when(products.contains(product)).thenReturn(false);
 
-        assertThatThrownBy(() -> productRepository.deleteFromRepository(product))
-            .isInstanceOf(RepositoryException.class)
-            .hasMessage("Failed to remove product from the repository");
+        assertThatThrownBy(() -> productRepository.deleteFromRepository(productName))
+            .isInstanceOf(ProductNotFoundException.class)
+            .hasMessage("Failed to find product with name: Name");
 
-        verify(products).remove(product);
+        verify(products, never()).remove(product);
     }
 
     @Test
     @Tag("ProductRepository")
-    void Invalid_to_delete_product_that_not_exist_in_repository() {
-        Product product = null;
+    void Invalid_to_delete_product_with_name_that_equal_null_from_repository() {
+        String productName = null;
 
         ProductRepository productRepository = new ProductRepository(new ArrayList<>());
 
-        assertThatThrownBy(() -> productRepository.deleteFromRepository(product))
+        assertThatThrownBy(() -> productRepository.deleteFromRepository(productName))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("Can't delete product equal null to repository");
+            .hasMessage("Can't delete product with name equal null to repository");
     }
 
     @Test
@@ -186,7 +197,7 @@ class ProductRepositoryTest {
         //Act
         //Assert
         assertThatThrownBy(() -> productRepository.findByName(productName))
-            .isInstanceOf(RepositoryException.class)
+            .isInstanceOf(ProductNotFoundException.class)
             .hasMessage("Failed to find product with name: " + productName);
     }
 

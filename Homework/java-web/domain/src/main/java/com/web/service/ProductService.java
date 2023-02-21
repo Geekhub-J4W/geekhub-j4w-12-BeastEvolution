@@ -4,7 +4,6 @@ import com.web.entity.product.Product;
 import com.web.entity.product.validation.ProductValidator;
 import com.web.repository.ProductRepository;
 import com.web.service.exceptions.ProductAlreadyExistException;
-import com.web.service.exceptions.ProductNotFoundException;
 import com.web.service.exceptions.ValidationException;
 import java.util.Comparator;
 import java.util.List;
@@ -38,19 +37,14 @@ public class ProductService {
         return productRepository.saveToRepository(product);
     }
 
-    public String deleteFromRepository(Product product) {
-        if (Objects.isNull(product)) {
+    public Product deleteFromRepository(String productName) {
+        if (Objects.isNull(productName)) {
             throw new IllegalArgumentException(
-                "Can't delete product equal null"
-            );
-        } else if (!productRepository.getAll().contains(product)) {
-            throw new ProductNotFoundException(
-                "Failed to remove product from the repository,"
-                    + " because repository not contain it"
+                "Can't delete product with name equal null"
             );
         }
 
-        return productRepository.deleteFromRepository(product);
+        return productRepository.deleteFromRepository(productName);
     }
 
     public List<Product> getAll() {

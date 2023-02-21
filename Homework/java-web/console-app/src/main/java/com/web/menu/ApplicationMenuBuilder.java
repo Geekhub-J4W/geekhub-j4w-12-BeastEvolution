@@ -71,21 +71,8 @@ public class ApplicationMenuBuilder {
                 System.out.println("Entered product name: ");
                 final String productName = scanner.nextLine();
 
-                System.out.println("Entered product price currency: ");
-                Arrays.stream(Currency.values())
-                    .forEach(currency -> {
-                        System.out.println(currency.ordinal() + ". " + currency.name());
-                    });
-
-                int currencyNumber = Integer.parseInt(scanner.nextLine());
-
-                System.out.println("Entered product price: ");
-                BigDecimal productAmount = new BigDecimal(scanner.nextLine());
-                Product product = new Product(
-                    productName,
-                    new Price(productAmount, Currency.values()[currencyNumber]));
                 try {
-                    System.out.println(productService.deleteFromRepository(product));
+                    System.out.println(productService.deleteFromRepository(productName));
                 } catch (RepositoryException | ProductNotFoundException e) {
                     System.out.println(e.getMessage());
                 }

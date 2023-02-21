@@ -17,7 +17,6 @@ import com.web.entity.product.validation.ProductValidator;
 import com.web.repository.ProductRepository;
 import com.web.service.ProductService;
 import com.web.service.exceptions.ProductAlreadyExistException;
-import com.web.service.exceptions.ProductNotFoundException;
 import com.web.service.exceptions.ValidationException;
 import com.web.valodation.StringValidator;
 import java.math.BigDecimal;
@@ -131,36 +130,30 @@ class ProductServiceTest {
         @Mock ProductRepository productRepository,
         @Mock ProductValidator productValidator
     ) {
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
+        String productName = "Name";
         ProductService productService = new ProductService(
             productRepository,
             productValidator
         );
 
-        when(productRepository.getAll()).thenReturn(
-            List.of(product)
-        );
+        productService.deleteFromRepository(productName);
 
-        productService.deleteFromRepository(product);
-
-        verify(productRepository).deleteFromRepository(product);
+        verify(productRepository).deleteFromRepository(productName);
     }
 
     @Test
     @Tag("ProductService")
     void Invalid_to_delete_product_equal_null(@Mock ProductValidator productValidator) {
-        Product product = null;
+        String productName = null;
+
         ProductService productService = new ProductService(
             new ProductRepository(new ArrayList<>()),
             productValidator
         );
 
-        assertThatThrownBy(() -> productService.deleteFromRepository(product))
+        assertThatThrownBy(() -> productService.deleteFromRepository(productName))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("Can't delete product equal null");
+            .hasMessage("Can't delete product with name equal null");
     }
 
     @Test
@@ -427,32 +420,5 @@ class ProductServiceTest {
         assertThatThrownBy(() -> productService.saveToRepository(product1))
             .isInstanceOf(ProductAlreadyExistException.class)
             .hasMessage("Product was not added to the repository because it is already there.");
-    }
-
-    @Test
-    void Invalid_to_delete_product_that_not_exist_in_repository(
-        @Mock ProductRepository productRepository,
-        @Mock ProductValidator productValidator
-    ) {
-        Product product = new Product(
-            "Name",
-            new Price(new BigDecimal("10"), Currency.USD)
-        );
-
-        ProductService productService = new ProductService(
-            productRepository,
-            productValidator
-        );
-
-        when(productRepository.getAll()).thenReturn(List.of());
-
-        assertThatThrownBy(() -> productService.deleteFromRepository(product))
-            .isInstanceOf(ProductNotFoundException.class)
-            .hasMessage(
-                "Failed to remove product from the repository,"
-                    + " because repository not contain it"
-            );
-
-        verify(productRepository, never()).deleteFromRepository(product);
     }
 }

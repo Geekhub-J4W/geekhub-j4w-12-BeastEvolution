@@ -1,7 +1,7 @@
 package com.web.repository;
 
 import com.web.entity.product.Product;
-import com.web.repository.exceptions.RepositoryException;
+import com.web.service.exceptions.ProductNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Repository;
@@ -25,16 +25,17 @@ public class ProductRepository {
         return product;
     }
 
-    public String deleteFromRepository(Product product) {
-        if (Objects.isNull(product)) {
+    public Product deleteFromRepository(String productName) {
+        if (Objects.isNull(productName)) {
             throw new IllegalArgumentException(
-                "Can't delete product equal null to repository"
+                "Can't delete product with name equal null to repository"
             );
         }
-        if (products.remove(product)) {
-            return "Product was deleted from repository";
-        }
-        throw new RepositoryException("Failed to remove product from the repository");
+
+        Product productToDelete = findByName(productName);
+        products.remove(productToDelete);
+
+        return productToDelete;
     }
 
     public List<Product> getAll() {
@@ -47,6 +48,6 @@ public class ProductRepository {
             return products.get(products.indexOf(productEntityDouble));
         }
 
-        throw new RepositoryException("Failed to find product with name: " + productName);
+        throw new ProductNotFoundException("Failed to find product with name: " + productName);
     }
 }
