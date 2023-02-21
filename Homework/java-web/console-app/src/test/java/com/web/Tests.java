@@ -11,7 +11,11 @@ import com.web.entity.product.Currency;
 import com.web.entity.product.Price;
 import com.web.entity.product.Product;
 import com.web.service.ProductService;
+import com.web.util.Request;
 import com.web.util.RequestParameter;
+import com.web.util.RequestPath;
+import com.web.util.RequestType;
+import com.web.util.RequestUtil;
 import com.web.util.Response;
 import java.math.BigDecimal;
 import java.util.List;
@@ -328,5 +332,92 @@ class Tests {
         assertThatThrownBy(() -> new RequestParameter(field, "Value1"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Field must contain only lowercase characters and digits");
+    }
+
+    @Test
+    @Tag("RequestUtil")
+    void Convert_string_to_request() {
+        String requestInStringFormat = "Post product name=Product1&amount=10&currency=USD";
+
+        Request expectedResult = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1"),
+                new RequestParameter("amount", "10"),
+                new RequestParameter("currency", "USD")
+            )
+        );
+
+        Request result = RequestUtil.convert(requestInStringFormat);
+
+        assertThat(result)
+            .isEqualTo(expectedResult);
+    }
+
+    @Test
+    @Tag("RequestUtil")
+    void Invalid_to_convert_incorrect_string_to_request() {
+        String requestInStringFormat = "Text";
+
+        assertThatThrownBy(() -> RequestUtil.convert(requestInStringFormat))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage(
+                "Request must bi in format: \"[request type][space][request path][space][request parameters]\"");
+    }
+
+    @Test
+    @Tag("RequestUtil")
+    void Invalid_to_convert_string_with_incorrect_request_type_to_request() {
+        String requestType = "Type";
+        String requestPath = "product";
+        String requestParameters = "name=Product1&amount=10&currency=USD";
+        String requestInStringFormat = String.format(
+            "%s %s %s",
+            requestType,
+            requestPath,
+            requestParameters
+        );
+
+        assertThatThrownBy(() -> RequestUtil.convert(requestInStringFormat))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Incorrect request type: " + requestType);
+    }
+
+    @Test
+    @Tag("RequestUtil")
+    void Invalid_to_convert_string_with_incorrect_request_path_to_request() {
+        String requestType = "Post";
+        String requestPath = "path";
+        String requestParameters = "name=Product1&amount=10&currency=USD";
+        String requestInStringFormat = String.format(
+            "%s %s %s",
+            requestType,
+            requestPath,
+            requestParameters
+        );
+
+        assertThatThrownBy(() -> RequestUtil.convert(requestInStringFormat))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Incorrect request path: " + requestPath);
+    }
+
+    @Test
+    @Tag("RequestUtil")
+    void Invalid_to_convert_string_with_incorrect_request_parameter_format_to_request() {
+        String requestType = "Post";
+        String requestPath = "product";
+        String requestParameter = "name";
+        String requestInStringFormat = String.format(
+            "%s %s %s",
+            requestType,
+            requestPath,
+            requestParameter
+        );
+
+        assertThatThrownBy(() -> RequestUtil.convert(requestInStringFormat))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("RequestParameter must be in format: \"field=value\","
+                + " but was: " + requestParameter);
     }
 }
