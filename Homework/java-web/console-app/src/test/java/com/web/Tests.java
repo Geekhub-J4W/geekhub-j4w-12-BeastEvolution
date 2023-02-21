@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.web.controller.ProductController;
+import com.web.controller.RequestController;
 import com.web.entity.product.Currency;
 import com.web.entity.product.Price;
 import com.web.entity.product.Product;
@@ -268,4 +269,29 @@ class Tests {
         assertThat(result)
             .isEqualTo(expectedResponse);
     }
+
+    @Test
+    @Tag("RequestController")
+    void Handle_product_request(
+        @Mock ProductController productController
+    ) {
+        String request = "Save product name=Product1&amount=10";
+        String requestType = "Save";
+        String requestParameters = "name=Product1&amount=10";
+
+        Product productToSave = new Product(
+            "Product1",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        Response response = Response.ok(productToSave);
+
+        RequestController requestController = new RequestController(productController);
+        when(productController.handleRequest(requestType, requestParameters)).thenReturn(response);
+
+        Response result = requestController.handleRequest(request);
+
+        assertThat(result)
+            .isEqualTo(response);
+    }
+
 }
