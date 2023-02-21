@@ -105,7 +105,7 @@ class Tests {
     }
 
     @Test
-    void Handle_incorrect_save_type_request(
+    void Handle_incorrect_type_request(
         @Mock ProductService productService
     ) {
         //Arrange
@@ -152,11 +152,12 @@ class Tests {
         String request = "name=Product1";
 
         ProductController productController = new ProductController(productService);
+        String productName = "Product1";
         Product productToDelete = new Product(
-            "Product1",
+            productName,
             new Price(new BigDecimal("10"), Currency.USD)
         );
-        when(productService.deleteFromRepository(request)).thenReturn(productToDelete);
+        when(productService.deleteFromRepository(productName)).thenReturn(productToDelete);
 
         Response expectedResponse = Response.ok(
             productToDelete
@@ -186,4 +187,30 @@ class Tests {
             .isEqualTo(expectedResponse);
     }
 
+    @Test
+    void Handle_delete_type_request(
+        @Mock ProductService productService
+    ) {
+        //Arrange
+        String requestType = "Delete";
+        String requestParameters = "name=Product1";
+
+        String productName = "Product1";
+        Product productToDelete = new Product(
+            productName,
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        Response response = Response.ok(productToDelete);
+
+        ProductController productController = new ProductController(productService);
+
+        when(productService.deleteFromRepository(productName)).thenReturn(productToDelete);
+
+        //Act
+        Response result = productController.handleRequest(requestType, requestParameters);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(response);
+    }
 }

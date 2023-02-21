@@ -21,6 +21,8 @@ public class ProductController {
 
         if (requestType.equals("Save")) {
             return saveProduct(requestParameters);
+        } else if (requestType.equals("Delete")) {
+            return deleteProduct(requestParameters);
         }
         return Response.fail("Invalid request type");
     }
@@ -56,7 +58,7 @@ public class ProductController {
             return Response.fail("Entered request with invalid parameters");
         }
 
-        String productName = request;
+        String productName = request.split("=")[1];
         try {
             return Response.ok(productService.deleteFromRepository(productName));
         } catch (Exception e) {
