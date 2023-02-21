@@ -16,6 +16,10 @@ public class Response {
         return new Response(data, ResponseStatus.SUCCESS);
     }
 
+    public static Response fail(Object data) {
+        return new Response(data, ResponseStatus.FAIL);
+    }
+
 
     @Override
     public boolean equals(Object o) {

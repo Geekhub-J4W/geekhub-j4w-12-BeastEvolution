@@ -18,6 +18,9 @@ public class ProductController {
     }
 
     public Response saveProduct(String request) {
+        if (isParametersNotValid(request)) {
+            return Response.fail("Entered request with invalid parameters");
+        }
         String[] productParameters = request.split("&");
 
         String productName = productParameters[0].split("=")[1];
@@ -30,5 +33,9 @@ public class ProductController {
         );
 
         return Response.ok(productService.saveToRepository(productToSave));
+    }
+
+    private boolean isParametersNotValid(String parameters) {
+        return !parameters.matches("^name=.+&amount=.+&currency=.+$");
     }
 }
