@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     public Response saveProduct(String request) {
-        if (isParametersNotValid(request)) {
+        if (isParametersToSaveNotValid(request)) {
             return Response.fail("Entered request with invalid parameters");
         }
         String[] productParameters = request.split("&");
@@ -47,7 +47,24 @@ public class ProductController {
         }
     }
 
-    private boolean isParametersNotValid(String parameters) {
+    private boolean isParametersToSaveNotValid(String parameters) {
         return !parameters.matches("^name=.+&amount=.+&currency=.+$");
+    }
+
+    public Response deleteProduct(String request) {
+        if (isParametersToDeleteNotValid(request)) {
+            return Response.fail("Entered request with invalid parameters");
+        }
+
+        String productName = request;
+        try {
+            return Response.ok(productService.deleteFromRepository(productName));
+        } catch (Exception e) {
+            return Response.fail(e.getMessage());
+        }
+    }
+
+    private boolean isParametersToDeleteNotValid(String parameters) {
+        return !parameters.matches("^name=.+$");
     }
 }

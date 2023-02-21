@@ -146,4 +146,26 @@ class Tests {
             .isEqualTo(expectedResult);
     }
 
+    @Test
+    @Tag("ProductController")
+    void Delete_product(@Mock ProductService productService) {
+        String request = "name=Product1";
+
+        ProductController productController = new ProductController(productService);
+        Product productToDelete = new Product(
+            "Product1",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        when(productService.deleteFromRepository(request)).thenReturn(productToDelete);
+
+        Response expectedResponse = Response.ok(
+            productToDelete
+        );
+
+        Response response = productController.deleteProduct(request);
+
+        assertThat(response)
+            .isEqualTo(expectedResponse);
+    }
+
 }
