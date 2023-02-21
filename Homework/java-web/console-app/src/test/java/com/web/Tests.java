@@ -168,4 +168,22 @@ class Tests {
             .isEqualTo(expectedResponse);
     }
 
+    @Test
+    @Tag("ProductController")
+    void Handle_request_to_delete_product_with_invalid_parameters(
+        @Mock ProductService productService
+    ) {
+        String request = "parameter1=value1&parameter2=value2&parameter3=value3";
+
+        ProductController productController = new ProductController(productService);
+        Response expectedResponse = Response.fail(
+            "Entered request with invalid parameters"
+        );
+
+        Response response = productController.deleteProduct(request);
+
+        assertThat(response)
+            .isEqualTo(expectedResponse);
+    }
+
 }
