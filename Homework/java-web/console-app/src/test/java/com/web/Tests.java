@@ -294,4 +294,21 @@ class Tests {
             .isEqualTo(response);
     }
 
+    @Test
+    @Tag("RequestController")
+    void Handle_request_with_invalid_path(
+        @Mock ProductController productController
+    ) {
+        String request = "Save somePath name=Product1&amount=10";
+        
+        Response response = Response.fail("Invalid request path");
+
+        RequestController requestController = new RequestController(productController);
+
+        Response result = requestController.handleRequest(request);
+
+        assertThat(result)
+            .isEqualTo(response);
+    }
+
 }
