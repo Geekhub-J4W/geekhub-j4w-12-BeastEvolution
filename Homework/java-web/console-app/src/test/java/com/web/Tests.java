@@ -1,6 +1,7 @@
 package com.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.web.controller.ProductController;
@@ -75,6 +76,74 @@ class Tests {
 
         assertThat(response)
             .isEqualTo(expectedResponse);
+    }
+
+    @Test
+    void Handle_save_type_request(
+        @Mock ProductService productService
+    ) {
+        //Arrange
+        String requestType = "Save";
+        String requestParameters = "name=Product1&amount=10&currency=USD";
+
+        Product productToSave = new Product(
+            "Product1",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        Response response = Response.ok(productToSave);
+
+        ProductController productController = new ProductController(productService);
+
+        when(productService.saveToRepository(productToSave)).thenReturn(productToSave);
+
+        //Act
+        Response result = productController.handleRequest(requestType, requestParameters);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(response);
+    }
+
+    @Test
+    void Handle_incorrect_save_type_request(
+        @Mock ProductService productService
+    ) {
+        //Arrange
+        String requestType = "IncorrectType";
+        String requestParameters = "name=Product1&amount=10&currency=USD";
+
+        Response response = Response.fail("Invalid request type");
+
+        ProductController productController = new ProductController(productService);
+
+        //Act
+        Response result = productController.handleRequest(requestType, requestParameters);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(response);
+    }
+
+    @Test
+    void Return_response_when_service_throw_exception(
+        @Mock ProductService productService
+    ) {
+        //Arrange
+        String requestType = "Save";
+        String requestParameters = "name=product1&amount=-10&currency=USD";
+
+        ProductController productController = new ProductController(productService);
+
+        RuntimeException exception = new RuntimeException("Something go wrong");
+        when(productService.saveToRepository(any(Product.class))).thenThrow(exception);
+        Response expectedResult = Response.fail(exception.getMessage());
+
+        //Act
+        Response result = productController.handleRequest(requestType, requestParameters);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResult);
     }
 
 }
