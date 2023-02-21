@@ -59,4 +59,22 @@ class Tests {
             .isEqualTo(expectedResponse);
     }
 
+    @Test
+    @Tag("ProductController")
+    void Handle_request_to_save_product_with_invalid_number_of_parameters(
+        @Mock ProductService productService
+    ) {
+        String request = "name=Product1&amount=10";
+
+        ProductController productController = new ProductController(productService);
+        Response expectedResponse = Response.fail(
+            "Entered request with invalid parameters"
+        );
+
+        Response response = productController.saveProduct(request);
+
+        assertThat(response)
+            .isEqualTo(expectedResponse);
+    }
+
 }
