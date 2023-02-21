@@ -11,6 +11,7 @@ import com.web.entity.product.Product;
 import com.web.service.ProductService;
 import com.web.util.Response;
 import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -212,5 +213,59 @@ class Tests {
         //Assert
         assertThat(result)
             .isEqualTo(response);
+    }
+
+    @Test
+    @Tag("ProductController")
+    void Get_all_products(@Mock ProductService productService) {
+        //Arrange
+        ProductController productController = new ProductController(productService);
+        String productName = "Product1";
+        Product productToGet = new Product(
+            productName,
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        List<Product> products = List.of(productToGet);
+        when(productService.getAll()).thenReturn(products);
+
+        Response expectedResponse = Response.ok(
+            products
+        );
+
+        //Act
+        Response response = productController.getAll();
+
+        //Assert
+        assertThat(response)
+            .isEqualTo(expectedResponse);
+    }
+
+    @Test
+    void Handle_get_type_request(
+        @Mock ProductService productService
+    ) {
+        //Arrange
+        String requestType = "Get";
+        String requestParameters = "";
+
+        ProductController productController = new ProductController(productService);
+        String productName = "Product1";
+        Product productToGet = new Product(
+            productName,
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        List<Product> products = List.of(productToGet);
+        when(productService.getAll()).thenReturn(products);
+
+        Response expectedResponse = Response.ok(
+            products
+        );
+
+        //Act
+        Response result = productController.handleRequest(requestType, requestParameters);
+
+        //Assert
+        assertThat(result)
+            .isEqualTo(expectedResponse);
     }
 }

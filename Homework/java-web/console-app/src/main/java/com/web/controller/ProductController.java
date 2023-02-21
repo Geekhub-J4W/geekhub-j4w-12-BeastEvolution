@@ -23,6 +23,12 @@ public class ProductController {
             return saveProduct(requestParameters);
         } else if (requestType.equals("Delete")) {
             return deleteProduct(requestParameters);
+        } else if (requestType.equals("Get")) {
+            if (requestParameters.isEmpty()) {
+                return getAll();
+            } else {
+                return Response.fail("Entered request must not contain parameters");
+            }
         }
         return Response.fail("Invalid request type");
     }
@@ -68,5 +74,13 @@ public class ProductController {
 
     private boolean isParametersToDeleteNotValid(String parameters) {
         return !parameters.matches("^name=.+$");
+    }
+
+    public Response getAll() {
+        try {
+            return Response.ok(productService.getAll());
+        } catch (Exception e) {
+            return Response.fail(e.getMessage());
+        }
     }
 }
