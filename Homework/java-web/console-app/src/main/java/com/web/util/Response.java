@@ -37,4 +37,9 @@ public class Response {
     public int hashCode() {
         return Objects.hash(data, status);
     }
+
+    @Override
+    public String toString() {
+        return status + ":" + data;
+    }
 }

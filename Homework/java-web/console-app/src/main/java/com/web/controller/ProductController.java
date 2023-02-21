@@ -17,6 +17,14 @@ public class ProductController {
         this.productService = productService;
     }
 
+    public Response handleRequest(String requestType, String requestParameters) {
+
+        if (requestType.equals("Save")) {
+            return saveProduct(requestParameters);
+        }
+        return Response.fail("Invalid request type");
+    }
+
     public Response saveProduct(String request) {
         if (isParametersNotValid(request)) {
             return Response.fail("Entered request with invalid parameters");
@@ -32,7 +40,11 @@ public class ProductController {
             new Price(productAmount, productCurrency)
         );
 
-        return Response.ok(productService.saveToRepository(productToSave));
+        try {
+            return Response.ok(productService.saveToRepository(productToSave));
+        } catch (Exception e) {
+            return Response.fail(e.getMessage());
+        }
     }
 
     private boolean isParametersNotValid(String parameters) {
