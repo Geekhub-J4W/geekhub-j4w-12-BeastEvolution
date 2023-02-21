@@ -1,6 +1,7 @@
 package com.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -10,12 +11,15 @@ import com.web.entity.product.Currency;
 import com.web.entity.product.Price;
 import com.web.entity.product.Product;
 import com.web.service.ProductService;
+import com.web.util.RequestParameter;
 import com.web.util.Response;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -300,7 +304,7 @@ class Tests {
         @Mock ProductController productController
     ) {
         String request = "Save somePath name=Product1&amount=10";
-        
+
         Response response = Response.fail("Invalid request path");
 
         RequestController requestController = new RequestController(productController);
@@ -311,4 +315,18 @@ class Tests {
             .isEqualTo(response);
     }
 
+    @ParameterizedTest
+    @Tag("RequestParameter")
+    @ValueSource(strings = {
+        "Name1",
+        "name1&",
+        "імя1",
+    })
+    void Invalid_to_create_request_parameter_with_incorrect_field_value(
+        String field
+    ) {
+        assertThatThrownBy(() -> new RequestParameter(field, "Value1"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Field must contain only lowercase characters and digits");
+    }
 }
