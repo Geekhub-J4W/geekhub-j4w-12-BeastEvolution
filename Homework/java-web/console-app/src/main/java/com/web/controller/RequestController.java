@@ -1,5 +1,7 @@
 package com.web.controller;
 
+import com.web.util.Request;
+import com.web.util.RequestPath;
 import com.web.util.Response;
 import org.springframework.stereotype.Controller;
 
@@ -12,10 +14,9 @@ public class RequestController {
         this.productController = productController;
     }
 
-    public Response handleRequest(String request) {
-        String[] requestElements = request.split(" ");
-        if (requestElements[1].equals("product")) {
-            return productController.handleRequest(requestElements[0], requestElements[2]);
+    public Response handleRequest(Request request) {
+        if (request.requestPath().equals(RequestPath.product)) {
+            return productController.handleRequest(request);
         }
 
         return Response.fail("Invalid request path");

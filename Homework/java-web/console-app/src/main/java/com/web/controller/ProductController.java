@@ -4,8 +4,12 @@ import com.web.entity.product.Currency;
 import com.web.entity.product.Price;
 import com.web.entity.product.Product;
 import com.web.service.ProductService;
+import com.web.util.Request;
+import com.web.util.RequestParameter;
+import com.web.util.RequestType;
 import com.web.util.Response;
 import java.math.BigDecimal;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -17,14 +21,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    public Response handleRequest(String requestType, String requestParameters) {
+    public Response handleRequest(Request request) {
 
-        if (requestType.equals("Save")) {
-            return saveProduct(requestParameters);
-        } else if (requestType.equals("Delete")) {
-            return deleteProduct(requestParameters);
-        } else if (requestType.equals("Get")) {
-            if (requestParameters.isEmpty()) {
+        if (request.requestType().equals(RequestType.Post)) {
+            return saveProduct(request);
+        } else if (request.requestType().equals(RequestType.Delete)) {
+            return deleteProduct(request);
+        } else if (request.requestType().equals(RequestType.Get)) {
+            if (request.requestParameters().isEmpty()) {
                 return getAll();
             } else {
                 return Response.fail("Entered request must not contain parameters");
@@ -33,15 +37,20 @@ public class ProductController {
         return Response.fail("Invalid request type");
     }
 
-    public Response saveProduct(String request) {
-        if (isParametersToSaveNotValid(request)) {
+    public Response saveProduct(Request request) {
+        if (isParametersToSaveNotValid(request.requestParameters())) {
             return Response.fail("Entered request with invalid parameters");
         }
-        String[] productParameters = request.split("&");
-
-        String productName = productParameters[0].split("=")[1];
-        BigDecimal productAmount = new BigDecimal(productParameters[1].split("=")[1]);
-        Currency productCurrency = Currency.valueOf(productParameters[2].split("=")[1]);
+        String productName = request.requestParameters().get(0).value();
+        BigDecimal productAmount = new BigDecimal(request.requestParameters().get(1).value());
+        Currency productCurrency;
+        try {
+            productCurrency = Currency.valueOf(request.requestParameters().get(2).value());
+        } catch (IllegalArgumentException e) {
+            return Response.fail(
+                "Entered currency parameter value not supported"
+            );
+        }
 
         Product productToSave = new Product(
             productName,
@@ -55,16 +64,27 @@ public class ProductController {
         }
     }
 
-    private boolean isParametersToSaveNotValid(String parameters) {
-        return !parameters.matches("^name=.+&amount=.+&currency=.+$");
+    private boolean isParametersToSaveNotValid(List<RequestParameter> parameters) {
+        if (parameters.size() != 3) {
+            return true;
+        }
+
+        RequestParameter nameParameter = parameters.get(0);
+        RequestParameter amountParameter = parameters.get(1);
+        RequestParameter currencyParameter = parameters.get(2);
+
+        return !(nameParameter.field().equals("name")
+            && amountParameter.field().equals("amount")
+            && currencyParameter.field().equals("currency"));
     }
 
-    public Response deleteProduct(String request) {
-        if (isParametersToDeleteNotValid(request)) {
+    public Response deleteProduct(Request request) {
+        if (isParametersToDeleteNotValid(request.requestParameters())) {
             return Response.fail("Entered request with invalid parameters");
         }
 
-        String productName = request.split("=")[1];
+        String productName = request.requestParameters().get(0).value();
+
         try {
             return Response.ok(productService.deleteFromRepository(productName));
         } catch (Exception e) {
@@ -72,8 +92,14 @@ public class ProductController {
         }
     }
 
-    private boolean isParametersToDeleteNotValid(String parameters) {
-        return !parameters.matches("^name=.+$");
+    private boolean isParametersToDeleteNotValid(List<RequestParameter> parameters) {
+        if (parameters.size() != 1) {
+            return true;
+        }
+
+        RequestParameter nameParameter = parameters.get(0);
+
+        return !nameParameter.field().equals("name");
     }
 
     public Response getAll() {

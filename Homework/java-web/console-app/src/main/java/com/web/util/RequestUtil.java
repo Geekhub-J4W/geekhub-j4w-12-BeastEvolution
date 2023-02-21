@@ -9,7 +9,7 @@ public class RequestUtil {
     }
 
     public static Request convert(String requestInStringFormat) {
-        String[] requestElements = requestInStringFormat.split(" ");
+        String[] requestElements = requestInStringFormat.split(" ", -1);
         if (requestElements.length != 3) {
             throw new IllegalArgumentException(
                 "Request must bi in format:"
@@ -48,6 +48,10 @@ public class RequestUtil {
     private static List<RequestParameter> getRequestParametersFromString(
         String requestParametersInStringFormat
     ) {
+        if (requestParametersInStringFormat.isEmpty()) {
+            return List.of();
+        }
+
         String[] requestParameters = requestParametersInStringFormat.split("&");
 
         return Arrays.stream(requestParameters)

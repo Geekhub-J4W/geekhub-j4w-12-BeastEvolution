@@ -1,5 +1,5 @@
 package com.web.util;
 
 public enum RequestType {
-    Post, Get
+    Post, Get, Delete
 }
