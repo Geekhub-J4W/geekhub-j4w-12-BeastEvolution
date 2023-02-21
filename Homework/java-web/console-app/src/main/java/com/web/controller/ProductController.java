@@ -9,12 +9,14 @@ import com.web.util.RequestParameter;
 import com.web.util.RequestType;
 import com.web.util.Response;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class ProductController {
 
+    public static final String ENTERED_REQUEST_WITH_INVALID_PARAMETERS = "Entered request with invalid parameters";
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -31,7 +33,7 @@ public class ProductController {
             if (request.requestParameters().isEmpty()) {
                 return getAll();
             } else {
-                return Response.fail("Entered request must not contain parameters");
+                return getAllSorted(request);
             }
         }
         return Response.fail("Invalid request type");
@@ -39,7 +41,7 @@ public class ProductController {
 
     public Response saveProduct(Request request) {
         if (isParametersToSaveNotValid(request.requestParameters())) {
-            return Response.fail("Entered request with invalid parameters");
+            return Response.fail(ENTERED_REQUEST_WITH_INVALID_PARAMETERS);
         }
         String productName = request.requestParameters().get(0).value();
         BigDecimal productAmount = new BigDecimal(request.requestParameters().get(1).value());
@@ -80,7 +82,7 @@ public class ProductController {
 
     public Response deleteProduct(Request request) {
         if (isParametersToDeleteNotValid(request.requestParameters())) {
-            return Response.fail("Entered request with invalid parameters");
+            return Response.fail(ENTERED_REQUEST_WITH_INVALID_PARAMETERS);
         }
 
         String productName = request.requestParameters().get(0).value();
@@ -108,5 +110,70 @@ public class ProductController {
         } catch (Exception e) {
             return Response.fail(e.getMessage());
         }
+    }
+
+    public Response getAllSorted(Request request) {
+        if (isParametersToGetNotValid(request.requestParameters())) {
+            return Response.fail(ENTERED_REQUEST_WITH_INVALID_PARAMETERS);
+        }
+
+        if (request.requestParameters().get(0).value().equals("Name")) {
+            if (request.requestParameters().get(1).value().equals("Natural")) {
+                return Response.ok(
+                    productService.getAllSorted(
+                        Comparator.comparing(Product::getName)
+                    )
+                );
+            } else if (request.requestParameters().get(1).value().equals("Reversed")) {
+                return Response.ok(
+                    productService.getAllSorted(
+                        Comparator.comparing(Product::getName)
+                            .reversed()
+                    )
+                );
+            } else {
+                return Response.fail(
+                    "Invalid sort type value: "
+                        + request.requestParameters().get(1).value()
+                );
+            }
+        } else if (request.requestParameters().get(0).value().equals("Price")) {
+            if (request.requestParameters().get(1).value().equals("Natural")) {
+                return Response.ok(
+                    productService.getAllSorted(
+                        Comparator.comparing(Product::getPrice)
+                    )
+                );
+            } else if (request.requestParameters().get(1).value().equals("Reversed")) {
+                return Response.ok(
+                    productService.getAllSorted(
+                        Comparator.comparing(Product::getPrice)
+                            .reversed()
+                    )
+                );
+            } else {
+                return Response.fail(
+                    "Invalid sort type value: "
+                        + request.requestParameters().get(1).value()
+                );
+            }
+        } else {
+            return Response.fail(
+                "Invalid sort by value: "
+                    + request.requestParameters().get(0).value()
+            );
+        }
+    }
+
+    private boolean isParametersToGetNotValid(List<RequestParameter> parameters) {
+        if (parameters.size() != 2) {
+            return true;
+        }
+
+        RequestParameter sortByParameter = parameters.get(0);
+        RequestParameter sortTypeParameter = parameters.get(1);
+
+        return !(sortByParameter.field().equals("sort_by")
+            && sortTypeParameter.field().equals("sort_type"));
     }
 }
