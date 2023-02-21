@@ -1,4 +1,7 @@
+package com.web;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import com.web.controller.ProductController;
 import com.web.entity.product.Currency;
@@ -7,35 +10,35 @@ import com.web.entity.product.Product;
 import com.web.service.ProductService;
 import com.web.util.Response;
 import java.math.BigDecimal;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class Tests {
+@ExtendWith(MockitoExtension.class)
+class Tests {
 
     @Test
+    @Tag("ProductController")
     void Save_product(@Mock ProductService productService) {
         String request = "name=Product1&amount=10&currency=USD";
 
         ProductController productController = new ProductController(productService);
+        Product productToSave = new Product(
+            "Product1",
+            new Price(new BigDecimal("10"), Currency.USD)
+        );
+        when(productService.saveToRepository(productToSave)).thenReturn(productToSave);
 
         Response expectedResponse = Response.ok(
-            new Product("Product1",
-                new Price(new BigDecimal("10"), Currency.USD)
-            )
+            productToSave
         );
 
-        String response = productController.saveProduct(request);
+        Response response = productController.saveProduct(request);
 
         assertThat(response)
             .isEqualTo(expectedResponse);
-    }
-
-    @Test
-    void productString() {
-        Product product =
-            new Product("Product1", new Price(new BigDecimal("10"), Currency.USD));
-
-        System.out.println(product);
     }
 
 }
