@@ -33,7 +33,15 @@ class Tests {
     @Test
     @Tag("ProductController")
     void Save_product(@Mock ProductService productService) {
-        String request = "name=Product1&amount=10&currency=USD";
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1"),
+                new RequestParameter("amount", "10"),
+                new RequestParameter("currency", "USD")
+            )
+        );
 
         ProductController productController = new ProductController(productService);
         Product productToSave = new Product(
@@ -57,7 +65,15 @@ class Tests {
     void Handle_request_to_save_product_with_invalid_parameters(
         @Mock ProductService productService
     ) {
-        String request = "parameter1=value1&parameter2=value2&parameter3=value3";
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("parameter1", "value1"),
+                new RequestParameter("parameter2", "value2"),
+                new RequestParameter("parameter3", "value3")
+            )
+        );
 
         ProductController productController = new ProductController(productService);
         Response expectedResponse = Response.fail(
@@ -75,7 +91,14 @@ class Tests {
     void Handle_request_to_save_product_with_invalid_number_of_parameters(
         @Mock ProductService productService
     ) {
-        String request = "name=Product1&amount=10";
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1"),
+                new RequestParameter("amount", "10")
+            )
+        );
 
         ProductController productController = new ProductController(productService);
         Response expectedResponse = Response.fail(
@@ -93,9 +116,15 @@ class Tests {
         @Mock ProductService productService
     ) {
         //Arrange
-        String requestType = "Save";
-        String requestParameters = "name=Product1&amount=10&currency=USD";
-
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1"),
+                new RequestParameter("amount", "10"),
+                new RequestParameter("currency", "USD")
+            )
+        );
         Product productToSave = new Product(
             "Product1",
             new Price(new BigDecimal("10"), Currency.USD)
@@ -107,27 +136,7 @@ class Tests {
         when(productService.saveToRepository(productToSave)).thenReturn(productToSave);
 
         //Act
-        Response result = productController.handleRequest(requestType, requestParameters);
-
-        //Assert
-        assertThat(result)
-            .isEqualTo(response);
-    }
-
-    @Test
-    void Handle_incorrect_type_request(
-        @Mock ProductService productService
-    ) {
-        //Arrange
-        String requestType = "IncorrectType";
-        String requestParameters = "name=Product1&amount=10&currency=USD";
-
-        Response response = Response.fail("Invalid request type");
-
-        ProductController productController = new ProductController(productService);
-
-        //Act
-        Response result = productController.handleRequest(requestType, requestParameters);
+        Response result = productController.handleRequest(request);
 
         //Assert
         assertThat(result)
@@ -139,9 +148,15 @@ class Tests {
         @Mock ProductService productService
     ) {
         //Arrange
-        String requestType = "Save";
-        String requestParameters = "name=product1&amount=-10&currency=USD";
-
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1"),
+                new RequestParameter("amount", "10"),
+                new RequestParameter("currency", "USD")
+            )
+        );
         ProductController productController = new ProductController(productService);
 
         RuntimeException exception = new RuntimeException("Something go wrong");
@@ -149,7 +164,7 @@ class Tests {
         Response expectedResult = Response.fail(exception.getMessage());
 
         //Act
-        Response result = productController.handleRequest(requestType, requestParameters);
+        Response result = productController.handleRequest(request);
 
         //Assert
         assertThat(result)
@@ -159,7 +174,13 @@ class Tests {
     @Test
     @Tag("ProductController")
     void Delete_product(@Mock ProductService productService) {
-        String request = "name=Product1";
+        Request request = new Request(
+            RequestType.Delete,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1")
+            )
+        );
 
         ProductController productController = new ProductController(productService);
         String productName = "Product1";
@@ -184,7 +205,13 @@ class Tests {
     void Handle_request_to_delete_product_with_invalid_parameters(
         @Mock ProductService productService
     ) {
-        String request = "parameter1=value1&parameter2=value2&parameter3=value3";
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("parameter1", "value1")
+            )
+        );
 
         ProductController productController = new ProductController(productService);
         Response expectedResponse = Response.fail(
@@ -202,9 +229,13 @@ class Tests {
         @Mock ProductService productService
     ) {
         //Arrange
-        String requestType = "Delete";
-        String requestParameters = "name=Product1";
-
+        Request request = new Request(
+            RequestType.Delete,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1")
+            )
+        );
         String productName = "Product1";
         Product productToDelete = new Product(
             productName,
@@ -217,7 +248,7 @@ class Tests {
         when(productService.deleteFromRepository(productName)).thenReturn(productToDelete);
 
         //Act
-        Response result = productController.handleRequest(requestType, requestParameters);
+        Response result = productController.handleRequest(request);
 
         //Assert
         assertThat(result)
@@ -254,8 +285,12 @@ class Tests {
         @Mock ProductService productService
     ) {
         //Arrange
-        String requestType = "Get";
-        String requestParameters = "";
+        Request request = new Request(
+            RequestType.Get,
+            RequestPath.product,
+            List.of(
+            )
+        );
 
         ProductController productController = new ProductController(productService);
         String productName = "Product1";
@@ -271,7 +306,7 @@ class Tests {
         );
 
         //Act
-        Response result = productController.handleRequest(requestType, requestParameters);
+        Response result = productController.handleRequest(request);
 
         //Assert
         assertThat(result)
@@ -283,9 +318,15 @@ class Tests {
     void Handle_product_request(
         @Mock ProductController productController
     ) {
-        String request = "Save product name=Product1&amount=10";
-        String requestType = "Save";
-        String requestParameters = "name=Product1&amount=10";
+        Request request = new Request(
+            RequestType.Post,
+            RequestPath.product,
+            List.of(
+                new RequestParameter("name", "Product1"),
+                new RequestParameter("amount", "10"),
+                new RequestParameter("currency", "USD")
+            )
+        );
 
         Product productToSave = new Product(
             "Product1",
@@ -294,24 +335,7 @@ class Tests {
         Response response = Response.ok(productToSave);
 
         RequestController requestController = new RequestController(productController);
-        when(productController.handleRequest(requestType, requestParameters)).thenReturn(response);
-
-        Response result = requestController.handleRequest(request);
-
-        assertThat(result)
-            .isEqualTo(response);
-    }
-
-    @Test
-    @Tag("RequestController")
-    void Handle_request_with_invalid_path(
-        @Mock ProductController productController
-    ) {
-        String request = "Save somePath name=Product1&amount=10";
-
-        Response response = Response.fail("Invalid request path");
-
-        RequestController requestController = new RequestController(productController);
+        when(productController.handleRequest(request)).thenReturn(response);
 
         Response result = requestController.handleRequest(request);
 
@@ -331,7 +355,7 @@ class Tests {
     ) {
         assertThatThrownBy(() -> new RequestParameter(field, "Value1"))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("Field must contain only lowercase characters and digits");
+            .hasMessage("Field must contain only lowercase characters, digits and underscore");
     }
 
     @Test
@@ -363,7 +387,9 @@ class Tests {
         assertThatThrownBy(() -> RequestUtil.convert(requestInStringFormat))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage(
-                "Request must bi in format: \"[request type][space][request path][space][request parameters]\"");
+                "Request must bi in format:"
+                    + " \"[request type][space][request path][space][request parameters]\""
+            );
     }
 
     @Test
