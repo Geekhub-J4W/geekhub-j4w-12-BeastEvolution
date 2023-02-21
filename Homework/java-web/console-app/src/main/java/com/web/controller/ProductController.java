@@ -16,7 +16,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ProductController {
 
-    public static final String ENTERED_REQUEST_WITH_INVALID_PARAMETERS = "Entered request with invalid parameters";
+    public static final String ENTERED_REQUEST_WITH_INVALID_PARAMETERS =
+        "Entered request with invalid parameters";
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
